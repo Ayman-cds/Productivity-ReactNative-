@@ -19,9 +19,16 @@ const TodoItem = (props) => {
             style={styles.items}
         >
             <View style={styles.task}>
-                <TouchableOpacity style={styles.circle}></TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.circle}
+                    onPress={() => props.moveUp(props.index)}
+                ></TouchableOpacity>
                 <Text style={styles.itemText}>{props.text}</Text>
             </View>
+            <TouchableOpacity
+                style={styles.minus}
+                onPress={() => props.moveDown(props.index)}
+            ></TouchableOpacity>
         </Pressable>
     );
 };
@@ -31,7 +38,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         padding: 15,
         borderRadius: 10,
-        alignItems: 'flex-start',
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         marginBottom: 20,
     },
     task: {
@@ -42,14 +51,23 @@ const styles = StyleSheet.create({
     itemText: {
         fontSize: 20,
         fontWeight: 'bold',
+        maxWidth: '80%',
     },
     circle: {
-        width: 15,
-        height: 15,
-        borderColor: '#D0D0D0',
-        borderWidth: 4,
+        width: 25,
+        height: 25,
+        borderColor: 'green',
+        borderWidth: 10,
         borderRadius: 5,
         marginRight: 14,
+    },
+    minus: {
+        flexDirection: 'row',
+        width: 25,
+        height: 25,
+        borderColor: 'red',
+        borderWidth: 10,
+        borderRadius: 5,
     },
 });
 

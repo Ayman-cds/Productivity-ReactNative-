@@ -1,6 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
-import { COLOR, ThemeContext, getTheme } from 'react-native-material-ui';
-import AddTodo from './components/AddTodo';
 import TodoItem from './components/Todoitem';
 import React, { useState } from 'react';
 import {
@@ -30,11 +27,28 @@ export default function App() {
         itemCopy.splice(index, 1);
         setTaskItems(itemCopy);
     };
+    const moveUp = (index) => {
+        let itemCopy = [...taskItems];
+        const item = itemCopy[index];
+        if (itemCopy[index - 1]) {
+            itemCopy.splice(index, 1, itemCopy[index - 1]);
+            itemCopy.splice(index - 1, 1, item);
+            setTaskItems(itemCopy);
+        }
+    };
+    const moveDown = (index) => {
+        let itemCopy = [...taskItems];
+        const item = itemCopy[index];
+        if (itemCopy[index + 1]) {
+            itemCopy.splice(index, 1, itemCopy[index + 1]);
+            itemCopy.splice(index + 1, 1, item);
+            setTaskItems(itemCopy);
+        }
+    };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.titleText}>A.D.D. Productivity</Text>
-
+            <Text style={styles.titleText}>Stuff To Do Today</Text>
             <View style={styles.tasksWrapper}>
                 <View style={styles.items}>
                     {taskItems.map((item, index) => {
@@ -45,6 +59,8 @@ export default function App() {
                                     text={item}
                                     completedTask={completedTask}
                                     index={index}
+                                    moveUp={moveUp}
+                                    moveDown={moveDown}
                                 />
                             );
                         }
@@ -81,12 +97,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     titleText: {
-        paddingTop: 20,
+        paddingTop: 40,
         paddingHorizontal: 10,
         fontSize: 32,
         fontWeight: 'bold',
+        justifyContent: 'center',
     },
-    items: {},
     input: {
         paddingHorizontal: 15,
         paddingVertical: 15,
@@ -114,5 +130,4 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         fontWeight: 'bold',
     },
-    addText: {},
 });
