@@ -48,7 +48,7 @@ export default function App() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.titleText}>Stuff To Do Today</Text>
+            <Text style={styles.titleText}>ANOTHER ONE</Text>
             <View style={styles.tasksWrapper}>
                 <View style={styles.items}>
                     {taskItems.map((item, index) => {
