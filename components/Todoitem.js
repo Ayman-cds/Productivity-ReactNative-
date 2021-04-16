@@ -8,11 +8,6 @@ import {
 } from 'react-native';
 
 const TodoItem = (props) => {
-    const [timePressed, setTimesPressed] = useState(0);
-    let pressed = false;
-    const handlePress = () => {
-        console.log();
-    };
     return (
         <Pressable
             onLongPress={() => props.completedTask(props.index)}
@@ -20,13 +15,13 @@ const TodoItem = (props) => {
         >
             <View style={styles.task}>
                 <TouchableOpacity
-                    style={styles.circle}
+                    style={styles.increasePriority}
                     onPress={() => props.moveUp(props.index)}
                 ></TouchableOpacity>
                 <Text style={styles.itemText}>{props.text}</Text>
             </View>
             <TouchableOpacity
-                style={styles.minus}
+                style={styles.reducePriority}
                 onPress={() => props.moveDown(props.index)}
             ></TouchableOpacity>
         </Pressable>
@@ -35,7 +30,7 @@ const TodoItem = (props) => {
 
 const styles = StyleSheet.create({
     items: {
-        backgroundColor: '#FFF',
+        backgroundColor: '#B5FBDD',
         padding: 15,
         borderRadius: 10,
         alignItems: 'center',
@@ -49,25 +44,45 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
     },
     itemText: {
-        fontSize: 20,
+        fontSize: 21,
+        fontFamily: 'monospace',
         fontWeight: 'bold',
         maxWidth: '80%',
     },
-    circle: {
-        width: 25,
-        height: 25,
-        borderColor: 'green',
-        borderWidth: 10,
-        borderRadius: 5,
-        marginRight: 14,
-    },
-    minus: {
+    reducePriority: {
         flexDirection: 'row',
-        width: 25,
-        height: 25,
-        borderColor: 'red',
-        borderWidth: 10,
-        borderRadius: 5,
+        width: 0,
+        height: 0,
+        borderStyle: 'solid',
+        borderLeftWidth: 13,
+        borderRightWidth: 13,
+        borderBottomWidth: 20,
+        borderLeftColor: '#FE634E',
+        borderRightColor: '#FE634E',
+        borderBottomColor: '#FE634E',
+        transform: [{ rotate: '180deg' }],
+        margin: 0,
+        marginLeft: -6,
+        borderWidth: 0,
+        borderColor: 'transparent',
+    },
+    increasePriority: {
+        flexDirection: 'row',
+        width: 0,
+        height: 0,
+        borderStyle: 'solid',
+        borderLeftWidth: 13,
+        borderRightWidth: 13,
+        borderBottomWidth: 20,
+        borderLeftColor: '#117243',
+        borderRightColor: '#117243',
+        borderBottomColor: '#117243',
+        transform: [{ rotate: '0deg' }],
+        margin: 0,
+        marginLeft: -6,
+        marginRight: 10,
+        borderWidth: 0,
+        borderColor: 'transparent',
     },
 });
 
