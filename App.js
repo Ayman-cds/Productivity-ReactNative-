@@ -9,8 +9,8 @@ import {
     Platform,
     TextInput,
     Keyboard,
-    TouchableHighlightBase,
     Vibration,
+    Pressable,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -24,7 +24,11 @@ class App extends Component {
         this.state = {
             task: '',
             taskItems: [],
+            timing: false,
         };
+        if (this.state.taskItems > 4) {
+            this.setState({ timing: true });
+        }
     }
 
     getTasks = async () => {
@@ -98,7 +102,9 @@ class App extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.titleText}>Five Task Focus</Text>
+                <Pressable onLongPress={() => this.setState({ timing: false })}>
+                    <Text style={styles.titleText}>Five Task Focus</Text>
+                </Pressable>
                 <View style={styles.tasksWrapper}>
                     <View style={styles.items}>
                         {this.state.taskItems ? (
@@ -121,7 +127,7 @@ class App extends Component {
                         )}
                     </View>
                 </View>
-                {this.state.taskItems.length < 5 ? (
+                {this.state.taskItems.length < 5 && !this.state.timing ? (
                     <KeyboardAvoidingView
                         behavior={Platform.os === 'ios' ? 'padding' : 'height'}
                         style={styles.addNewTask}
@@ -175,8 +181,9 @@ const styles = StyleSheet.create({
         fontFamily: 'monospace',
         backgroundColor: '#B5FBDD',
         borderColor: '#00848C',
-        borderRadius: 60,
+        borderRadius: 10,
         borderWidth: 1,
+        height: 50,
     },
     addNewTask: {
         position: 'absolute',
@@ -189,13 +196,12 @@ const styles = StyleSheet.create({
         padding: 15,
     },
     addWrapper: {
-        width: 60,
-        height: 60,
-        backgroundColor: '#FFF',
-        borderRadius: 60,
+        width: 80,
+        height: 50,
+        backgroundColor: '#B5FBDD',
+        borderRadius: 10,
         borderWidth: 1,
         borderColor: '#00848C',
-
         justifyContent: 'center',
         alignItems: 'center',
         fontWeight: 'bold',
