@@ -15,6 +15,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { storeTasks, getTasks } from './localStorage';
+import Pomodoro from './Pomodoro';
 
 class App extends Component {
     constructor() {
@@ -140,7 +141,7 @@ class App extends Component {
                         </TouchableOpacity>
                     </KeyboardAvoidingView>
                 ) : (
-                    <Text> EXEEDED</Text>
+                    <Pomodoro />
                 )}
             </View>
         );
