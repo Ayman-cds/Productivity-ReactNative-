@@ -103,7 +103,7 @@ class App extends Component {
         return (
             <View style={styles.container}>
                 <Pressable onLongPress={() => this.setState({ timing: false })}>
-                    <Text style={styles.titleText}>Five Task Focus</Text>
+                    <Text style={styles.titleText}>TILDA</Text>
                 </Pressable>
                 <View style={styles.tasksWrapper}>
                     <View style={styles.items}>
