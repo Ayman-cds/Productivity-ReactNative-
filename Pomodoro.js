@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     numbers: {
+        color: '#21e6c1',
         textDecorationLine: 'underline',
         fontFamily: 'monospace',
         fontSize: 60,
