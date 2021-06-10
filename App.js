@@ -11,6 +11,7 @@ import {
     Keyboard,
     Vibration,
     Pressable,
+    ScrollView,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -102,31 +103,35 @@ class App extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Pressable onLongPress={() => this.setState({ timing: false })}>
-                    <Text style={styles.titleText}>TILDA</Text>
-                </Pressable>
-                <View style={styles.tasksWrapper}>
-                    <View style={styles.items}>
-                        {this.state.taskItems ? (
-                            this.state.taskItems.map((item, index) => {
-                                if (item !== null) {
-                                    return (
-                                        <TodoItem
-                                            key={index}
-                                            text={item}
-                                            completedTask={this.completedTask}
-                                            index={index}
-                                            moveUp={this.moveUp}
-                                            moveDown={this.moveDown}
-                                        />
-                                    );
-                                }
-                            })
-                        ) : (
-                            <Text> NOTHING TO SEE HERE</Text>
-                        )}
+                <ScrollView>
+                    <Pressable
+                        onLongPress={() => this.setState({ timing: false })}
+                    ></Pressable>
+                    <View style={styles.tasksWrapper}>
+                        <View style={styles.items}>
+                            {this.state.taskItems ? (
+                                this.state.taskItems.map((item, index) => {
+                                    if (item !== null) {
+                                        return (
+                                            <TodoItem
+                                                key={index}
+                                                text={item}
+                                                completedTask={
+                                                    this.completedTask
+                                                }
+                                                index={index}
+                                                moveUp={this.moveUp}
+                                                moveDown={this.moveDown}
+                                            />
+                                        );
+                                    }
+                                })
+                            ) : (
+                                <Text> NOTHING TO SEE HERE</Text>
+                            )}
+                        </View>
                     </View>
-                </View>
+                </ScrollView>
                 {this.state.taskItems.length < 5 && !this.state.timing ? (
                     <KeyboardAvoidingView
                         behavior={Platform.os === 'ios' ? 'padding' : 'height'}
@@ -135,6 +140,7 @@ class App extends Component {
                         <TextInput
                             style={styles.input}
                             placeholder={'New Task'}
+                            placeholderTextColor="#21e6c1"
                             value={this.state.task}
                             onChangeText={(text) =>
                                 this.setState({ task: text })
@@ -157,7 +163,7 @@ class App extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#48CFAF',
+        backgroundColor: '#071e3d',
     },
     tasksWrapper: {
         paddingTop: 50,
@@ -175,11 +181,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     input: {
+        color: '#21e6c1',
+        opacity: 0.7,
         paddingHorizontal: 15,
         paddingVertical: 15,
         width: 250,
         fontFamily: 'monospace',
-        backgroundColor: '#B5FBDD',
+        backgroundColor: '#071e3d',
         borderColor: '#00848C',
         borderRadius: 10,
         borderWidth: 1,
@@ -198,13 +206,16 @@ const styles = StyleSheet.create({
     addWrapper: {
         width: 80,
         height: 50,
-        backgroundColor: '#B5FBDD',
+        backgroundColor: '#071e3d',
         borderRadius: 10,
         borderWidth: 1,
         borderColor: '#00848C',
         justifyContent: 'center',
         alignItems: 'center',
         fontWeight: 'bold',
+    },
+    addText: {
+        color: '#21e6c1',
     },
 });
 export default App;
