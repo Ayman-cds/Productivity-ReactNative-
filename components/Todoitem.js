@@ -30,7 +30,7 @@ const TodoItem = (props) => {
 
 const styles = StyleSheet.create({
     items: {
-        backgroundColor: '#B5FBDD',
+        backgroundColor: '#1f4287',
         padding: 15,
         borderRadius: 10,
         alignItems: 'center',
