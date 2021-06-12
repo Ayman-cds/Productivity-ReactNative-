@@ -1,72 +1,85 @@
-// import React, { useState, useCallback } from 'react';
-// import { View, Text, TouchableOpacity } from 'react-native';
-// import DraggableFlatList, {
-//     RenderItemParams,
-// } from 'react-native-draggable-flatlist';
-
 import React, { useState } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import {
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+    CheckBox,
+} from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 
-const exampleData = [
+const initialData = [
     {
-        key: 0,
-        name: 'first thing',
+        order: 1,
+        label: 'Start Timeular',
+        isCheked: false,
     },
     {
-        key: 1,
-        name: 'second thing',
+        order: 2,
+        label: 'Workout',
+        isCheked: false,
     },
     {
-        key: 2,
-        name: 'thrid thing',
-    },
-    {
-        key: 3,
-        name: 'fourth thing',
+        order: 3,
+        label: 'Shower',
+        isCheked: true,
     },
 ];
-// const exampleData = [...Array(20)].map((d, index) => ({
-//   key: `item-${index}`, // For example only -- don't use index as your key!
-//   label: index,
-//   backgroundColor: `rgb(${Math.floor(Math.random() * 255)}, ${index *
-//   5}, ${132})`
-// }));
+function Focus(props) {
+    const [data, setData] = useState(initialData);
 
-export default function Focus() {
-    const [data, setData] = useState(exampleData);
-    const renderItem = ({ item, index, drag, isActive }) => {
-        return (
-            <TouchableOpacity
-                style={{
-                    height: 100,
-                    backgroundColor: isActive ? 'blue' : item.backgroundColor,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}
-                onLongPress={drag}
-            >
-                <Text
-                    style={{
-                        fontWeight: 'bold',
-                        color: 'white',
-                        fontSize: 32,
-                    }}
-                >
-                    {item.name}
-                </Text>
+    const renderItem = ({ item, index, drag, isActive }) => (
+        <View style={styles.item}>
+            <TouchableOpacity onLongPress={drag}>
+                <Text>{item?.label}</Text>
             </TouchableOpacity>
-        );
-    };
-
-    return (
-        <View style={{ flex: 1 }}>
-            <DraggableFlatList
-                data={data}
-                renderItem={renderItem}
-                keyExtractor={(item, index) => `draggable-item-${item.key}`}
-                onDragEnd={({ d }) => setData({ d })}
+            <CheckBox
+                value={item.isCheked}
+                onChange={() => {
+                    handleCheck(item.label);
+                }}
             />
         </View>
     );
+
+    const handleCheck = (label) => {
+        let updated = [...data];
+        updated = updated.map((task, index) => {
+            if (label === task.label) {
+                return { ...task, isCheked: !task.isCheked };
+            }
+            return task;
+        });
+        setData(updated);
+    };
+    return (
+        <View style={styles.screen}>
+            <View style={{ flex: 1 }}>
+                <DraggableFlatList
+                    data={data}
+                    renderItem={renderItem}
+                    keyExtractor={(item, index) => index.toString()}
+                    onDragEnd={({ data }) => setData(data)}
+                />
+            </View>
+        </View>
+    );
 }
+
+const styles = StyleSheet.create({
+    screen: {
+        marginTop: 24,
+        flex: 1,
+    },
+    item: {
+        backgroundColor: 'white',
+        marginTop: 10,
+        padding: 20,
+        marginHorizontal: 10,
+        borderRadius: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+});
+
+export default Focus;
