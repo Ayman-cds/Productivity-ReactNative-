@@ -149,13 +149,11 @@ class App extends Component {
                         />
                         <TouchableOpacity onPress={() => this.handleAddTask()}>
                             <View style={styles.addWrapper}>
-                                <Text style={styles.addText}>+</Text>
+                            c<Text style={styles.addText}>+</Text>
                             </View>
                         </TouchableOpacity>
                     </KeyboardAvoidingView>
-                ) : (
-                    <Pomodoro />
-                )} */}
+                ) : ( )} */}
                 <Focus />
             </View>
         );
