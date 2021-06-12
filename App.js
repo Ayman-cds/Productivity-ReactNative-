@@ -153,9 +153,7 @@ class App extends Component {
                             </View>
                         </TouchableOpacity>
                     </KeyboardAvoidingView>
-                ) : (
-                )} */}
-                {/* <Pomodoro /> */}
+                ) : ( )} */}
                 <Focus />
             </View>
         );

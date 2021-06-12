@@ -24,6 +24,26 @@ const initialData = [
         label: 'Shower',
         isCheked: true,
     },
+    {
+        order: 4,
+        label: 'sdfsd',
+        isCheked: true,
+    },
+    {
+        order: 5,
+        label: 'Shosdfswer',
+        isCheked: true,
+    },
+    {
+        order: 6,
+        label: 'sdf',
+        isCheked: true,
+    },
+    {
+        order: 7,
+        label: 'ffff',
+        isCheked: true,
+    },
 ];
 function Focus(props) {
     const [data, setData] = useState(initialData);
@@ -31,7 +51,7 @@ function Focus(props) {
     const renderItem = ({ item, index, drag, isActive }) => (
         <View style={styles.item}>
             <TouchableOpacity onLongPress={drag}>
-                <Text>{item?.label}</Text>
+                <Text>{item.label}</Text>
             </TouchableOpacity>
             <CheckBox
                 value={item.isCheked}
@@ -70,6 +90,7 @@ const styles = StyleSheet.create({
     screen: {
         marginTop: 24,
         flex: 1,
+        backgroundColor: '#212121',
     },
     item: {
         backgroundColor: 'white',
