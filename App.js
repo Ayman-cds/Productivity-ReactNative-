@@ -17,6 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { storeTasks, getTasks } from './localStorage';
 import Pomodoro from './Pomodoro';
+import Focus from './components/Focus';
 
 class App extends Component {
     constructor() {
@@ -103,7 +104,7 @@ class App extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <ScrollView>
+                {/* <ScrollView>
                     <Pressable
                         onLongPress={() => this.setState({ timing: false })}
                     ></Pressable>
@@ -154,7 +155,8 @@ class App extends Component {
                     </KeyboardAvoidingView>
                 ) : (
                     <Pomodoro />
-                )}
+                )} */}
+                <Focus />
             </View>
         );
     }

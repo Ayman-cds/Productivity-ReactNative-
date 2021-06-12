@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 export default function Home() {
     return (
         <View>
-            <Text>Dis is da home</Text>
+            <Text></Text>
         </View>
     );
 }
