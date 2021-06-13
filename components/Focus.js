@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
     View,
     CheckBox,
+    Vibration,
 } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 
@@ -47,19 +48,22 @@ const initialData = [
 ];
 function Focus(props) {
     const [data, setData] = useState(initialData);
-
+    const handleDrag = (drag) => {
+        Vibration.vibrate();
+        drag;
+    };
     const renderItem = ({ item, index, drag, isActive }) => (
-        <View style={styles.item}>
-            <TouchableOpacity onLongPress={drag}>
+        <TouchableOpacity onLongPress={drag}>
+            <View style={styles.item}>
                 <Text>{item.label}</Text>
-            </TouchableOpacity>
-            <CheckBox
-                value={item.isCheked}
-                onChange={() => {
-                    handleCheck(item.label);
-                }}
-            />
-        </View>
+                <CheckBox
+                    value={item.isCheked}
+                    onChange={() => {
+                        handleCheck(item.label);
+                    }}
+                />
+            </View>
+        </TouchableOpacity>
     );
 
     const handleCheck = (label) => {
@@ -90,10 +94,10 @@ const styles = StyleSheet.create({
     screen: {
         marginTop: 24,
         flex: 1,
-        backgroundColor: '#212121',
     },
     item: {
-        backgroundColor: 'white',
+        // backgroundColor: 'white',
+        backgroundColor: '#1f4287',
         marginTop: 10,
         padding: 20,
         marginHorizontal: 10,
