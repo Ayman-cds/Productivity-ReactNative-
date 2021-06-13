@@ -62,7 +62,11 @@ class App extends Component {
             this.state.tasks !== null &&
             this.state.taskItems.length < 5
         ) {
-            let newTaskObj = { label: this.state.task, isChecked: false };
+            let newTaskObj = {
+                order: uuid.v4(),
+                label: this.state.task,
+                isChecked: false,
+            };
             let newTasks = [...this.state.taskItems, newTaskObj];
             this.setState({ taskItems: newTasks });
             this.setState({ task: '' });

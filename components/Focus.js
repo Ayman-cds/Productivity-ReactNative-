@@ -11,52 +11,52 @@ import DraggableFlatList from 'react-native-draggable-flatlist';
 
 const initialData = [
     {
-        // order: 1,
+        order: 1,
         label: 'Start Timeular',
         isCheked: false,
     },
     {
-        // order: 2,
+        order: 2,
         label: 'Workout',
         isCheked: false,
     },
     {
-        // order: 3,
+        order: 3,
         label: 'Shower',
         isCheked: true,
     },
     {
-        // order: 4,
+        order: 4,
         label: 'sdfsd',
         isCheked: true,
     },
     {
-        // order: 5,
+        order: 5,
         label: 'Shosdfswer',
         isCheked: true,
     },
     {
-        // order: 6,
+        order: 6,
         label: 'sdf',
         isCheked: true,
     },
     {
-        // order: 7,
+        order: 7,
         label: 'ffff',
         isCheked: true,
     },
 ];
 function Focus(props) {
-    const [data, setData] = useState(initialData);
+    const [data, setData] = useState(props.tasks);
     console.log('   PROPS.TASKS', props.tasks);
     const renderItem = ({ item, index, drag, isActive }) => (
         <TouchableOpacity onLongPress={drag}>
             <View style={styles.item}>
-                <Text>{item.label}</Text>
+                <Text>{item[label]}</Text>
                 <CheckBox
-                    value={item.isCheked}
+                    value={item[isCheked]}
                     onChange={() => {
-                        handleCheck(item.label);
+                        handleCheck(item[label]);
                     }}
                 />
             </View>
@@ -66,8 +66,8 @@ function Focus(props) {
     const handleCheck = (label) => {
         let updated = [...data];
         updated = updated.map((task, index) => {
-            if (label === task.label) {
-                return { ...task, isCheked: !task.isCheked };
+            if (label === task[label]) {
+                return { ...task, isCheked: !task[isCheked] };
             }
             return task;
         });
@@ -79,7 +79,7 @@ function Focus(props) {
                 <DraggableFlatList
                     data={data}
                     renderItem={renderItem}
-                    keyExtractor={(item, index) => index.toString()}
+                    keyExtractor={(item, index) => item.order.toString()}
                     onDragEnd={({ data }) => setData(data)}
                 />
             </View>
