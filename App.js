@@ -14,6 +14,7 @@ import {
     ScrollView,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import uuid from 'react-native-uuid';
 
 import { storeTasks, getTasks } from './localStorage';
 import Pomodoro from './Pomodoro';
@@ -61,7 +62,8 @@ class App extends Component {
             this.state.tasks !== null &&
             this.state.taskItems.length < 5
         ) {
-            let newTasks = [...this.state.taskItems, this.state.task];
+            let newTaskObj = { label: this.state.task, isChecked: false };
+            let newTasks = [...this.state.taskItems, newTaskObj];
             this.setState({ taskItems: newTasks });
             this.setState({ task: '' });
             this.storeTasks(newTasks);
@@ -77,63 +79,20 @@ class App extends Component {
         this.setState({ taskItems: itemCopy });
         this.storeTasks(this.state.taskItems);
     };
-    moveUp = (index) => {
-        Vibration.vibrate(10);
 
-        let itemCopy = [...this.state.taskItems];
-        const item = itemCopy[index];
-        if (itemCopy[index - 1]) {
-            itemCopy.splice(index, 1, itemCopy[index - 1]);
-            itemCopy.splice(index - 1, 1, item);
-            this.setState({ taskItems: itemCopy });
-        }
-        this.storeTasks(this.state.taskItems);
-    };
-    moveDown = (index) => {
-        Vibration.vibrate(10);
-
-        let itemCopy = [...this.state.taskItems];
-        const item = itemCopy[index];
-        if (itemCopy[index + 1]) {
-            itemCopy.splice(index, 1, itemCopy[index + 1]);
-            itemCopy.splice(index + 1, 1, item);
-            this.setState({ taskItems: itemCopy });
-        }
+    deleteAll = async () => {
+        this.setState({ taskItems: [] });
         this.storeTasks(this.state.taskItems);
     };
     render() {
         return (
             <View style={styles.container}>
-                {/* <ScrollView>
-                    <Pressable
-                        onLongPress={() => this.setState({ timing: false })}
-                    ></Pressable>
-                    <View style={styles.tasksWrapper}>
-                        <View style={styles.items}>
-                            {this.state.taskItems ? (
-                                this.state.taskItems.map((item, index) => {
-                                    if (item !== null) {
-                                        return (
-                                            <TodoItem
-                                                key={index}
-                                                text={item}
-                                                completedTask={
-                                                    this.completedTask
-                                                }
-                                                index={index}
-                                                moveUp={this.moveUp}
-                                                moveDown={this.moveDown}
-                                            />
-                                        );
-                                    }
-                                })
-                            ) : (
-                                <Text> NOTHING TO SEE HERE</Text>
-                            )}
-                        </View>
-                    </View>
-                </ScrollView>
-                {this.state.taskItems.length < 5 && !this.state.timing ? (
+                <Pomodoro />
+
+                {/* <View style={styles.items}> */}
+                <Focus tasks={this.state.taskItems} />
+                {/* </View> */}
+                {this.state.taskItems.length < 15 && !this.state.timing ? (
                     <KeyboardAvoidingView
                         behavior={Platform.os === 'ios' ? 'padding' : 'height'}
                         style={styles.addNewTask}
@@ -149,13 +108,16 @@ class App extends Component {
                         />
                         <TouchableOpacity onPress={() => this.handleAddTask()}>
                             <View style={styles.addWrapper}>
-                            c<Text style={styles.addText}>+</Text>
+                                <Text style={styles.addText}>+</Text>
                             </View>
                         </TouchableOpacity>
                     </KeyboardAvoidingView>
-                ) : ( )} */}
-                <Pomodoro />
-                <Focus />
+                ) : (
+                    <Text> nothgin</Text>
+                )}
+                <TouchableOpacity onPress={this.deleteAll}>
+                    <Text>REMOVE ALL</Text>
+                </TouchableOpacity>
             </View>
         );
     }

@@ -11,47 +11,44 @@ import DraggableFlatList from 'react-native-draggable-flatlist';
 
 const initialData = [
     {
-        order: 1,
+        // order: 1,
         label: 'Start Timeular',
         isCheked: false,
     },
     {
-        order: 2,
+        // order: 2,
         label: 'Workout',
         isCheked: false,
     },
     {
-        order: 3,
+        // order: 3,
         label: 'Shower',
         isCheked: true,
     },
     {
-        order: 4,
+        // order: 4,
         label: 'sdfsd',
         isCheked: true,
     },
     {
-        order: 5,
+        // order: 5,
         label: 'Shosdfswer',
         isCheked: true,
     },
     {
-        order: 6,
+        // order: 6,
         label: 'sdf',
         isCheked: true,
     },
     {
-        order: 7,
+        // order: 7,
         label: 'ffff',
         isCheked: true,
     },
 ];
 function Focus(props) {
     const [data, setData] = useState(initialData);
-    const handleDrag = (drag) => {
-        Vibration.vibrate();
-        drag;
-    };
+    console.log('   PROPS.TASKS', props.tasks);
     const renderItem = ({ item, index, drag, isActive }) => (
         <TouchableOpacity onLongPress={drag}>
             <View style={styles.item}>
