@@ -17,44 +17,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import Pomodoro from '../Pomodoro';
+import { FontAwesome } from '@expo/vector-icons';
+import { Button } from 'react-native-material-ui';
 console.disableYellowBox = true;
-const initialData = [
-    {
-        order: 1,
-        label: 'Start Timeular',
-        isCheked: false,
-    },
-    {
-        order: 2,
-        label: 'Workout',
-        isCheked: false,
-    },
-    {
-        order: 3,
-        label: 'Shower',
-        isCheked: true,
-    },
-    {
-        order: 4,
-        label: 'sdfsd',
-        isCheked: true,
-    },
-    {
-        order: 5,
-        label: 'Shosdfswer',
-        isCheked: true,
-    },
-    {
-        order: 6,
-        label: 'sdf',
-        isCheked: true,
-    },
-    {
-        order: 7,
-        label: 'ffff',
-        isCheked: true,
-    },
-];
 function Focus(props) {
     const [task, setTask] = useState('');
     const [taskItems, setTaskItems] = useState([]);
@@ -85,7 +50,7 @@ function Focus(props) {
 
         // if (task !== '' && task !== null && taskItems.length < 5) {
         let newTaskObj = {
-            order: uuid.v4(),
+            id: uuid.v4(),
             label: task,
             isChecked: false,
         };
@@ -109,20 +74,24 @@ function Focus(props) {
     const deleteAll = async () => {
         setTaskItems([]);
         storeTasks(taskItems);
+        console.log(taskItems);
     };
     useEffect(() => {
         getTasks();
     }, []);
     const renderItem = ({ item, index, drag, isActive }) => (
-        <TouchableOpacity onLongPress={drag}>
+        <TouchableOpacity onLongPress={() => completedTask(index)}>
             <View style={styles.item}>
+                <TouchableOpacity onPressIn={drag}>
+                    <FontAwesome name="bars" size={30} color="black" />
+                </TouchableOpacity>
                 <Text>{item.label}</Text>
-                <CheckBox
+                {/* <CheckBox
                     value={item.isCheked}
                     onChange={() => {
                         handleCheck(item.label);
                     }}
-                />
+                /> */}
             </View>
         </TouchableOpacity>
     );
@@ -145,7 +114,7 @@ function Focus(props) {
                 style={styles.list}
                 data={taskItems}
                 renderItem={renderItem}
-                keyExtractor={(item, index) => item.order.toString()}
+                keyExtractor={(item, index) => item.id.toString()}
                 onDragEnd={({ data }) => setTaskItems(data)}
             />
             <View>
@@ -170,6 +139,9 @@ function Focus(props) {
                 {/* ) : (
                     <Text> nothing</Text>
                 )} */}
+                <TouchableOpacity onPress={deleteAll}>
+                    <Text>DELETE </Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
