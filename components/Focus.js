@@ -83,9 +83,9 @@ function Focus(props) {
         <TouchableOpacity onLongPress={() => completedTask(index)}>
             <View style={styles.item}>
                 <TouchableOpacity onPressIn={drag}>
-                    <FontAwesome name="bars" size={30} color="black" />
+                    <FontAwesome name="bars" size={35} color="black" />
                 </TouchableOpacity>
-                <Text>{item.label}</Text>
+                <Text style={styles.text}>{item.label}</Text>
                 {/* <CheckBox
                     value={item.isCheked}
                     onChange={() => {
@@ -155,6 +155,10 @@ const styles = StyleSheet.create({
     list: {
         marginBottom: 100,
     },
+    text: {
+        paddingLeft: 10,
+        alignItems: 'center',
+    },
     item: {
         // backgroundColor: 'white',
         backgroundColor: '#1f4287',
@@ -163,7 +167,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         borderRadius: 10,
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        // justifyContent: 'flex',
     },
     container: {
         flex: 1,

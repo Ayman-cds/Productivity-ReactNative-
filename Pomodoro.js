@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     startStop: {
         width: 100,
         height: 50,
-        backgroundColor: '#FFF',
+        backgroundColor: '#21E6C1',
         borderRadius: 10,
         borderWidth: 1,
         borderColor: '#00848C',
@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         fontWeight: 'bold',
+        opacity: 0.5,
     },
     start: {
         fontFamily: 'monospace',
@@ -87,6 +88,7 @@ const styles = StyleSheet.create({
         fontSize: 30,
     },
     timer: {
+        paddingTop: 15,
         alignItems: 'center',
     },
     numbers: {
