@@ -38,29 +38,27 @@ export default function Pomodoro() {
     const minTimer = minutes < 10 ? `0${minutes}` : minutes;
     const secTimer = seconds < 10 ? `0${seconds}` : seconds;
     return (
-        <View>
-            <View style={styles.timer}>
-                <Text style={styles.numbers}>{`${minTimer}:${secTimer}`}</Text>
-                <Pressable
-                    onPress={() => {
-                        setStart(!start);
-                        Vibration.vibrate(10);
-                    }}
-                    style={styles.startStop}
-                >
-                    <View>
-                        {start ? (
-                            <Text style={styles.addText} style={styles.start}>
-                                Stop
-                            </Text>
-                        ) : (
-                            <Text style={styles.addText} style={styles.start}>
-                                Start
-                            </Text>
-                        )}
-                    </View>
-                </Pressable>
-            </View>
+        <View style={styles.timer}>
+            <Text style={styles.numbers}>{`${minTimer}:${secTimer}`}</Text>
+            <Pressable
+                onPress={() => {
+                    setStart(!start);
+                    Vibration.vibrate(10);
+                }}
+                style={styles.startStop}
+            >
+                <View>
+                    {start ? (
+                        <Text style={styles.addText} style={styles.start}>
+                            Stop
+                        </Text>
+                    ) : (
+                        <Text style={styles.addText} style={styles.start}>
+                            Start
+                        </Text>
+                    )}
+                </View>
+            </Pressable>
         </View>
     );
 }
@@ -81,13 +79,15 @@ const styles = StyleSheet.create({
     },
     start: {
         fontFamily: 'monospace',
-        fontSize: 30,
+        fontSize: 25,
     },
     stop: {
         fontFamily: 'monospace',
         fontSize: 30,
     },
     timer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
         paddingTop: 15,
         alignItems: 'center',
     },

@@ -158,6 +158,7 @@ const styles = StyleSheet.create({
     text: {
         paddingLeft: 10,
         alignItems: 'center',
+        color: 'black',
     },
     item: {
         // backgroundColor: 'white',
