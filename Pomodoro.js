@@ -38,29 +38,27 @@ export default function Pomodoro() {
     const minTimer = minutes < 10 ? `0${minutes}` : minutes;
     const secTimer = seconds < 10 ? `0${seconds}` : seconds;
     return (
-        <View>
-            <View style={styles.timer}>
-                <Text style={styles.numbers}>{`${minTimer}:${secTimer}`}</Text>
-                <Pressable
-                    onPress={() => {
-                        setStart(!start);
-                        Vibration.vibrate(10);
-                    }}
-                    style={styles.startStop}
-                >
-                    <View>
-                        {start ? (
-                            <Text style={styles.addText} style={styles.start}>
-                                Stop
-                            </Text>
-                        ) : (
-                            <Text style={styles.addText} style={styles.start}>
-                                Start
-                            </Text>
-                        )}
-                    </View>
-                </Pressable>
-            </View>
+        <View style={styles.timer}>
+            <Text style={styles.numbers}>{`${minTimer}:${secTimer}`}</Text>
+            <Pressable
+                onPress={() => {
+                    setStart(!start);
+                    Vibration.vibrate(10);
+                }}
+                style={styles.startStop}
+            >
+                <View>
+                    {start ? (
+                        <Text style={styles.addText} style={styles.start}>
+                            Stop
+                        </Text>
+                    ) : (
+                        <Text style={styles.addText} style={styles.start}>
+                            Start
+                        </Text>
+                    )}
+                </View>
+            </Pressable>
         </View>
     );
 }
@@ -69,7 +67,7 @@ const styles = StyleSheet.create({
     startStop: {
         width: 100,
         height: 50,
-        backgroundColor: '#FFF',
+        backgroundColor: '#21E6C1',
         borderRadius: 10,
         borderWidth: 1,
         borderColor: '#00848C',
@@ -77,22 +75,29 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         fontWeight: 'bold',
+        opacity: 0.5,
     },
     start: {
-        fontFamily: 'monospace',
-        fontSize: 30,
+        // fontFamily: 'monospace',
+        fontSize: 25,
     },
     stop: {
-        fontFamily: 'monospace',
+        // fontFamily: 'monospace',
         fontSize: 30,
     },
     timer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        paddingTop: 15,
+        paddingBottom: 15,
+        backgroundColor: '#1F4287',
+        borderRadius: 20,
         alignItems: 'center',
     },
     numbers: {
         color: '#21e6c1',
-        textDecorationLine: 'underline',
-        fontFamily: 'monospace',
+        // textDecorationLine: 'underline',
+        // fontFamily: 'monospace',
         fontSize: 60,
     },
 });

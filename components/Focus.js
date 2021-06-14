@@ -18,6 +18,8 @@ import uuid from 'react-native-uuid';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import Pomodoro from '../Pomodoro';
 import { FontAwesome } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+
 import { Button } from 'react-native-material-ui';
 console.disableYellowBox = true;
 function Focus(props) {
@@ -83,9 +85,9 @@ function Focus(props) {
         <TouchableOpacity onLongPress={() => completedTask(index)}>
             <View style={styles.item}>
                 <TouchableOpacity onPressIn={drag}>
-                    <FontAwesome name="bars" size={30} color="black" />
+                    <FontAwesome name="bars" size={35} color="black" />
                 </TouchableOpacity>
-                <Text>{item.label}</Text>
+                <Text style={styles.text}>{item.label}</Text>
                 {/* <CheckBox
                     value={item.isCheked}
                     onChange={() => {
@@ -117,7 +119,7 @@ function Focus(props) {
                 keyExtractor={(item, index) => item.id.toString()}
                 onDragEnd={({ data }) => setTaskItems(data)}
             />
-            <View>
+            <View style={styles.textInput}>
                 {/* {taskItems.length < 15 && !timing ? ( */}
                 <KeyboardAvoidingView
                     behavior={Platform.os === 'ios' ? 'padding' : 'height'}
@@ -131,17 +133,23 @@ function Focus(props) {
                         onChangeText={(text) => setTask(text)}
                     />
                     <TouchableOpacity onPress={handleAddTask}>
-                        <View style={styles.addWrapper}>
+                        {/* <View style={styles.addWrapper}>
                             <Text style={styles.addText}>+</Text>
-                        </View>
+                        </View> */}
+                        <AntDesign
+                            name="plussquareo"
+                            size={54}
+                            style={styles.plusSign}
+                            color="#21e6c1"
+                        />
                     </TouchableOpacity>
                 </KeyboardAvoidingView>
                 {/* ) : (
                     <Text> nothing</Text>
                 )} */}
-                <TouchableOpacity onPress={deleteAll}>
+                {/* <TouchableOpacity onPress={deleteAll}>
                     <Text>DELETE </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </View>
     );
@@ -155,6 +163,11 @@ const styles = StyleSheet.create({
     list: {
         marginBottom: 100,
     },
+    text: {
+        paddingLeft: 10,
+        alignItems: 'center',
+        color: 'black',
+    },
     item: {
         // backgroundColor: 'white',
         backgroundColor: '#1f4287',
@@ -163,7 +176,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         borderRadius: 10,
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        // justifyContent: 'flex',
     },
     container: {
         flex: 1,
@@ -187,7 +200,7 @@ const styles = StyleSheet.create({
     },
     input: {
         color: '#21e6c1',
-        opacity: 0.7,
+        // opacity: 0.7,
         paddingHorizontal: 15,
         paddingVertical: 15,
         width: 250,
@@ -197,6 +210,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 1,
         height: 50,
+
+        borderRadius: 30,
     },
     addNewTask: {
         position: 'absolute',
@@ -221,6 +236,9 @@ const styles = StyleSheet.create({
     },
     addText: {
         color: '#21e6c1',
+    },
+    plusSign: {
+        paddingRight: 20,
     },
 });
 
