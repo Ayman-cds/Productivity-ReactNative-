@@ -17,6 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import Pomodoro from '../Pomodoro';
+import { FontAwesome } from '@expo/vector-icons';
 console.disableYellowBox = true;
 const initialData = [
     {
@@ -114,17 +115,18 @@ function Focus(props) {
         getTasks();
     }, []);
     const renderItem = ({ item, index, drag, isActive }) => (
-        <TouchableOpacity onLongPress={drag}>
-            <View style={styles.item}>
-                <Text>{item.label}</Text>
-                <CheckBox
-                    value={item.isCheked}
-                    onChange={() => {
-                        handleCheck(item.label);
-                    }}
-                />
-            </View>
-        </TouchableOpacity>
+        <View style={styles.item}>
+            <TouchableOpacity onLongPress={drag}>
+                <FontAwesome name="bars" size={30} color="black" />
+            </TouchableOpacity>
+            <Text>{item.label}</Text>
+            <CheckBox
+                value={item.isCheked}
+                onChange={() => {
+                    handleCheck(item.label);
+                }}
+            />
+        </View>
     );
 
     const handleCheck = (label) => {
