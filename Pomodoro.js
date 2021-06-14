@@ -78,23 +78,26 @@ const styles = StyleSheet.create({
         opacity: 0.5,
     },
     start: {
-        fontFamily: 'monospace',
+        // fontFamily: 'monospace',
         fontSize: 25,
     },
     stop: {
-        fontFamily: 'monospace',
+        // fontFamily: 'monospace',
         fontSize: 30,
     },
     timer: {
         flexDirection: 'row',
         justifyContent: 'space-around',
         paddingTop: 15,
+        paddingBottom: 15,
+        backgroundColor: '#1F4287',
+        borderRadius: 20,
         alignItems: 'center',
     },
     numbers: {
         color: '#21e6c1',
-        textDecorationLine: 'underline',
-        fontFamily: 'monospace',
+        // textDecorationLine: 'underline',
+        // fontFamily: 'monospace',
         fontSize: 60,
     },
 });
