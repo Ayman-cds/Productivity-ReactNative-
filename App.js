@@ -16,7 +16,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
 
-import { storeTasks, getTasks } from './localStorage';
+// import { storeTasks, getTasks } from './localStorage';
 import Focus from './components/Focus';
 
 class App extends Component {

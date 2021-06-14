@@ -57,29 +57,29 @@ const initialData = [
     },
 ];
 function Focus(props) {
-    const [data, setData] = useState(props.tasks);
+    const [data, setData] = useState(initialData);
     const [task, setTask] = useState('');
     const [taskItems, setTaskItems] = useState([]);
     const [timing, setTiming] = useState(false);
 
     console.log('   PROPS.TASKS', props.tasks);
-    const getTasks = async () => {
-        try {
-            const jsonTasks = await AsyncStorage.getItem('tasks');
-            const tasks = jsonTasks != null ? JSON.parse(jsonTasks) : [];
-            setTaskItems(tasks);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-    const storeTasks = async (tasksArr) => {
-        try {
-            const jsonTasks = JSON.stringify(tasksArr);
-            await AsyncStorage.setItem('tasks', jsonTasks);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    // const getTasks = async () => {
+    //     try {
+    //         const jsonTasks = await AsyncStorage.getItem('tasks');
+    //         const tasks = jsonTasks != null ? JSON.parse(jsonTasks) : [];
+    //         setTaskItems(tasks);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
+    // const storeTasks = async (tasksArr) => {
+    //     try {
+    //         const jsonTasks = JSON.stringify(tasksArr);
+    //         await AsyncStorage.setItem('tasks', jsonTasks);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
 
     const handleAddTask = async () => {
         Vibration.vibrate(50);
@@ -116,11 +116,11 @@ function Focus(props) {
     const renderItem = ({ item, index, drag, isActive }) => (
         <TouchableOpacity onLongPress={drag}>
             <View style={styles.item}>
-                <Text>{item[label]}</Text>
+                <Text>{item.label}</Text>
                 <CheckBox
-                    value={item[isCheked]}
+                    value={item.isCheked}
                     onChange={() => {
-                        handleCheck(item[label]);
+                        handleCheck(item.label);
                     }}
                 />
             </View>
@@ -130,8 +130,8 @@ function Focus(props) {
     const handleCheck = (label) => {
         let updated = [...data];
         updated = updated.map((task, index) => {
-            if (label === task[label]) {
-                return { ...task, isCheked: !task[isCheked] };
+            if (label === task.label) {
+                return { ...task, isCheked: !task.isCheked };
             }
             return task;
         });
@@ -139,6 +139,7 @@ function Focus(props) {
     };
     return (
         <View style={styles.screen}>
+            <Pomodoro />
             <View style={{ flex: 1 }}>
                 <DraggableFlatList
                     data={data}
@@ -148,33 +149,27 @@ function Focus(props) {
                 />
             </View>
             <View style={styles.container}>
-                <Pomodoro />
-
-                <Focus tasks={taskItems} />
-                {taskItems.length < 15 && !timing ? (
-                    <KeyboardAvoidingView
-                        behavior={Platform.os === 'ios' ? 'padding' : 'height'}
-                        style={styles.addNewTask}
-                    >
-                        <TextInput
-                            style={styles.input}
-                            placeholder={'New Task'}
-                            placeholderTextColor="#21e6c1"
-                            value={task}
-                            onChangeText={(text) => setTask(text)}
-                        />
-                        <TouchableOpacity onPress={() => handleAddTask()}>
-                            <View style={styles.addWrapper}>
-                                <Text style={styles.addText}>+</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </KeyboardAvoidingView>
-                ) : (
+                {/* {taskItems.length < 15 && !timing ? ( */}
+                <KeyboardAvoidingView
+                    behavior={Platform.os === 'ios' ? 'padding' : 'height'}
+                    style={styles.addNewTask}
+                >
+                    <TextInput
+                        style={styles.input}
+                        placeholder={'New Task'}
+                        placeholderTextColor="#21e6c1"
+                        value={task}
+                        onChangeText={(text) => setTask(text)}
+                    />
+                    <TouchableOpacity onPress={() => handleAddTask()}>
+                        <View style={styles.addWrapper}>
+                            <Text style={styles.addText}>+</Text>
+                        </View>
+                    </TouchableOpacity>
+                </KeyboardAvoidingView>
+                {/* ) : (
                     <Text> nothing</Text>
-                )}
-                <TouchableOpacity onPress={deleteAll}>
-                    <Text>REMOVE ALL</Text>
-                </TouchableOpacity>
+                )} */}
             </View>
         </View>
     );
