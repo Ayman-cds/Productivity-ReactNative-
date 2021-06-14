@@ -16,108 +16,14 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
 
-import { storeTasks, getTasks } from './localStorage';
-import Pomodoro from './Pomodoro';
+// import { storeTasks, getTasks } from './localStorage';
 import Focus from './components/Focus';
 
 class App extends Component {
-    constructor() {
-        super();
-        this.getTasks();
-        this.state = {
-            task: '',
-            taskItems: [],
-            timing: false,
-        };
-        if (this.state.taskItems > 4) {
-            this.setState({ timing: true });
-        }
-    }
-
-    getTasks = async () => {
-        try {
-            const jsonTasks = await AsyncStorage.getItem('tasks');
-            const tasks = jsonTasks != null ? JSON.parse(jsonTasks) : [];
-            this.setState({ taskItems: tasks });
-        } catch (error) {
-            console.log(error);
-        }
-    };
-    storeTasks = async (tasksArr) => {
-        try {
-            const jsonTasks = JSON.stringify(tasksArr);
-            await AsyncStorage.setItem('tasks', jsonTasks);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    handleAddTask = async () => {
-        Vibration.vibrate(50);
-        Keyboard.dismiss();
-
-        console.log(this.state.taskItems);
-        if (
-            this.state.task !== '' &&
-            this.state.tasks !== null &&
-            this.state.taskItems.length < 5
-        ) {
-            let newTaskObj = { label: this.state.task, isChecked: false };
-            let newTasks = [...this.state.taskItems, newTaskObj];
-            this.setState({ taskItems: newTasks });
-            this.setState({ task: '' });
-            this.storeTasks(newTasks);
-        }
-    };
-
-    completedTask = async (index) => {
-        Vibration.vibrate(40);
-        Vibration.vibrate(40);
-
-        let itemCopy = [...this.state.taskItems];
-        itemCopy.splice(index, 1);
-        this.setState({ taskItems: itemCopy });
-        this.storeTasks(this.state.taskItems);
-    };
-
-    deleteAll = async () => {
-        this.setState({ taskItems: [] });
-        this.storeTasks(this.state.taskItems);
-    };
     render() {
         return (
             <View style={styles.container}>
-                <Pomodoro />
-
-                {/* <View style={styles.items}> */}
-                <Focus tasks={this.state.taskItems} />
-                {/* </View> */}
-                {this.state.taskItems.length < 15 && !this.state.timing ? (
-                    <KeyboardAvoidingView
-                        behavior={Platform.os === 'ios' ? 'padding' : 'height'}
-                        style={styles.addNewTask}
-                    >
-                        <TextInput
-                            style={styles.input}
-                            placeholder={'New Task'}
-                            placeholderTextColor="#21e6c1"
-                            value={this.state.task}
-                            onChangeText={(text) =>
-                                this.setState({ task: text })
-                            }
-                        />
-                        <TouchableOpacity onPress={() => this.handleAddTask()}>
-                            <View style={styles.addWrapper}>
-                                <Text style={styles.addText}>+</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </KeyboardAvoidingView>
-                ) : (
-                    <Text> nothgin</Text>
-                )}
-                <TouchableOpacity onPress={this.deleteAll}>
-                    <Text>REMOVE ALL</Text>
-                </TouchableOpacity>
+                <Focus />
             </View>
         );
     }
