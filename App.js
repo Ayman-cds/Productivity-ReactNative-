@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Navigator from './components/StackNavigator';
-import Focus from './components/Focus';
+import Home from './components/Home';
 export default function App() {
-    return <Focus />;
+    return <Home />;
 }
