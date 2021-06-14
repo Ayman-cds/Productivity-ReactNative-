@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     StyleSheet,
     Text,
@@ -17,8 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import Pomodoro from '../Pomodoro';
-import { storeTasks } from '../localStorage';
-
+console.disableYellowBox = true;
 const initialData = [
     {
         order: 1,
@@ -57,45 +56,44 @@ const initialData = [
     },
 ];
 function Focus(props) {
-    const [data, setData] = useState(initialData);
     const [task, setTask] = useState('');
     const [taskItems, setTaskItems] = useState([]);
     const [timing, setTiming] = useState(false);
 
-    console.log('   PROPS.TASKS', props.tasks);
-    // const getTasks = async () => {
-    //     try {
-    //         const jsonTasks = await AsyncStorage.getItem('tasks');
-    //         const tasks = jsonTasks != null ? JSON.parse(jsonTasks) : [];
-    //         setTaskItems(tasks);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
-    // const storeTasks = async (tasksArr) => {
-    //     try {
-    //         const jsonTasks = JSON.stringify(tasksArr);
-    //         await AsyncStorage.setItem('tasks', jsonTasks);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
+    const getTasks = async () => {
+        try {
+            const jsonTasks = await AsyncStorage.getItem('tasks');
+            const tasks = jsonTasks != null ? JSON.parse(jsonTasks) : [];
+            setTaskItems(tasks);
+            console.log(tasks);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    const storeTasks = async (tasksArr) => {
+        try {
+            const jsonTasks = JSON.stringify(tasksArr);
+            await AsyncStorage.setItem('tasks', jsonTasks);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const handleAddTask = async () => {
         Vibration.vibrate(50);
         Keyboard.dismiss();
 
-        if (task !== '' && task !== null && taskItems.length < 5) {
-            let newTaskObj = {
-                order: uuid.v4(),
-                label: task,
-                isChecked: false,
-            };
-            let newTasks = [...taskItems, newTaskObj];
-            setTaskItems(newTasks);
-            setTask('');
-            storeTasks(newTasks);
-        }
+        // if (task !== '' && task !== null && taskItems.length < 5) {
+        let newTaskObj = {
+            order: uuid.v4(),
+            label: task,
+            isChecked: false,
+        };
+        let newTasks = [...taskItems, newTaskObj];
+        setTaskItems(newTasks);
+        console.log(newTasks);
+        setTask('');
+        storeTasks(newTasks);
     };
 
     const completedTask = async (index) => {
@@ -112,7 +110,9 @@ function Focus(props) {
         setTaskItems([]);
         storeTasks(taskItems);
     };
-
+    useEffect(() => {
+        getTasks();
+    }, []);
     const renderItem = ({ item, index, drag, isActive }) => (
         <TouchableOpacity onLongPress={drag}>
             <View style={styles.item}>
@@ -128,27 +128,27 @@ function Focus(props) {
     );
 
     const handleCheck = (label) => {
-        let updated = [...data];
+        let updated = [...taskItems];
         updated = updated.map((task, index) => {
             if (label === task.label) {
                 return { ...task, isCheked: !task.isCheked };
             }
             return task;
         });
-        setData(updated);
+        setTaskItems(updated);
     };
     return (
-        <View style={styles.screen}>
+        <View style={styles.container}>
             <Pomodoro />
-            <View style={{ flex: 1 }}>
-                <DraggableFlatList
-                    data={data}
-                    renderItem={renderItem}
-                    keyExtractor={(item, index) => item.order.toString()}
-                    onDragEnd={({ data }) => setData(data)}
-                />
-            </View>
-            <View style={styles.container}>
+            {/* <View style={{ flex: 1 }}> */}
+            <DraggableFlatList
+                style={styles.list}
+                data={taskItems}
+                renderItem={renderItem}
+                keyExtractor={(item, index) => item.order.toString()}
+                onDragEnd={({ data }) => setTaskItems(data)}
+            />
+            <View>
                 {/* {taskItems.length < 15 && !timing ? ( */}
                 <KeyboardAvoidingView
                     behavior={Platform.os === 'ios' ? 'padding' : 'height'}
@@ -161,7 +161,7 @@ function Focus(props) {
                         value={task}
                         onChangeText={(text) => setTask(text)}
                     />
-                    <TouchableOpacity onPress={() => handleAddTask()}>
+                    <TouchableOpacity onPress={handleAddTask}>
                         <View style={styles.addWrapper}>
                             <Text style={styles.addText}>+</Text>
                         </View>
@@ -180,6 +180,9 @@ const styles = StyleSheet.create({
         marginTop: 24,
         flex: 1,
     },
+    list: {
+        marginBottom: 100,
+    },
     item: {
         // backgroundColor: 'white',
         backgroundColor: '#1f4287',
@@ -193,6 +196,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#071e3d',
+        height: 10,
     },
     tasksWrapper: {
         paddingTop: 50,
