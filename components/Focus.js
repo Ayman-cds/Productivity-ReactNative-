@@ -109,12 +109,12 @@ function Focus(props) {
         setTaskItems(updated);
     };
     return (
-        <View style={styles.container}>
-            {/* <LinearGradient
-                // Background Linear Gradient
-                colors={['#071E3D', '#278EA5', '#21E6C1']}
-                style={styles.background}
-            > */}
+        // <View style={styles.container}>
+        <LinearGradient
+            // Background Linear Gradient
+            colors={['#071E3D', '#278EA5', '#21E6C1']}
+            style={styles.background}
+        >
             <Pomodoro />
             {/* <View style={{ flex: 1 }}> */}
             <DraggableFlatList
@@ -152,12 +152,11 @@ function Focus(props) {
                 {/* ) : (
                     <Text> nothing</Text>
                 )} */}
-                {/* <TouchableOpacity onPress={deleteAll}>
+                <TouchableOpacity onPress={deleteAll}>
                     <Text>DELETE </Text>
-                </TouchableOpacity> */}
+                </TouchableOpacity>
             </View>
-            {/* </LinearGradient> */}
-        </View>
+        </LinearGradient>
     );
 }
 
@@ -167,7 +166,7 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         top: 0,
-        height: 3000,
+        height: 850,
     },
     screen: {
         marginTop: 24,
@@ -191,11 +190,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         // justifyContent: 'flex',
     },
-    container: {
-        flex: 1,
-        backgroundColor: '#071e3d',
-        height: 10,
-    },
+    // container: {
+    //     flex: 1,
+    //     backgroundColor: '#071e3d',
+    //     height: 10,
+    // },
     tasksWrapper: {
         paddingTop: 50,
         paddingHorizontal: 20,
@@ -212,8 +211,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     input: {
-        color: '#21e6c1',
-        // opacity: 0.7,
         paddingHorizontal: 15,
         paddingVertical: 15,
         width: 250,
@@ -223,8 +220,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 1,
         height: 50,
-
-        borderRadius: 30,
+        opacity: 0.8,
     },
     addNewTask: {
         position: 'absolute',
