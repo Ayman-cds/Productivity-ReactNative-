@@ -32,7 +32,6 @@ function Focus({ navigation }) {
             const jsonTasks = await AsyncStorage.getItem('tasks');
             const tasks = jsonTasks != null ? JSON.parse(jsonTasks) : [];
             setTaskItems(tasks);
-            console.log(tasks);
         } catch (error) {
             console.log(error);
         }
