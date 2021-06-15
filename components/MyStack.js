@@ -6,8 +6,8 @@ const Stack = createStackNavigator();
 const MyStack = () => {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Focus" component={Home} />
-            <Stack.Screen name="Home" component={Focus} />
+            <Stack.Screen name="Focus" component={Focus} />
+            <Stack.Screen name="Home" component={Home} />
         </Stack.Navigator>
     );
 };
