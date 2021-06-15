@@ -32,7 +32,6 @@ function Focus({ navigation }) {
             const jsonTasks = await AsyncStorage.getItem('tasks');
             const tasks = jsonTasks != null ? JSON.parse(jsonTasks) : [];
             setTaskItems(tasks);
-            console.log(tasks);
         } catch (error) {
             console.log(error);
         }
@@ -190,6 +189,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'center',
         padding: 5,
+        paddingBottom: 10,
     },
     addWrapper: {
         width: 70,

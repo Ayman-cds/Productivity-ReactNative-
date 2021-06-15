@@ -1,5 +1,12 @@
-import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+    View,
+    Text,
+    StyleSheet,
+    Button,
+    ScrollView,
+    TouchableOpacity,
+} from 'react-native';
 import {
     LineChart,
     BarChart,
@@ -8,10 +15,13 @@ import {
     ContributionGraph,
     StackedBarChart,
 } from 'react-native-chart-kit';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Home({ navigation }) {
+    const [taskItems, setTaskItems] = useState([]);
     const chartConfig = {
         backgroundGradientFrom: '#21E6C1',
         backgroundGradientFromOpacity: 0,
@@ -22,11 +32,24 @@ export default function Home({ navigation }) {
         barPercentage: 0.5,
         useShadowColorFromDataset: false, // optional
     };
-
+    const getTasks = async () => {
+        try {
+            const jsonTasks = await AsyncStorage.getItem('tasks');
+            const tasks = jsonTasks != null ? JSON.parse(jsonTasks) : [];
+            setTaskItems(tasks);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    useEffect(() => {
+        getTasks();
+    }, []);
     return (
         <View style={styles.container}>
             <LinearGradient
-                // Background Linear Gradient
+                Background
+                Linear
+                Gradient
                 colors={['#071E3D', '#278EA5', '#21E6C1']}
                 style={styles.background}
             >
@@ -62,8 +85,8 @@ export default function Home({ navigation }) {
                         yAxisInterval={1} // optional, defaults to 1
                         chartConfig={{
                             backgroundColor: '#278EA5',
-                            backgroundGradientFrom: '#21E6C1',
-                            backgroundGradientTo: '#071E3D',
+                            backgroundGradientFrom: '#071E3D',
+                            backgroundGradientTo: '#278EA5',
                             decimalPlaces: 2, // optional, defaults to 2dp
                             color: (opacity = 1) =>
                                 `rgba(255, 255, 255, ${opacity})`,
@@ -85,30 +108,70 @@ export default function Home({ navigation }) {
                         }}
                     />
                 </View>
-                <Button
-                    onPress={() => navigation.push('Focus')}
-                    title="FOCUS MODE"
-                    color="#21E6C1"
-                />
+                <LinearGradient
+                    Background
+                    Linear
+                    Gradient
+                    colors={['#278EA5', '#21E6C1']}
+                    style={styles.uncompletedTasks}
+                >
+                    <Text style={styles.uncompletedTasksText}>
+                        Uncompleted Tasks
+                    </Text>
+                    <ScrollView style={styles.uncompletedTasksScroll}>
+                        {taskItems.map((task) => {
+                            return (
+                                <View style={styles.item}>
+                                    <Text color="#071E3D">{task.label}</Text>
+                                </View>
+                            );
+                        })}
+                    </ScrollView>
+                    <TouchableOpacity
+                        onPress={() => navigation.push('Focus')}
+                        style={styles.button}
+                    >
+                        <Text style={styles.buttonText}>FOCUS MODE</Text>
+                    </TouchableOpacity>
+                </LinearGradient>
             </LinearGradient>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        // backgroundColor: '#071e3d',
+    item: {
+        backgroundColor: '#39A6A3',
+        marginTop: 10,
+        padding: 10,
+        marginHorizontal: 10,
+        borderRadius: 10,
+        flexDirection: 'row',
+    },
+    uncompletedTasksScroll: {
+        height: 300,
     },
     background: {
-        position: 'absolute',
+        // position: 'absolute',
         left: 0,
         right: 0,
         top: 0,
-        height: 3000,
+        height: Dimensions.get('window').height,
     },
     chart: {
         paddingTop: 30,
+    },
+    uncompletedTasks: {
+        borderRadius: 30,
+        backgroundColor: '#278EA5',
+        paddingBottom: 40,
+        paddingTop: 10,
+    },
+    uncompletedTasksText: {
+        padding: 20,
+        fontSize: 30,
+        fontWeight: 'bold',
+        color: '#21E6C1',
     },
     greeting: {
         paddingTop: 30,
@@ -116,5 +179,19 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: 'bold',
         color: '#21E6C1',
+    },
+    button: {
+        marginTop: 10,
+        paddingTop: 15,
+        paddingBottom: 15,
+        marginLeft: 30,
+        marginRight: 30,
+        backgroundColor: '#21E6C1',
+        borderRadius: 10,
+        // borderWidth: 1,
+    },
+    buttonText: {
+        color: '#071E3D',
+        textAlign: 'center',
     },
 });
