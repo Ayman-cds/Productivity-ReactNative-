@@ -1,6 +1,13 @@
 import * as React from 'react';
-import Navigator from './components/StackNavigator';
+import { NavigationContainer } from '@react-navigation/native';
+import MyStack from './components/MyStack';
+
 import Home from './components/Home';
+import Focus from './components/Focus';
 export default function App() {
-    return <Home />;
+    return (
+        <NavigationContainer>
+            <MyStack />
+        </NavigationContainer>
+    );
 }
