@@ -189,6 +189,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'center',
         padding: 5,
+        paddingBottom: 10,
     },
     addWrapper: {
         width: 70,

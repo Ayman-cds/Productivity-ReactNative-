@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button, ScrollView } from 'react-native';
+import {
+    View,
+    Text,
+    StyleSheet,
+    Button,
+    ScrollView,
+    TouchableOpacity,
+} from 'react-native';
 import {
     LineChart,
     BarChart,
@@ -30,7 +37,6 @@ export default function Home({ navigation }) {
             const jsonTasks = await AsyncStorage.getItem('tasks');
             const tasks = jsonTasks != null ? JSON.parse(jsonTasks) : [];
             setTaskItems(tasks);
-            console.log(tasks);
         } catch (error) {
             console.log(error);
         }
@@ -102,34 +108,32 @@ export default function Home({ navigation }) {
                         }}
                     />
                 </View>
-                <View style={styles.uncompletedTasks}>
+                <LinearGradient
+                    Background
+                    Linear
+                    Gradient
+                    colors={['#278EA5', '#21E6C1']}
+                    style={styles.uncompletedTasks}
+                >
                     <Text style={styles.uncompletedTasksText}>
                         Uncompleted Tasks
                     </Text>
-                    <LinearGradient
-                        Background
-                        Linear
-                        Gradient
-                        colors={['#278EA5', '#21E6C1']}
-                        // style={styles.background}
+                    <ScrollView style={styles.uncompletedTasksScroll}>
+                        {taskItems.map((task) => {
+                            return (
+                                <View style={styles.item}>
+                                    <Text color="#071E3D">{task.label}</Text>
+                                </View>
+                            );
+                        })}
+                    </ScrollView>
+                    <TouchableOpacity
+                        onPress={() => navigation.push('Focus')}
+                        style={styles.button}
                     >
-                        <ScrollView style={styles.uncompletedTasksScroll}>
-                            {taskItems.map((task) => {
-                                return (
-                                    <View style={styles.item}>
-                                        <Text>{task.label}</Text>
-                                    </View>
-                                );
-                            })}
-                        </ScrollView>
-                        <Button
-                            onPress={() => navigation.push('Focus')}
-                            style={styles.button}
-                            title="FOCUS MODE"
-                            color="#21E6C1"
-                        />
-                    </LinearGradient>
-                </View>
+                        <Text style={styles.buttonText}>FOCUS MODE</Text>
+                    </TouchableOpacity>
+                </LinearGradient>
             </LinearGradient>
         </View>
     );
@@ -160,6 +164,8 @@ const styles = StyleSheet.create({
     uncompletedTasks: {
         borderRadius: 30,
         backgroundColor: '#278EA5',
+        paddingBottom: 40,
+        paddingTop: 10,
     },
     uncompletedTasksText: {
         padding: 20,
@@ -175,7 +181,17 @@ const styles = StyleSheet.create({
         color: '#21E6C1',
     },
     button: {
-        borderRadius: 30,
-        width: 30,
+        marginTop: 10,
+        paddingTop: 15,
+        paddingBottom: 15,
+        marginLeft: 30,
+        marginRight: 30,
+        backgroundColor: '#21E6C1',
+        borderRadius: 10,
+        // borderWidth: 1,
+    },
+    buttonText: {
+        color: '#071E3D',
+        textAlign: 'center',
     },
 });
