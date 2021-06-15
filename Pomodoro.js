@@ -75,15 +75,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         fontWeight: 'bold',
-        opacity: 0.5,
+        opacity: 0.7,
     },
     start: {
         color: '#071E3D',
-        fontSize: 25,
+        fontSize: 27,
     },
     stop: {
         color: '#071E3D',
-        fontSize: 30,
+        fontSize: 27,
     },
     timer: {
         flexDirection: 'row',

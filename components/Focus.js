@@ -19,11 +19,10 @@ import uuid from 'react-native-uuid';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import Pomodoro from '../Pomodoro';
 import { FontAwesome } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
 console.disableYellowBox = true;
-function Focus(props) {
+function Focus({ navigation }) {
     const [task, setTask] = useState('');
     const [taskItems, setTaskItems] = useState([]);
     const [timing, setTiming] = useState(false);
@@ -86,7 +85,7 @@ function Focus(props) {
         <TouchableOpacity onLongPress={() => completedTask(index)}>
             <View style={styles.item}>
                 <TouchableOpacity onPressIn={drag}>
-                    <FontAwesome name="bars" size={35} color="black" />
+                    <FontAwesome name="bars" size={35} color="#071E3D" />
                 </TouchableOpacity>
                 <Text style={styles.text}>{item.label}</Text>
             </View>
@@ -111,7 +110,9 @@ function Focus(props) {
             colors={['#071E3D', '#278EA5', '#21E6C1']}
             style={styles.background}
         >
-            <Pomodoro />
+            <TouchableOpacity onLongPress={() => navigation.push('Home')}>
+                <Pomodoro />
+            </TouchableOpacity>
             <DraggableFlatList
                 style={styles.list}
                 data={taskItems}
@@ -157,7 +158,7 @@ const styles = StyleSheet.create({
     text: {
         paddingLeft: 10,
         alignItems: 'center',
-        color: 'black',
+        color: '#071E3D',
     },
     item: {
         backgroundColor: '#39A6A3',
@@ -177,9 +178,7 @@ const styles = StyleSheet.create({
         width: 250,
         // fontFamily: 'monospace',
         backgroundColor: '#39A6A3',
-        borderColor: '#00848C',
         borderRadius: 60,
-        borderWidth: 1,
         height: 50,
         opacity: 0.8,
     },
@@ -189,7 +188,6 @@ const styles = StyleSheet.create({
         height: '0.5%',
         flexDirection: 'row',
         justifyContent: 'space-around',
-        borderColor: '#00848C',
         alignItems: 'center',
         padding: 5,
     },
@@ -197,10 +195,7 @@ const styles = StyleSheet.create({
         width: 70,
         height: 50,
         backgroundColor: '#39A6A3',
-        // padding: 20,
         borderRadius: 60,
-        borderWidth: 1,
-        borderColor: '#00848C',
         justifyContent: 'center',
         alignItems: 'center',
         fontWeight: 'bold',
