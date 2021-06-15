@@ -89,12 +89,6 @@ function Focus(props) {
                     <FontAwesome name="bars" size={35} color="black" />
                 </TouchableOpacity>
                 <Text style={styles.text}>{item.label}</Text>
-                {/* <CheckBox
-                    value={item.isCheked}
-                    onChange={() => {
-                        handleCheck(item.label);
-                    }}
-                /> */}
             </View>
         </TouchableOpacity>
     );
@@ -118,7 +112,6 @@ function Focus(props) {
             style={styles.background}
         >
             <Pomodoro />
-            {/* <View style={{ flex: 1 }}> */}
             <DraggableFlatList
                 style={styles.list}
                 data={taskItems}
@@ -127,7 +120,6 @@ function Focus(props) {
                 onDragEnd={({ data }) => setTaskItems(data)}
             />
             <View style={styles.textInput}>
-                {/* {taskItems.length < 15 && !timing ? ( */}
                 <KeyboardAvoidingView
                     behavior={Platform.os === 'ios' ? 'padding' : 'height'}
                     style={styles.addNewTask}
@@ -146,12 +138,6 @@ function Focus(props) {
                         <Text style={styles.addText}>ADD</Text>
                     </TouchableOpacity>
                 </KeyboardAvoidingView>
-                {/* ) : (
-                    <Text> nothing</Text>
-                )} */}
-                {/* <TouchableOpacity onPress={deleteAll}>
-                    <Text>DELETE </Text>
-                </TouchableOpacity> */}
             </View>
         </LinearGradient>
     );
@@ -198,7 +184,6 @@ const styles = StyleSheet.create({
         opacity: 0.8,
     },
     addNewTask: {
-        // position: 're',
         bottom: 30,
         width: '100%',
         height: '0.5%',
