@@ -12,6 +12,7 @@ import {
     Vibration,
     Pressable,
     ScrollView,
+    Dimensions,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
@@ -109,9 +110,10 @@ function Focus(props) {
         setTaskItems(updated);
     };
     return (
-        // <View style={styles.container}>
         <LinearGradient
-            // Background Linear Gradient
+            Background
+            Linear
+            Gradient
             colors={['#071E3D', '#278EA5', '#21E6C1']}
             style={styles.background}
         >
@@ -137,24 +139,19 @@ function Focus(props) {
                         value={task}
                         onChangeText={(text) => setTask(text)}
                     />
-                    <TouchableOpacity onPress={handleAddTask}>
-                        {/* <View style={styles.addWrapper}>
-                            <Text style={styles.addText}>+</Text>
-                        </View> */}
-                        <AntDesign
-                            name="plussquareo"
-                            size={54}
-                            style={styles.plusSign}
-                            color="#21e6c1"
-                        />
+                    <TouchableOpacity
+                        style={styles.addWrapper}
+                        onPress={handleAddTask}
+                    >
+                        <Text style={styles.addText}>ADD</Text>
                     </TouchableOpacity>
                 </KeyboardAvoidingView>
                 {/* ) : (
                     <Text> nothing</Text>
                 )} */}
-                <TouchableOpacity onPress={deleteAll}>
+                {/* <TouchableOpacity onPress={deleteAll}>
                     <Text>DELETE </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </LinearGradient>
     );
@@ -162,11 +159,11 @@ function Focus(props) {
 
 const styles = StyleSheet.create({
     background: {
-        position: 'absolute',
+        flex: 1,
         left: 0,
         right: 0,
         top: 0,
-        height: 850,
+        height: Dimensions.get('window').height,
     },
     list: {
         marginBottom: 100,
@@ -188,44 +185,35 @@ const styles = StyleSheet.create({
         paddingTop: 50,
         paddingHorizontal: 20,
     },
-    titleText: {
-        paddingTop: 50,
-        paddingHorizontal: 20,
-        fontSize: 40,
-        fontFamily: 'monospace',
-        fontWeight: 'bold',
-        textDecorationLine: 'underline',
-        textDecorationStyle: 'solid',
-        textDecorationColor: '#000',
-        justifyContent: 'center',
-    },
     input: {
         paddingHorizontal: 15,
         paddingVertical: 15,
         width: 250,
-        fontFamily: 'monospace',
+        // fontFamily: 'monospace',
         backgroundColor: '#39A6A3',
         borderColor: '#00848C',
-        borderRadius: 10,
+        borderRadius: 60,
         borderWidth: 1,
         height: 50,
         opacity: 0.8,
     },
     addNewTask: {
-        position: 'absolute',
+        // position: 're',
         bottom: 30,
         width: '100%',
+        height: '0.5%',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
         borderColor: '#00848C',
         alignItems: 'center',
-        padding: 15,
+        padding: 5,
     },
     addWrapper: {
-        width: 80,
+        width: 70,
         height: 50,
-        backgroundColor: '#071e3d',
-        borderRadius: 10,
+        backgroundColor: '#39A6A3',
+        // padding: 20,
+        borderRadius: 60,
         borderWidth: 1,
         borderColor: '#00848C',
         justifyContent: 'center',
@@ -234,9 +222,6 @@ const styles = StyleSheet.create({
     },
     addText: {
         color: '#21e6c1',
-    },
-    plusSign: {
-        paddingRight: 20,
     },
 });
 
