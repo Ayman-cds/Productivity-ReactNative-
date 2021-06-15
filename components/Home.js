@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import {
     LineChart,
     BarChart,
@@ -12,9 +12,9 @@ import { Dimensions } from 'react-native';
 
 export default function Home() {
     const chartConfig = {
-        backgroundGradientFrom: '#1E2923',
+        backgroundGradientFrom: '#21E6C1',
         backgroundGradientFromOpacity: 0,
-        backgroundGradientTo: '#08130D',
+        backgroundGradientTo: '#071E3D',
         backgroundGradientToOpacity: 0.5,
         color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
         strokeWidth: 2, // optional, default 3
@@ -23,8 +23,7 @@ export default function Home() {
     };
 
     return (
-        <View>
-            <Text>Bezier Line Chart</Text>
+        <View style={styles.chart}>
             <LineChart
                 data={{
                     labels: [
@@ -54,9 +53,9 @@ export default function Home() {
                 yAxisSuffix="k"
                 yAxisInterval={1} // optional, defaults to 1
                 chartConfig={{
-                    backgroundColor: '#e26a00',
-                    backgroundGradientFrom: '#fb8c00',
-                    backgroundGradientTo: '#ffa726',
+                    backgroundColor: '#278EA5',
+                    backgroundGradientFrom: '#21E6C1',
+                    backgroundGradientTo: '#071E3D',
                     decimalPlaces: 2, // optional, defaults to 2dp
                     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                     labelColor: (opacity = 1) =>
@@ -67,7 +66,7 @@ export default function Home() {
                     propsForDots: {
                         r: '6',
                         strokeWidth: '2',
-                        stroke: '#ffa726',
+                        stroke: '#071E3D',
                     },
                 }}
                 bezier
@@ -79,3 +78,9 @@ export default function Home() {
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    chart: {
+        paddingTop: 100,
+    },
+});

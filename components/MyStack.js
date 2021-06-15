@@ -5,7 +5,7 @@ import React from 'react';
 const Stack = createStackNavigator();
 const MyStack = () => {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Focus" component={Home} />
             <Stack.Screen name="Home" component={Focus} />
         </Stack.Navigator>
