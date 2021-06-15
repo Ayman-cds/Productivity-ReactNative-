@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import {
     LineChart,
     BarChart,
@@ -9,12 +9,13 @@ import {
     StackedBarChart,
 } from 'react-native-chart-kit';
 import { Dimensions } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Home() {
     const chartConfig = {
-        backgroundGradientFrom: '#1E2923',
+        backgroundGradientFrom: '#21E6C1',
         backgroundGradientFromOpacity: 0,
-        backgroundGradientTo: '#08130D',
+        backgroundGradientTo: '#071E3D',
         backgroundGradientToOpacity: 0.5,
         color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
         strokeWidth: 2, // optional, default 3
@@ -23,59 +24,92 @@ export default function Home() {
     };
 
     return (
-        <View>
-            <Text>Bezier Line Chart</Text>
-            <LineChart
-                data={{
-                    labels: [
-                        'January',
-                        'February',
-                        'March',
-                        'April',
-                        'May',
-                        'June',
-                    ],
-                    datasets: [
-                        {
-                            data: [
-                                Math.random() * 100,
-                                Math.random() * 100,
-                                Math.random() * 100,
-                                Math.random() * 100,
-                                Math.random() * 100,
-                                Math.random() * 100,
+        <View style={styles.container}>
+            <LinearGradient
+                // Background Linear Gradient
+                colors={['#071E3D', '#21E6C1']}
+                style={styles.background}
+            >
+                <Text style={styles.greeting}> Hi Ayman,</Text>
+                <View style={styles.chart}>
+                    <LineChart
+                        data={{
+                            labels: [
+                                'Mon',
+                                'Tue',
+                                'Wed',
+                                'Thur',
+                                'Fri',
+                                'Sat',
+                                'Sun',
                             ],
-                        },
-                    ],
-                }}
-                width={Dimensions.get('window').width} // from react-native
-                height={220}
-                yAxisLabel="$"
-                yAxisSuffix="k"
-                yAxisInterval={1} // optional, defaults to 1
-                chartConfig={{
-                    backgroundColor: '#e26a00',
-                    backgroundGradientFrom: '#fb8c00',
-                    backgroundGradientTo: '#ffa726',
-                    decimalPlaces: 2, // optional, defaults to 2dp
-                    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                    labelColor: (opacity = 1) =>
-                        `rgba(255, 255, 255, ${opacity})`,
-                    style: {
-                        borderRadius: 16,
-                    },
-                    propsForDots: {
-                        r: '6',
-                        strokeWidth: '2',
-                        stroke: '#ffa726',
-                    },
-                }}
-                bezier
-                style={{
-                    marginVertical: 8,
-                    borderRadius: 16,
-                }}
-            />
+                            datasets: [
+                                {
+                                    data: [
+                                        Math.round(Math.random() * 10),
+                                        Math.round(Math.random() * 10),
+                                        Math.round(Math.random() * 10),
+                                        Math.round(Math.random() * 10),
+                                        Math.round(Math.random() * 10),
+                                    ],
+                                },
+                            ],
+                        }}
+                        width={Dimensions.get('window').width} // from react-native
+                        height={220}
+                        yAxisLabel=""
+                        yAxisSuffix="h"
+                        yAxisInterval={1} // optional, defaults to 1
+                        chartConfig={{
+                            backgroundColor: '#278EA5',
+                            backgroundGradientFrom: '#21E6C1',
+                            backgroundGradientTo: '#071E3D',
+                            decimalPlaces: 2, // optional, defaults to 2dp
+                            color: (opacity = 1) =>
+                                `rgba(255, 255, 255, ${opacity})`,
+                            labelColor: (opacity = 1) =>
+                                `rgba(255, 255, 255, ${opacity})`,
+                            style: {
+                                borderRadius: 16,
+                            },
+                            propsForDots: {
+                                r: '6',
+                                strokeWidth: '2',
+                                stroke: '#071E3D',
+                            },
+                        }}
+                        bezier
+                        style={{
+                            marginVertical: 8,
+                            borderRadius: 16,
+                        }}
+                    />
+                </View>
+            </LinearGradient>
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        // backgroundColor: '#071e3d',
+    },
+    background: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        height: 3000,
+    },
+    chart: {
+        paddingTop: 30,
+    },
+    greeting: {
+        paddingTop: 30,
+        padding: 10,
+        fontSize: 30,
+        fontWeight: 'bold',
+        color: '#21E6C1',
+    },
+});
