@@ -168,10 +168,6 @@ const styles = StyleSheet.create({
         top: 0,
         height: 850,
     },
-    screen: {
-        marginTop: 24,
-        flex: 1,
-    },
     list: {
         marginBottom: 100,
     },
@@ -181,20 +177,13 @@ const styles = StyleSheet.create({
         color: 'black',
     },
     item: {
-        // backgroundColor: 'white',
-        backgroundColor: '#1f4287',
+        backgroundColor: '#39A6A3',
         marginTop: 10,
         padding: 20,
         marginHorizontal: 10,
         borderRadius: 10,
         flexDirection: 'row',
-        // justifyContent: 'flex',
     },
-    // container: {
-    //     flex: 1,
-    //     backgroundColor: '#071e3d',
-    //     height: 10,
-    // },
     tasksWrapper: {
         paddingTop: 50,
         paddingHorizontal: 20,
@@ -215,7 +204,7 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
         width: 250,
         fontFamily: 'monospace',
-        backgroundColor: '#071e3d',
+        backgroundColor: '#39A6A3',
         borderColor: '#00848C',
         borderRadius: 10,
         borderWidth: 1,

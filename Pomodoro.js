@@ -40,7 +40,7 @@ export default function Pomodoro() {
     return (
         <View style={styles.timer}>
             <Text style={styles.numbers}>{`${minTimer}:${secTimer}`}</Text>
-            <Pressable
+            <TouchableOpacity
                 onPress={() => {
                     setStart(!start);
                     Vibration.vibrate(10);
@@ -58,7 +58,7 @@ export default function Pomodoro() {
                         </Text>
                     )}
                 </View>
-            </Pressable>
+            </TouchableOpacity>
         </View>
     );
 }
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     startStop: {
         width: 100,
         height: 50,
-        backgroundColor: '#21E6C1',
+        backgroundColor: '#39A6A3',
         borderRadius: 10,
         borderWidth: 1,
         borderColor: '#00848C',
@@ -78,11 +78,11 @@ const styles = StyleSheet.create({
         opacity: 0.5,
     },
     start: {
-        // fontFamily: 'monospace',
+        color: '#071E3D',
         fontSize: 25,
     },
     stop: {
-        // fontFamily: 'monospace',
+        color: '#071E3D',
         fontSize: 30,
     },
     timer: {
@@ -90,12 +90,12 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         paddingTop: 15,
         paddingBottom: 15,
-        backgroundColor: '#1F4287',
+        backgroundColor: '#39A6A3',
         borderRadius: 20,
         alignItems: 'center',
     },
     numbers: {
-        color: '#21e6c1',
+        color: '#071E3D',
         // textDecorationLine: 'underline',
         // fontFamily: 'monospace',
         fontSize: 60,
