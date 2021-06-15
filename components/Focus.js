@@ -19,8 +19,8 @@ import DraggableFlatList from 'react-native-draggable-flatlist';
 import Pomodoro from '../Pomodoro';
 import { FontAwesome } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 
-import { Button } from 'react-native-material-ui';
 console.disableYellowBox = true;
 function Focus(props) {
     const [task, setTask] = useState('');
@@ -110,6 +110,11 @@ function Focus(props) {
     };
     return (
         <View style={styles.container}>
+            {/* <LinearGradient
+                // Background Linear Gradient
+                colors={['#071E3D', '#278EA5', '#21E6C1']}
+                style={styles.background}
+            > */}
             <Pomodoro />
             {/* <View style={{ flex: 1 }}> */}
             <DraggableFlatList
@@ -151,11 +156,19 @@ function Focus(props) {
                     <Text>DELETE </Text>
                 </TouchableOpacity> */}
             </View>
+            {/* </LinearGradient> */}
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    background: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        height: 3000,
+    },
     screen: {
         marginTop: 24,
         flex: 1,

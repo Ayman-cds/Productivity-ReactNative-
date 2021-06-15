@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
 import {
     LineChart,
     BarChart,
@@ -11,7 +11,7 @@ import {
 import { Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-export default function Home() {
+export default function Home({ navigation }) {
     const chartConfig = {
         backgroundGradientFrom: '#21E6C1',
         backgroundGradientFromOpacity: 0,
@@ -27,7 +27,7 @@ export default function Home() {
         <View style={styles.container}>
             <LinearGradient
                 // Background Linear Gradient
-                colors={['#071E3D', '#21E6C1']}
+                colors={['#071E3D', '#278EA5', '#21E6C1']}
                 style={styles.background}
             >
                 <Text style={styles.greeting}> Hi Ayman,</Text>
@@ -85,6 +85,11 @@ export default function Home() {
                         }}
                     />
                 </View>
+                <Button
+                    onPress={() => navigation.push('Focus')}
+                    title="FOCUS MODE"
+                    color="#21E6C1"
+                />
             </LinearGradient>
         </View>
     );
