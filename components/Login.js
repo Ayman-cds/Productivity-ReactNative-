@@ -7,6 +7,7 @@ import {
     Easing,
     TextInput,
     TouchableOpacity,
+    Platform,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo, AntDesign } from '@expo/vector-icons';
@@ -101,22 +102,28 @@ const Login = ({ navigation }) => {
                             }}
                         >
                             <Text style={styles.createNewAccount}>
-                                Create New Account
+                                Create a new account
                             </Text>
                         </TouchableOpacity>
-                        <View style={styles.loginInWith}>
-                            <Entypo
-                                name="facebook-with-circle"
-                                size={34}
-                                color="#071E3D"
-                            />
-                            <AntDesign
-                                name="google"
-                                size={34}
-                                color="#071E3D"
-                            />
-                            <AntDesign name="twitter" size={34} color="black" />
-                        </View>
+                        {Platform.OS === 'android' ? (
+                            <View style={styles.loginInWith}>
+                                <Entypo
+                                    name="facebook-with-circle"
+                                    size={34}
+                                    color="#071E3D"
+                                />
+                                <AntDesign
+                                    name="google"
+                                    size={34}
+                                    color="#071E3D"
+                                />
+                                <AntDesign
+                                    name="twitter"
+                                    size={34}
+                                    color="black"
+                                />
+                            </View>
+                        ) : null}
                     </LinearGradient>
                 ) : (
                     <Button

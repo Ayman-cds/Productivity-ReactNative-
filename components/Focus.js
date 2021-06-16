@@ -13,6 +13,7 @@ import {
     Pressable,
     ScrollView,
     Dimensions,
+    PixelRatio,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
@@ -22,6 +23,29 @@ import { FontAwesome } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
 console.disableYellowBox = true;
+const COLORS = {
+    WHITE: '#fff',
+    TEAL: '#278EA5',
+    BLACK: '#000',
+    WHITE_OPACITY: '#ffffff80',
+    GRADIENT_1: '#071E3D',
+    GRADIENT_2: '#1F4287',
+    GRADIENT_3: '#21E6C1',
+    ORANGE: '#f48d3c',
+    GREY: '#0f0f0f',
+    GREY_OPACITY: '#0f0f0f80',
+    GRADIENT_OPACITY: '#72c2d980',
+};
+const screenWidth = Dimensions.get('screen').width;
+const screenHeight = Dimensions.get('screen').height;
+
+const wp = (widthPercent: number) => {
+    return PixelRatio.roundToNearestPixel((screenWidth * widthPercent) / 100);
+};
+
+const hp = (heightPercent: number) => {
+    return PixelRatio.roundToNearestPixel((screenHeight * heightPercent) / 100);
+};
 function Focus({ navigation }) {
     const [task, setTask] = useState('');
     const [taskItems, setTaskItems] = useState([]);
@@ -124,12 +148,17 @@ function Focus({ navigation }) {
                     behavior={Platform.os === 'ios' ? 'padding' : 'height'}
                     style={styles.addNewTask}
                 >
-                    <TextInput
+                    {/* <TextInput
                         style={styles.input}
                         placeholder={'New Task'}
                         placeholderTextColor="#21e6c1"
                         value={task}
                         onChangeText={(text) => setTask(text)}
+                    /> */}
+                    <TextInput
+                        style={styles.textInputStyle}
+                        placeholder="New Task"
+                        placeholderTextColor="#fff"
                     />
                     <TouchableOpacity
                         style={styles.addWrapper}
@@ -157,7 +186,9 @@ const styles = StyleSheet.create({
     text: {
         paddingLeft: 10,
         alignItems: 'center',
-        color: '#071E3D',
+        color: '#FFF',
+        justifyContent: 'center',
+        opacity: 0.7,
     },
     item: {
         backgroundColor: '#39A6A3',
@@ -202,6 +233,26 @@ const styles = StyleSheet.create({
     },
     addText: {
         color: '#21e6c1',
+    },
+    textInputStyle: {
+        borderRadius: wp(5),
+        width: wp(70),
+        height: hp(7),
+        opacity: 0.8,
+        // paddingBottom: 10,
+        // backgroundColor: COLORS.GRADIENT_OPACITY,
+        alignSelf: 'center',
+        textAlign: 'center',
+        marginVertical: hp(2),
+        color: COLORS.WHITE,
+        fontSize: wp(4),
+        letterSpacing: wp(0.1),
+        fontFamily: 'Montserrat',
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.8,
+        shadowRadius: 5,
+        elevation: 5,
+        shadowColor: COLORS.GRADIENT_3,
     },
 });
 
