@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
         color: COLORS.WHITE,
         fontSize: wp(14),
         letterSpacing: wp(4),
-        fontFamily: 'Montserrat-Light',
+        // fontFamily: 'Montserrat-Light',
     },
     SignupTextStyle: {
         alignSelf: 'center',
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
         opacity: 0.7,
         fontSize: wp(8),
         letterSpacing: wp(0.1),
-        fontFamily: 'Montserrat',
+        // fontFamily: 'Montserrat',
     },
     textInputStyle: {
         borderRadius: wp(5),
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
         color: COLORS.WHITE,
         fontSize: wp(4),
         letterSpacing: wp(0.1),
-        fontFamily: 'Montserrat',
+        // fontFamily: 'Montserrat',
         shadowOffset: { width: 0, height: 6 },
         shadowOpacity: 0.8,
         shadowRadius: 5,
