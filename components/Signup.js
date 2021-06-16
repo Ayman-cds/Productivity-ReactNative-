@@ -13,6 +13,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo, AntDesign } from '@expo/vector-icons';
 import { Dimensions, PixelRatio } from 'react-native';
 import Button from './Button';
+import firebase from 'firebase';
+require('firebase/auth');
 
 const COLORS = {
     WHITE: '#fff',
@@ -40,6 +42,9 @@ const hp = (heightPercent: number) => {
 
 const Signup = ({ navigation }) => {
     const [startClicked, setStartClicked] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
     useEffect(() => {
         if (startClicked) {
             Animated.timing(bottomFlex, {
@@ -57,6 +62,19 @@ const Signup = ({ navigation }) => {
             }).start();
         }
     }, [startClicked]);
+    async function onEmailSignup() {
+        try {
+            const result = await firebase
+                .auth()
+                .createUserWithEmailAndPassword(email, password);
+            await result.user.updateProfile({
+                displayName: name,
+            });
+            navigation.navigate('Home', { name, email });
+        } catch (error) {
+            console.log('SOMETHING WENT WRONG', error);
+        }
+    }
     const [bottomFlex, setbottomFlex] = useState(new Animated.Value(1));
     return (
         <LinearGradient
@@ -75,17 +93,24 @@ const Signup = ({ navigation }) => {
                     <Text style={styles.SignupTextStyle}>Signup</Text>
                     <TextInput
                         style={styles.textInputStyle}
+                        value={name}
+                        onChangeText={(name) => setName(name)}
                         placeholder="NAME"
                         placeholderTextColor={COLORS.WHITE}
                         keyboardType="name"
                     />
                     <TextInput
                         style={styles.textInputStyle}
+                        value={email}
+                        onChangeText={(email) => setEmail(email)}
                         placeholder="EMAIL"
                         placeholderTextColor={COLORS.WHITE}
                         keyboardType="email-address"
                     />
                     <TextInput
+                        value={password}
+                        onChangeText={(password) => setPassword(password)}
+                        style={styles.textInputStyle}
                         style={styles.textInputStyle}
                         placeholder="PASSWORD"
                         placeholderTextColor={COLORS.WHITE}
@@ -93,7 +118,7 @@ const Signup = ({ navigation }) => {
                     />
                     <Button
                         text="Signup"
-                        onPress={() => navigation.navigate('Home')}
+                        onPress={onEmailSignup}
                         style={{
                             alignSelf: 'center',
                             marginVertical: hp(2),
@@ -157,7 +182,7 @@ const styles = StyleSheet.create({
         color: COLORS.WHITE,
         fontSize: wp(14),
         letterSpacing: wp(4),
-        fontFamily: 'Montserrat-Light',
+        // fontFamily: 'Montserrat-Light',
     },
     SignupTextStyle: {
         alignSelf: 'center',
@@ -167,7 +192,7 @@ const styles = StyleSheet.create({
         opacity: 0.7,
         fontSize: wp(8),
         letterSpacing: wp(0.1),
-        fontFamily: 'Montserrat',
+        // fontFamily: 'Montserrat',
     },
     textInputStyle: {
         borderRadius: wp(5),
@@ -181,7 +206,7 @@ const styles = StyleSheet.create({
         color: COLORS.WHITE,
         fontSize: wp(4),
         letterSpacing: wp(0.1),
-        fontFamily: 'Montserrat',
+        // fontFamily: 'Montserrat',
         shadowOffset: { width: 0, height: 6 },
         shadowOpacity: 0.8,
         shadowRadius: 5,

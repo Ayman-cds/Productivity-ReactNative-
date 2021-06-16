@@ -20,8 +20,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-export default function Home({ navigation }) {
+export default function Home({ navigation, route }) {
     const [taskItems, setTaskItems] = useState([]);
+    const { name } = route.params;
+    console.log('NAME===>>', name);
     const chartConfig = {
         backgroundGradientFrom: '#21E6C1',
         backgroundGradientFromOpacity: 0,
@@ -54,7 +56,7 @@ export default function Home({ navigation }) {
                 colors={['#071E3D', '#278EA5', '#21E6C1']}
                 style={styles.background}
             >
-                <Text style={styles.greeting}> Hi Ayman,</Text>
+                <Text style={styles.greeting}> Hi {name},</Text>
                 <View style={styles.chart}>
                     <LineChart
                         data={{

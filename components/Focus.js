@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
     addText: {
         paddingTop: 3,
         color: '#21e6c1',
-        fontFamily: 'Montserrat',
+        // fontFamily: 'Montserrat',
     },
     textInputStyle: {
         borderRadius: wp(5),
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
         color: COLORS.WHITE,
         fontSize: wp(4),
         letterSpacing: wp(0.1),
-        fontFamily: 'Montserrat',
+        // fontFamily: 'Montserrat',
         shadowOffset: { width: 0, height: 6 },
         shadowOpacity: 0.8,
         shadowRadius: 5,
