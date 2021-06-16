@@ -13,8 +13,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo, AntDesign } from '@expo/vector-icons';
 import { Dimensions, PixelRatio } from 'react-native';
 import Button from './Button';
-import firebase from '@firebase/app';
-
+import firebase from 'firebase';
+require('firebase/auth');
 const COLORS = {
     WHITE: '#fff',
     TEAL: '#278EA5',

@@ -13,6 +13,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo, AntDesign } from '@expo/vector-icons';
 import { Dimensions, PixelRatio } from 'react-native';
 import Button from './Button';
+import firebase from 'firebase';
+require('firebase/auth');
 
 const COLORS = {
     WHITE: '#fff',
@@ -40,6 +42,9 @@ const hp = (heightPercent: number) => {
 
 const Signup = ({ navigation }) => {
     const [startClicked, setStartClicked] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
     useEffect(() => {
         if (startClicked) {
             Animated.timing(bottomFlex, {
