@@ -15,7 +15,7 @@ const COLORS = {
     GRADIENT_1: '#72c2d9',
     GRADIENT_2: '#35a9ad',
     GRADIENT_3: '#03958b',
-    TEAL: '#21E6C1',
+    TEAL: '#94D0CC',
     GREY: '#0f0f0f',
     GREY_OPACITY: '#0f0f0f80',
     GRADIENT_OPACITY: '#72c2d980',
@@ -31,12 +31,6 @@ const hp = (heightPercent: number) => {
     return PixelRatio.roundToNearestPixel((screenHeight * heightPercent) / 100);
 };
 
-interface OrangeButtonProps {
-    text: string | number;
-    onPress?: () => void;
-    style?: ViewStyle;
-}
-
 const Button = (props) => {
     const { text, onPress, style } = props;
     return (
@@ -51,14 +45,15 @@ const Button = (props) => {
 
 const styles = StyleSheet.create({
     orangeButtonStyle: {
-        backgroundColor: COLORS.ORANGE,
+        backgroundColor: COLORS.TEAL,
         height: hp(5),
         width: wp(50),
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: wp(5),
-        shadowColor: COLORS.GREY,
-        shadowOffset: { width: 0, height: 4 },
+        opacity: 0.3,
+        borderRadius: wp(3),
+        // shadowColor: COLORS.GREY,
+        // shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
         shadowRadius: 5,
         elevation: 5,

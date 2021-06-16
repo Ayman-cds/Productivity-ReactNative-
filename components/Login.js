@@ -11,10 +11,10 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import { Dimensions, PixelRatio } from 'react-native';
 import Button from './Button';
-import { useNavigation } from '@react-navigation/native';
 
 const COLORS = {
     WHITE: '#fff',
+    TEAL: '#278EA5',
     BLACK: '#000',
     WHITE_OPACITY: '#ffffff80',
     GRADIENT_1: '#071E3D',
@@ -36,9 +36,7 @@ const hp = (heightPercent: number) => {
     return PixelRatio.roundToNearestPixel((screenHeight * heightPercent) / 100);
 };
 
-const Login = (props) => {
-    const {} = props;
-    const navigation = useNavigation();
+const Login = ({ navigation }) => {
     const [startClicked, setStartClicked] = useState(false);
     useEffect(() => {
         if (startClicked) {
@@ -69,12 +67,9 @@ const Login = (props) => {
             </View>
             <Animated.View style={[styles.bottomPart, { flex: bottomFlex }]}>
                 {startClicked ? (
-                    <View
-                        style={{
-                            flex: 1,
-                            backgroundColor: COLORS.WHITE,
-                            borderTopLeftRadius: wp(20),
-                        }}
+                    <LinearGradient
+                        colors={['#1F4287', '#278EA5', '#21E6C1']}
+                        style={styles.loginContainer}
                     >
                         <Text style={styles.loginTextStyle}>LOGIN</Text>
                         <TextInput
@@ -91,16 +86,24 @@ const Login = (props) => {
                         />
                         <Button
                             text="Login"
-                            onPress={() => navigation.navigate('book')}
+                            onPress={() => navigation.navigate('Home')}
                             style={{
                                 alignSelf: 'center',
                                 marginVertical: hp(2),
                             }}
                         />
-                    </View>
+                        <Button
+                            text="Signup"
+                            onPress={() => navigation.navigate('Home')}
+                            style={{
+                                alignSelf: 'center',
+                                marginVertical: hp(2),
+                            }}
+                        />
+                    </LinearGradient>
                 ) : (
                     <Button
-                        text="Start with us"
+                        text="Get Started"
                         onPress={() => setStartClicked(true)}
                         style={{
                             alignSelf: 'center',
@@ -123,6 +126,10 @@ const styles = StyleSheet.create({
         paddingVertical: hp(10),
         alignItems: 'center',
     },
+    loginContainer: {
+        borderTopLeftRadius: wp(20),
+        flex: 1,
+    },
     bottomPart: {},
     bookTextStyle: {
         color: COLORS.WHITE,
@@ -143,6 +150,7 @@ const styles = StyleSheet.create({
         borderRadius: wp(8),
         width: wp(70),
         height: hp(6),
+        opacity: 0.5,
         backgroundColor: COLORS.GRADIENT_OPACITY,
         alignSelf: 'center',
         textAlign: 'center',
