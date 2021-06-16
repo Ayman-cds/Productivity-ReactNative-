@@ -6,9 +6,10 @@ import {
     Animated,
     Easing,
     TextInput,
+    TouchableOpacity,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-
+import { Entypo, AntDesign } from '@expo/vector-icons';
 import { Dimensions, PixelRatio } from 'react-native';
 import Button from './Button';
 
@@ -92,14 +93,28 @@ const Login = ({ navigation }) => {
                                 marginVertical: hp(2),
                             }}
                         />
-                        <Button
-                            text="Signup"
+                        <TouchableOpacity
                             onPress={() => navigation.navigate('Home')}
                             style={{
                                 alignSelf: 'center',
                                 marginVertical: hp(2),
                             }}
-                        />
+                        >
+                            <Text>Create New Account</Text>
+                        </TouchableOpacity>
+                        <View style={styles.loginInWith}>
+                            <Entypo
+                                name="facebook-with-circle"
+                                size={34}
+                                color="#071E3D"
+                            />
+                            <AntDesign
+                                name="google"
+                                size={34}
+                                color="#071E3D"
+                            />
+                            <Entypo name="linkedin" size={34} color="#071E3D" />
+                        </View>
                     </LinearGradient>
                 ) : (
                     <Button
@@ -120,6 +135,11 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
     },
+    loginInWith: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        padding: 20,
+    },
     topPart: {
         flex: 2,
         justifyContent: 'flex-end',
@@ -128,7 +148,8 @@ const styles = StyleSheet.create({
     },
     loginContainer: {
         borderTopLeftRadius: wp(20),
-        flex: 1,
+        borderBottomLeftRadius: wp(20),
+        // flex: 1,
     },
     bottomPart: {},
     bookTextStyle: {
@@ -147,7 +168,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Montserrat',
     },
     textInputStyle: {
-        borderRadius: wp(8),
+        borderRadius: wp(5),
         width: wp(70),
         height: hp(6),
         opacity: 0.5,
