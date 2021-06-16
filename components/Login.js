@@ -100,7 +100,9 @@ const Login = ({ navigation }) => {
                                 marginVertical: hp(2),
                             }}
                         >
-                            <Text>Create New Account</Text>
+                            <Text style={styles.createNewAccount}>
+                                Create New Account
+                            </Text>
                         </TouchableOpacity>
                         <View style={styles.loginInWith}>
                             <Entypo
@@ -148,7 +150,7 @@ const styles = StyleSheet.create({
     },
     loginContainer: {
         borderTopLeftRadius: wp(20),
-        borderBottomLeftRadius: wp(20),
+        borderBottomRightRadius: wp(20),
         // flex: 1,
     },
     bottomPart: {},
@@ -162,7 +164,8 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         textAlign: 'center',
         marginVertical: hp(1),
-        color: COLORS.BLACK,
+        color: COLORS.WHITE,
+        opacity: 0.7,
         fontSize: wp(8),
         letterSpacing: wp(0.1),
         fontFamily: 'Montserrat',
@@ -172,7 +175,7 @@ const styles = StyleSheet.create({
         width: wp(70),
         height: hp(6),
         opacity: 0.5,
-        backgroundColor: COLORS.GRADIENT_OPACITY,
+        // backgroundColor: COLORS.GRADIENT_OPACITY,
         alignSelf: 'center',
         textAlign: 'center',
         marginVertical: hp(2),
@@ -185,6 +188,10 @@ const styles = StyleSheet.create({
         shadowRadius: 5,
         elevation: 5,
         shadowColor: COLORS.GRADIENT_3,
+    },
+    createNewAccount: {
+        color: 'white',
+        opacity: 0.6,
     },
 });
 

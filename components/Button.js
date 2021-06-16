@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
         width: wp(50),
         alignItems: 'center',
         justifyContent: 'center',
-        opacity: 0.3,
+        opacity: 0.5,
         borderRadius: wp(3),
         // shadowColor: COLORS.GREY,
         // shadowOffset: { width: 0, height: 4 },
