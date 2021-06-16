@@ -14,6 +14,7 @@ import { Entypo, AntDesign } from '@expo/vector-icons';
 import { Dimensions, PixelRatio } from 'react-native';
 import Button from './Button';
 import firebase from 'firebase';
+import firebaseConfig from './FirebaseConfig';
 require('firebase/auth');
 const COLORS = {
     WHITE: '#fff',
@@ -43,6 +44,7 @@ const Login = ({ navigation }) => {
     const [startClicked, setStartClicked] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const google = new firebase.auth.GoogleAuthProvider();
     useEffect(() => {
         if (startClicked) {
             Animated.timing(bottomFlex, {
@@ -60,7 +62,17 @@ const Login = ({ navigation }) => {
             }).start();
         }
     }, [startClicked]);
-
+    async function onGoogleLogin() {
+        try {
+            const result = await firebase.auth().signInWithPopup(google);
+            const credential = result.credential;
+            console.log('RESULT --->', result);
+            const token = credential.accessToken;
+            const user = result.user;
+        } catch (error) {
+            console.log('SOMETHING WENT WRONG', error);
+        }
+    }
     async function onEmailLogin() {
         try {
             console.log('EMAIL ---->>>', email);
@@ -141,6 +153,7 @@ const Login = ({ navigation }) => {
                                     name="google"
                                     size={34}
                                     color="#071E3D"
+                                    onPress={onGoogleLogin}
                                 />
                                 <AntDesign
                                     name="twitter"
