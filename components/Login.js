@@ -10,7 +10,7 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { Dimensions, PixelRatio } from 'react-native';
-import OrangeButton from './OrangeButton';
+import Button from './Button';
 import { useNavigation } from '@react-navigation/native';
 
 const COLORS = {
@@ -89,7 +89,7 @@ const Login = (props) => {
                             placeholderTextColor={COLORS.WHITE}
                             secureTextEntry
                         />
-                        <OrangeButton
+                        <Button
                             text="Login"
                             onPress={() => navigation.navigate('book')}
                             style={{
@@ -99,7 +99,7 @@ const Login = (props) => {
                         />
                     </View>
                 ) : (
-                    <OrangeButton
+                    <Button
                         text="Start with us"
                         onPress={() => setStartClicked(true)}
                         style={{

@@ -37,7 +37,7 @@ interface OrangeButtonProps {
     style?: ViewStyle;
 }
 
-const OrangeButton = (props: OrangeButtonProps) => {
+const Button = (props) => {
     const { text, onPress, style } = props;
     return (
         <TouchableOpacity
@@ -65,9 +65,9 @@ const styles = StyleSheet.create({
     },
     startTextStyle: {
         color: COLORS.WHITE,
-        fontFamily: 'Montserrat-Regular',
+        // fontFamily: 'Montserrat-Regular',
         letterSpacing: wp(0.5),
     },
 });
 
-export default OrangeButton;
+export default Button;
