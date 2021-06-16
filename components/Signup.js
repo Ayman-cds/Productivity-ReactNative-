@@ -37,7 +37,7 @@ const hp = (heightPercent: number) => {
     return PixelRatio.roundToNearestPixel((screenHeight * heightPercent) / 100);
 };
 
-const Login = ({ navigation }) => {
+const Signup = ({ navigation }) => {
     const [startClicked, setStartClicked] = useState(false);
     useEffect(() => {
         if (startClicked) {
@@ -66,67 +66,59 @@ const Login = ({ navigation }) => {
                 <Text style={styles.bookTextStyle}>FOCUS</Text>
                 <Text style={styles.bookTextStyle}>TIMER</Text>
             </View>
-            <Animated.View style={[styles.bottomPart, { flex: bottomFlex }]}>
-                {startClicked ? (
-                    <LinearGradient
-                        colors={['#1F4287', '#278EA5', '#21E6C1']}
-                        style={styles.loginContainer}
-                    >
-                        <Text style={styles.loginTextStyle}>LOGIN</Text>
-                        <TextInput
-                            style={styles.textInputStyle}
-                            placeholder="EMAIL"
-                            placeholderTextColor={COLORS.WHITE}
-                            keyboardType="email-address"
-                        />
-                        <TextInput
-                            style={styles.textInputStyle}
-                            placeholder="PASSWORD"
-                            placeholderTextColor={COLORS.WHITE}
-                            secureTextEntry
-                        />
-                        <Button
-                            text="Login"
-                            onPress={() => navigation.navigate('Home')}
-                            style={{
-                                alignSelf: 'center',
-                                marginVertical: hp(2),
-                            }}
-                        />
-                        <TouchableOpacity
-                            onPress={() => navigation.navigate('Signup')}
-                            style={{
-                                alignSelf: 'center',
-                                marginVertical: hp(2),
-                            }}
-                        >
-                            <Text style={styles.createNewAccount}>
-                                Create New Account
-                            </Text>
-                        </TouchableOpacity>
-                        <View style={styles.loginInWith}>
-                            <Entypo
-                                name="facebook-with-circle"
-                                size={34}
-                                color="#071E3D"
-                            />
-                            <AntDesign
-                                name="google"
-                                size={34}
-                                color="#071E3D"
-                            />
-                            <AntDesign name="twitter" size={34} color="black" />
-                        </View>
-                    </LinearGradient>
-                ) : (
+            <Animated.View style={styles.bottomPart}>
+                <LinearGradient
+                    colors={['#1F4287', '#278EA5', '#21E6C1']}
+                    style={styles.SignupContainer}
+                >
+                    <Text style={styles.SignupTextStyle}>Signup</Text>
+                    <TextInput
+                        style={styles.textInputStyle}
+                        placeholder="NAME"
+                        placeholderTextColor={COLORS.WHITE}
+                        keyboardType="name"
+                    />
+                    <TextInput
+                        style={styles.textInputStyle}
+                        placeholder="EMAIL"
+                        placeholderTextColor={COLORS.WHITE}
+                        keyboardType="email-address"
+                    />
+                    <TextInput
+                        style={styles.textInputStyle}
+                        placeholder="PASSWORD"
+                        placeholderTextColor={COLORS.WHITE}
+                        secureTextEntry
+                    />
                     <Button
-                        text="Get Started"
-                        onPress={() => setStartClicked(true)}
+                        text="Signup"
+                        onPress={() => navigation.navigate('Home')}
                         style={{
                             alignSelf: 'center',
+                            marginVertical: hp(2),
                         }}
                     />
-                )}
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('Login')}
+                        style={{
+                            alignSelf: 'center',
+                            marginVertical: hp(2),
+                        }}
+                    >
+                        <Text style={styles.createNewAccount}>
+                            Login To Existing Account
+                        </Text>
+                    </TouchableOpacity>
+                    <View style={styles.SignupInWith}>
+                        <Entypo
+                            name="facebook-with-circle"
+                            size={34}
+                            color="#071E3D"
+                        />
+                        <AntDesign name="google" size={34} color="#071E3D" />
+                        <AntDesign name="twitter" size={34} color="black" />
+                    </View>
+                </LinearGradient>
             </Animated.View>
         </LinearGradient>
     );
@@ -137,7 +129,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
     },
-    loginInWith: {
+    SignupInWith: {
         flexDirection: 'row',
         justifyContent: 'space-around',
         padding: 20,
@@ -148,7 +140,7 @@ const styles = StyleSheet.create({
         paddingVertical: hp(10),
         alignItems: 'center',
     },
-    loginContainer: {
+    SignupContainer: {
         borderTopLeftRadius: wp(20),
         borderBottomRightRadius: wp(20),
         // flex: 1,
@@ -160,7 +152,7 @@ const styles = StyleSheet.create({
         letterSpacing: wp(4),
         fontFamily: 'Montserrat-Light',
     },
-    loginTextStyle: {
+    SignupTextStyle: {
         alignSelf: 'center',
         textAlign: 'center',
         marginVertical: hp(1),
@@ -195,4 +187,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Login;
+export default Signup;

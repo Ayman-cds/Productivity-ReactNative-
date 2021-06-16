@@ -26,7 +26,8 @@ export default function Home({ navigation }) {
         backgroundGradientFrom: '#21E6C1',
         backgroundGradientFromOpacity: 0,
         backgroundGradientTo: '#071E3D',
-        backgroundGradientToOpacity: 0.5,
+        backgroundGradientToOpacity: 1,
+        opacity: 1,
         color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
         strokeWidth: 2, // optional, default 3
         barPercentage: 0.5,
@@ -87,6 +88,7 @@ export default function Home({ navigation }) {
                             backgroundColor: '#278EA5',
                             backgroundGradientFrom: '#071E3D',
                             backgroundGradientTo: '#278EA5',
+                            opacity: 1,
                             decimalPlaces: 2, // optional, defaults to 2dp
                             color: (opacity = 1) =>
                                 `rgba(255, 255, 255, ${opacity})`,
@@ -122,7 +124,9 @@ export default function Home({ navigation }) {
                         {taskItems.map((task) => {
                             return (
                                 <View style={styles.item}>
-                                    <Text color="#071E3D">{task.label}</Text>
+                                    <Text style={styles.taskLabel}>
+                                        {task.label}
+                                    </Text>
                                 </View>
                             );
                         })}
@@ -151,6 +155,11 @@ const styles = StyleSheet.create({
     uncompletedTasksScroll: {
         height: 300,
     },
+    taskLabel: {
+        color: '#fff',
+        opacity: 0.5,
+        fontWeight: 'bold',
+    },
     background: {
         // position: 'absolute',
         left: 0,
@@ -171,14 +180,17 @@ const styles = StyleSheet.create({
         padding: 20,
         fontSize: 30,
         fontWeight: 'bold',
-        color: '#21E6C1',
+        color: '#fff',
+        opacity: 0.7,
     },
     greeting: {
         paddingTop: 30,
         padding: 10,
         fontSize: 30,
         fontWeight: 'bold',
-        color: '#21E6C1',
+        color: '#fff',
+        opacity: 0.75,
+        fontWeight: 'bold',
     },
     button: {
         marginTop: 10,
@@ -191,7 +203,9 @@ const styles = StyleSheet.create({
         // borderWidth: 1,
     },
     buttonText: {
-        color: '#071E3D',
+        color: '#fff',
+        opacity: 0.7,
+        fontWeight: 'bold',
         textAlign: 'center',
     },
 });
