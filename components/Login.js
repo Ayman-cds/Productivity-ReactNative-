@@ -7,18 +7,19 @@ import {
     Easing,
     TextInput,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient';
+
 import { Dimensions, PixelRatio } from 'react-native';
-import OrangeButton from '../components/OrangeButton';
+import OrangeButton from './OrangeButton';
 import { useNavigation } from '@react-navigation/native';
 
-const colorUtils = {
+const COLORS = {
     WHITE: '#fff',
     BLACK: '#000',
     WHITE_OPACITY: '#ffffff80',
-    GRADIENT_1: '#72c2d9',
-    GRADIENT_2: '#35a9ad',
-    GRADIENT_3: '#03958b',
+    GRADIENT_1: '#071E3D',
+    GRADIENT_2: '#1F4287',
+    GRADIENT_3: '#21E6C1',
     ORANGE: '#f48d3c',
     GREY: '#0f0f0f',
     GREY_OPACITY: '#0f0f0f80',
@@ -63,8 +64,8 @@ const Login = (props) => {
             style={styles.container}
         >
             <View style={styles.topPart}>
-                <Text style={styles.bookTextStyle}>BO</Text>
-                <Text style={styles.bookTextStyle}>OK</Text>
+                <Text style={styles.bookTextStyle}>FOCUS</Text>
+                <Text style={styles.bookTextStyle}>TIMER</Text>
             </View>
             <Animated.View style={[styles.bottomPart, { flex: bottomFlex }]}>
                 {startClicked ? (
