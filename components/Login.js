@@ -8,17 +8,34 @@ import {
     TextInput,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {
-    heightPercentToDp as hp,
-    widthPercentToDp as wp,
-} from '../utils/sizeUtils';
-import COLORS from '../utils/colorUtils';
+import { Dimensions, PixelRatio } from 'react-native';
 import OrangeButton from '../components/OrangeButton';
 import { useNavigation } from '@react-navigation/native';
 
-interface WelcomeScreenProps {}
+const colorUtils = {
+    WHITE: '#fff',
+    BLACK: '#000',
+    WHITE_OPACITY: '#ffffff80',
+    GRADIENT_1: '#72c2d9',
+    GRADIENT_2: '#35a9ad',
+    GRADIENT_3: '#03958b',
+    ORANGE: '#f48d3c',
+    GREY: '#0f0f0f',
+    GREY_OPACITY: '#0f0f0f80',
+    GRADIENT_OPACITY: '#72c2d980',
+};
+const screenWidth = Dimensions.get('screen').width;
+const screenHeight = Dimensions.get('screen').height;
 
-const Login = (props: WelcomeScreenProps) => {
+const wp = (widthPercent: number) => {
+    return PixelRatio.roundToNearestPixel((screenWidth * widthPercent) / 100);
+};
+
+const hp = (heightPercent: number) => {
+    return PixelRatio.roundToNearestPixel((screenHeight * heightPercent) / 100);
+};
+
+const Login = (props) => {
     const {} = props;
     const navigation = useNavigation();
     const [startClicked, setStartClicked] = useState(false);
