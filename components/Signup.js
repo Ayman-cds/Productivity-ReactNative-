@@ -62,6 +62,19 @@ const Signup = ({ navigation }) => {
             }).start();
         }
     }, [startClicked]);
+    async function onEmailSignup() {
+        try {
+            const result = await firebase
+                .auth()
+                .createUserWithEmailAndPassword(email, password);
+            await result.user.updateProfile({
+                displayName: name,
+            });
+            navigation.navigate('Home', { name, email });
+        } catch (error) {
+            console.log('SOMETHING WENT WRONG', error);
+        }
+    }
     const [bottomFlex, setbottomFlex] = useState(new Animated.Value(1));
     return (
         <LinearGradient
@@ -80,17 +93,24 @@ const Signup = ({ navigation }) => {
                     <Text style={styles.SignupTextStyle}>Signup</Text>
                     <TextInput
                         style={styles.textInputStyle}
+                        value={name}
+                        onChangeText={(name) => setName(name)}
                         placeholder="NAME"
                         placeholderTextColor={COLORS.WHITE}
                         keyboardType="name"
                     />
                     <TextInput
                         style={styles.textInputStyle}
+                        value={email}
+                        onChangeText={(email) => setEmail(email)}
                         placeholder="EMAIL"
                         placeholderTextColor={COLORS.WHITE}
                         keyboardType="email-address"
                     />
                     <TextInput
+                        value={password}
+                        onChangeText={(password) => setPassword(password)}
+                        style={styles.textInputStyle}
                         style={styles.textInputStyle}
                         placeholder="PASSWORD"
                         placeholderTextColor={COLORS.WHITE}
@@ -98,7 +118,7 @@ const Signup = ({ navigation }) => {
                     />
                     <Button
                         text="Signup"
-                        onPress={() => navigation.navigate('Home')}
+                        onPress={onEmailSignup}
                         style={{
                             alignSelf: 'center',
                             marginVertical: hp(2),

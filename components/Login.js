@@ -63,12 +63,17 @@ const Login = ({ navigation }) => {
     }, [startClicked]);
 
     async function onEmailLogin() {
-        console.log('EMAIL ---->>>', email);
-        console.log('password ---->>>', password);
-        const result = await firebase
-            .auth()
-            .signInWithEmailAndPassword(email, password);
-        console.log(result);
+        try {
+            console.log('EMAIL ---->>>', email);
+            console.log('password ---->>>', password);
+            const result = await firebase
+                .auth()
+                .signInWithEmailAndPassword(email, password);
+            console.log(result);
+            navigation.navigate('Home', { name, email });
+        } catch (error) {
+            console.log('SOMETHING WENT WRONG', error);
+        }
     }
 
     const [bottomFlex, setbottomFlex] = useState(new Animated.Value(1));
