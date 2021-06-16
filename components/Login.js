@@ -9,12 +9,12 @@ import {
     TouchableOpacity,
     Platform,
 } from 'react-native';
+import Expo from 'expo';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo, AntDesign } from '@expo/vector-icons';
 import { Dimensions, PixelRatio } from 'react-native';
 import Button from './Button';
 import firebase from 'firebase';
-import firebaseConfig from './FirebaseConfig';
 require('firebase/auth');
 const COLORS = {
     WHITE: '#fff',
@@ -45,6 +45,18 @@ const Login = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const google = new firebase.auth.GoogleAuthProvider();
+    // const name = result.user.displayName;
+    // function checkIfLoggedIn() {
+    //     firebase.auth().onAuthStateChanged((user) => {
+    //         if (user) {
+    //             navigation.navigate('Home', { name });
+    //         }
+    //     });
+    // }
+    // useEffect(() => {
+    //     checkIfLoggedIn();
+    // }, []);
+
     useEffect(() => {
         if (startClicked) {
             Animated.timing(bottomFlex, {
@@ -64,7 +76,7 @@ const Login = ({ navigation }) => {
     }, [startClicked]);
     async function onGoogleLogin() {
         try {
-            const result = await firebase.auth().signInWithPopup(google);
+            const result = await Expo.Google.logInAsync({});
             const credential = result.credential;
             console.log('RESULT --->', result);
             const token = credential.accessToken;
