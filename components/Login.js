@@ -43,7 +43,6 @@ const Login = ({ navigation }) => {
     const [startClicked, setStartClicked] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
     useEffect(() => {
         if (startClicked) {
             Animated.timing(bottomFlex, {
@@ -70,7 +69,10 @@ const Login = ({ navigation }) => {
                 .auth()
                 .signInWithEmailAndPassword(email, password);
             console.log(result);
-            navigation.navigate('Home', { name, email });
+            navigation.navigate('Home', {
+                name: result.user.displayName,
+                email,
+            });
         } catch (error) {
             console.log('SOMETHING WENT WRONG', error);
         }
