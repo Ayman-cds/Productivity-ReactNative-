@@ -76,6 +76,8 @@ const Login = ({ navigation }) => {
         ref.doc(result.user.uid).set({
             email: result.user.email,
             fName: result.user.givenName,
+            uncompletedTasks: [],
+            weekStats: [],
         });
     }
     function checkIfLoggedIn() {

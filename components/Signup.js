@@ -71,6 +71,8 @@ const Signup = ({ navigation }) => {
         ref.doc(result.user.uid).set({
             email: result.user.email,
             fName: result.user.displayName,
+            uncompletedTasks: [],
+            weekStats: [],
         });
     }
     async function onEmailSignup() {

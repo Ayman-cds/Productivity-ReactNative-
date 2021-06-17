@@ -13,3 +13,15 @@ export const getAllData = async (uid) => {
     console.log(data);
     return data;
 };
+
+export const updateUncompletedTasks = async (uid, tasks) => {
+    const result = await ref.doc(uid).update({
+        tasks,
+    });
+};
+
+export const updateStats = async (uid, stats) => {
+    const result = await ref.doc(uid).update({
+        stats,
+    });
+};
