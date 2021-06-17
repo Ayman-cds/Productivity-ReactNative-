@@ -159,21 +159,12 @@ const Login = ({ navigation }) => {
                         </TouchableOpacity>
                         {Platform.OS === 'android' ? (
                             <View style={styles.loginInWith}>
-                                <Entypo
-                                    name="facebook-with-circle"
-                                    size={34}
-                                    color="#071E3D"
-                                />
+                                <Text>Sign in with Google</Text>
                                 <AntDesign
                                     name="google"
                                     size={34}
                                     color="#071E3D"
                                     onPress={onGoogleLogin}
-                                />
-                                <AntDesign
-                                    name="twitter"
-                                    size={34}
-                                    color="black"
                                 />
                             </View>
                         ) : null}
