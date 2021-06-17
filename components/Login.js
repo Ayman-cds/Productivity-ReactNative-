@@ -77,16 +77,11 @@ const Login = ({ navigation }) => {
             email: result.user.email,
             fName: result.user.givenName,
         });
-        console.log(
-            'ADDED TO DATABASE ****************************************************************'
-        );
-        console.log(ans);
     }
     function checkIfLoggedIn() {
         firebase.auth().onAuthStateChanged(function (user) {
             console.log('Auth state changed ');
             if (user) {
-                console.log(user);
                 navigation.navigate('Home', { name: user.displayName });
             }
         });
@@ -97,7 +92,6 @@ const Login = ({ navigation }) => {
         setStartClicked(true);
     }
     function onSignIn(googleUser) {
-        console.log('Google Auth Response', googleUser);
         const unsubscribe = firebase
             .auth()
             .onAuthStateChanged(async (firebaseUser) => {
@@ -158,7 +152,6 @@ const Login = ({ navigation }) => {
                     }
                 );
                 onSignIn(result);
-                console.log(user);
                 const name = user.givenName;
                 navigation.navigate('Home', { name });
             }
@@ -174,11 +167,11 @@ const Login = ({ navigation }) => {
             const result = await firebase
                 .auth()
                 .signInWithEmailAndPassword(email, password);
-            console.log(result);
             navigation.navigate('Home', {
                 name: result.user.displayName,
                 email,
             });
+            console.log('SIGN IN WITH EMAIL UID--->>', result.user.uid);
             setName(result.user.displayName);
         } catch (error) {
             console.log('SOMETHING WENT WRONG', error);

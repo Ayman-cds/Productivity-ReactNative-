@@ -40,6 +40,11 @@ const hp = (heightPercent: number) => {
     return PixelRatio.roundToNearestPixel((screenHeight * heightPercent) / 100);
 };
 
+if (firebase.apps.length === 0) {
+    firebase.initializeApp(firebaseConfig);
+}
+const ref = firebase.firestore().collection('users');
+
 const Signup = ({ navigation }) => {
     const [startClicked, setStartClicked] = useState(false);
     const [email, setEmail] = useState('');
@@ -62,6 +67,12 @@ const Signup = ({ navigation }) => {
             }).start();
         }
     }, [startClicked]);
+    function newUser(result) {
+        ref.doc(result.user.uid).set({
+            email: result.user.email,
+            fName: result.user.displayName,
+        });
+    }
     async function onEmailSignup() {
         try {
             const result = await firebase
@@ -70,11 +81,13 @@ const Signup = ({ navigation }) => {
             await result.user.updateProfile({
                 displayName: name,
             });
+            newUser(result);
             navigation.navigate('Home', { name, email });
         } catch (error) {
             console.log('SOMETHING WENT WRONG', error);
         }
     }
+
     const [bottomFlex, setbottomFlex] = useState(new Animated.Value(1));
     return (
         <LinearGradient
