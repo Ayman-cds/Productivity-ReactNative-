@@ -8,7 +8,8 @@ if (firebase.apps.length === 0) {
 const ref = firebase.firestore().collection('users');
 
 export const getAllData = async (uid) => {
-    const { data } = await ref.doc(uid).get();
-    console.log(data());
-    // return dat;
+    const result = await ref.doc(uid).get();
+    const data = result.data();
+    console.log(data);
+    return data;
 };
