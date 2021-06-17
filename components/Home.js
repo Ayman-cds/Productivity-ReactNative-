@@ -19,6 +19,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import firebase from 'firebase';
 import { Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Entypo } from '@expo/vector-icons';
 
 export default function Home({ navigation, route }) {
     const [taskItems, setTaskItems] = useState([]);
@@ -44,9 +45,14 @@ export default function Home({ navigation, route }) {
             console.log(error);
         }
     };
+    const signOut = () => {
+        firebase.auth().signOut();
+        navigation.navigate('Login');
+    };
     useEffect(() => {
         getTasks();
     }, []);
+
     return (
         <View style={styles.container}>
             <LinearGradient
@@ -56,11 +62,16 @@ export default function Home({ navigation, route }) {
                 colors={['#071E3D', '#278EA5', '#21E6C1']}
                 style={styles.background}
             >
-                <Text style={styles.greeting}> Hi {name},</Text>
-                <Button
-                    title="Sign Out"
-                    onPress={() => firebase.auth().signOut()}
-                />
+                <View style={styles.greetingAndSignout}>
+                    <Text style={styles.greeting}> Hi {name},</Text>
+                    <Entypo
+                        onPress={signOut}
+                        name="log-out"
+                        style={styles.logout}
+                        size={34}
+                        color="white"
+                    />
+                </View>
                 <View style={styles.chart}>
                     <LineChart
                         data={{
@@ -150,6 +161,16 @@ export default function Home({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
+    greetingAndSignout: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    logout: {
+        paddingTop: 25,
+        paddingRight: 10,
+        opacity: 0.7,
+    },
     item: {
         backgroundColor: '#39A6A3',
         marginTop: 10,
