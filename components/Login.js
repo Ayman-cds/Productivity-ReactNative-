@@ -82,7 +82,10 @@ const Login = ({ navigation }) => {
         firebase.auth().onAuthStateChanged(function (user) {
             console.log('Auth state changed ');
             if (user) {
-                navigation.navigate('Home', { name: user.displayName });
+                navigation.navigate('Home', {
+                    name: user.displayName,
+                    uid: user.uid,
+                });
             }
         });
     }
@@ -170,6 +173,7 @@ const Login = ({ navigation }) => {
             navigation.navigate('Home', {
                 name: result.user.displayName,
                 email,
+                uid: result.user.uid,
             });
             console.log('SIGN IN WITH EMAIL UID--->>', result.user.uid);
             setName(result.user.displayName);

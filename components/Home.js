@@ -20,10 +20,10 @@ import firebase from 'firebase';
 import { Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo } from '@expo/vector-icons';
-
+import { getAllData } from './FirebaseFucs';
 export default function Home({ navigation, route }) {
     const [taskItems, setTaskItems] = useState([]);
-    const { name } = route.params;
+    const { name, email, uid } = route.params;
     console.log('NAME===>>', name);
     const chartConfig = {
         backgroundGradientFrom: '#21E6C1',
@@ -36,6 +36,10 @@ export default function Home({ navigation, route }) {
         barPercentage: 0.5,
         useShadowColorFromDataset: false, // optional
     };
+
+    useEffect(() => {
+        getAllData(uid);
+    }, []);
     const getTasks = async () => {
         try {
             const jsonTasks = await AsyncStorage.getItem('tasks');
