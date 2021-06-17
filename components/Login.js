@@ -14,7 +14,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo, AntDesign } from '@expo/vector-icons';
 import { Dimensions, PixelRatio } from 'react-native';
 import Button from './Button';
-import firebase from 'firebase';
+import * as Google from 'expo-google-app-auth';
+import firebaseConfig from './FirebaseConfig';
+import * as firebase from 'firebase';
+import 'firebase/firestore';
+
 require('firebase/auth');
 const COLORS = {
     WHITE: '#fff',
@@ -39,23 +43,16 @@ const wp = (widthPercent: number) => {
 const hp = (heightPercent: number) => {
     return PixelRatio.roundToNearestPixel((screenHeight * heightPercent) / 100);
 };
+if (firebase.apps.length === 0) {
+    firebase.initializeApp(firebaseConfig);
+}
+const ref = firebase.firestore().collection('users');
 
 const Login = ({ navigation }) => {
     const [startClicked, setStartClicked] = useState(false);
+    const [name, setName] = useState();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const google = new firebase.auth.GoogleAuthProvider();
-    // const name = result.user.displayName;
-    // function checkIfLoggedIn() {
-    //     firebase.auth().onAuthStateChanged((user) => {
-    //         if (user) {
-    //             navigation.navigate('Home', { name });
-    //         }
-    //     });
-    // }
-    // useEffect(() => {
-    //     checkIfLoggedIn();
-    // }, []);
 
     useEffect(() => {
         if (startClicked) {
@@ -74,17 +71,102 @@ const Login = ({ navigation }) => {
             }).start();
         }
     }, [startClicked]);
+
+    function newUser(result) {
+        ref.doc(result.user.uid).set({
+            email: result.user.email,
+            fName: result.user.givenName,
+        });
+        console.log(
+            'ADDED TO DATABASE ****************************************************************'
+        );
+        console.log(ans);
+    }
+    function checkIfLoggedIn() {
+        firebase.auth().onAuthStateChanged(function (user) {
+            console.log('Auth state changed ');
+            if (user) {
+                console.log(user);
+                navigation.navigate('Home', { name: user.displayName });
+            }
+        });
+    }
+
+    function onPressGetStarted() {
+        checkIfLoggedIn();
+        setStartClicked(true);
+    }
+    function onSignIn(googleUser) {
+        console.log('Google Auth Response', googleUser);
+        const unsubscribe = firebase
+            .auth()
+            .onAuthStateChanged(async (firebaseUser) => {
+                unsubscribe();
+                if (!isUserEqual(googleUser, firebaseUser)) {
+                    const credential =
+                        firebase.auth.GoogleAuthProvider.credential(
+                            googleUser.idToken,
+                            googleUser.accessToken
+                        );
+                    try {
+                        await firebase.auth().signInWithCredential(credential);
+                        newUser(googleUser);
+
+                        console.log('user is signed in ');
+                    } catch (error) {
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        const email = error.email;
+                        const credential = error.credential;
+                    }
+                } else {
+                    console.log('User already signed-in Firebase.');
+                }
+            });
+    }
+    function isUserEqual(googleUser, firebaseUser) {
+        if (firebaseUser) {
+            var providerData = firebaseUser.providerData;
+            for (var i = 0; i < providerData.length; i++) {
+                if (
+                    providerData[i].providerId ===
+                        firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
+                    providerData[i].uid === googleUser.getBasicProfile().getId()
+                ) {
+                    // We don't need to reauth the Firebase connection.
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     async function onGoogleLogin() {
         try {
-            const result = await Expo.Google.logInAsync({});
-            const credential = result.credential;
-            console.log('RESULT --->', result);
-            const token = credential.accessToken;
-            const user = result.user;
+            const result = await Google.logInAsync({
+                androidClientId:
+                    '290407391510-6jal6o3b9rbi73nk9qh0nsu4dpbl7mao.apps.googleusercontent.com',
+                scopes: ['profile', 'email'],
+            });
+            const { type, accessToken, user } = result;
+            if (type === 'success') {
+                // Then you can use the Google REST API
+                let userInfoResponse = await fetch(
+                    'https://www.googleapis.com/userinfo/v2/me',
+                    {
+                        headers: { Authorization: `Bearer ${accessToken}` },
+                    }
+                );
+                onSignIn(result);
+                console.log(user);
+                const name = user.givenName;
+                navigation.navigate('Home', { name });
+            }
         } catch (error) {
             console.log('SOMETHING WENT WRONG', error);
         }
     }
+
     async function onEmailLogin() {
         try {
             console.log('EMAIL ---->>>', email);
@@ -97,6 +179,7 @@ const Login = ({ navigation }) => {
                 name: result.user.displayName,
                 email,
             });
+            setName(result.user.displayName);
         } catch (error) {
             console.log('SOMETHING WENT WRONG', error);
         }
@@ -156,21 +239,12 @@ const Login = ({ navigation }) => {
                         </TouchableOpacity>
                         {Platform.OS === 'android' ? (
                             <View style={styles.loginInWith}>
-                                <Entypo
-                                    name="facebook-with-circle"
-                                    size={34}
-                                    color="#071E3D"
-                                />
+                                <Text>Sign in with Google</Text>
                                 <AntDesign
                                     name="google"
                                     size={34}
                                     color="#071E3D"
                                     onPress={onGoogleLogin}
-                                />
-                                <AntDesign
-                                    name="twitter"
-                                    size={34}
-                                    color="black"
                                 />
                             </View>
                         ) : null}
@@ -178,7 +252,7 @@ const Login = ({ navigation }) => {
                 ) : (
                     <Button
                         text="Get Started"
-                        onPress={() => setStartClicked(true)}
+                        onPress={onPressGetStarted}
                         style={{
                             alignSelf: 'center',
                         }}
