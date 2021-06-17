@@ -16,7 +16,7 @@ import {
     StackedBarChart,
 } from 'react-native-chart-kit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import firebase from 'firebase';
 import { Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -57,6 +57,10 @@ export default function Home({ navigation, route }) {
                 style={styles.background}
             >
                 <Text style={styles.greeting}> Hi {name},</Text>
+                <Button
+                    title="Sign Out"
+                    onPress={() => firebase.auth().signOut()}
+                />
                 <View style={styles.chart}>
                     <LineChart
                         data={{

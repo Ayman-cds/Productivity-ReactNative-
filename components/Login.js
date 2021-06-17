@@ -16,6 +16,7 @@ import { Dimensions, PixelRatio } from 'react-native';
 import Button from './Button';
 import firebase from 'firebase';
 import * as Google from 'expo-google-app-auth';
+import firebaseConfig from './FirebaseConfig';
 
 require('firebase/auth');
 const COLORS = {
@@ -41,6 +42,10 @@ const wp = (widthPercent: number) => {
 const hp = (heightPercent: number) => {
     return PixelRatio.roundToNearestPixel((screenHeight * heightPercent) / 100);
 };
+if (firebase.apps.length === 0) {
+    firebase.initializeApp(firebaseConfig);
+}
+const ref = firebase.firestore().collection('users');
 
 const Login = ({ navigation }) => {
     const [startClicked, setStartClicked] = useState(false);
@@ -66,6 +71,12 @@ const Login = ({ navigation }) => {
         }
     }, [startClicked]);
 
+    function newUser(result) {
+        ref.doc('users').set({
+            email: result.user.email,
+            firestName: result.user.givenName,
+        });
+    }
     function checkIfLoggedIn() {
         firebase.auth().onAuthStateChanged(function (user) {
             console.log('Auth state changed ');
@@ -75,65 +86,36 @@ const Login = ({ navigation }) => {
             }
         });
     }
-    useEffect(() => {
+
+    function onPressGetStarted() {
         checkIfLoggedIn();
-    }, []);
-
-    async function onGoogleLogin() {
-        try {
-            const { type, accessToken, user } = await Google.logInAsync({
-                androidClientId:
-                    '290407391510-6jal6o3b9rbi73nk9qh0nsu4dpbl7mao.apps.googleusercontent.com',
-                scopes: ['profile', 'email'],
-            });
-
-            if (type === 'success') {
-                // Then you can use the Google REST API
-                let userInfoResponse = await fetch(
-                    'https://www.googleapis.com/userinfo/v2/me',
-                    {
-                        headers: { Authorization: `Bearer ${accessToken}` },
-                    }
-                );
-                console.log(user);
-                const name = user.givenName;
-                navigation.navigate('Home', { name });
-            }
-        } catch (error) {
-            console.log('SOMETHING WENT WRONG', error);
-        }
+        setStartClicked(true);
     }
-
     function onSignIn(googleUser) {
         console.log('Google Auth Response', googleUser);
-        // We need to register an Observer on Firebase Auth to make sure auth is initialized.
-        var unsubscribe = firebase.auth().onAuthStateChanged((firebaseUser) => {
-            unsubscribe();
-            // Check if we are already signed-in Firebase with the correct user.
-            if (!isUserEqual(googleUser, firebaseUser)) {
-                // Build Firebase credential with the Google ID token.
-                var credential = firebase.auth.GoogleAuthProvider.credential(
-                    googleUser.getAuthResponse().id_token
-                );
-
-                // Sign in with credential from the Google user.
-                firebase
-                    .auth()
-                    .signInWithCredential(credential)
-                    .catch((error) => {
-                        // Handle Errors here.
-                        var errorCode = error.code;
-                        var errorMessage = error.message;
-                        // The email of the user's account used.
-                        var email = error.email;
-                        // The firebase.auth.AuthCredential type that was used.
-                        var credential = error.credential;
-                        // ...
-                    });
-            } else {
-                console.log('User already signed-in Firebase.');
-            }
-        });
+        const unsubscribe = firebase
+            .auth()
+            .onAuthStateChanged(async (firebaseUser) => {
+                unsubscribe();
+                if (!isUserEqual(googleUser, firebaseUser)) {
+                    const credential =
+                        firebase.auth.GoogleAuthProvider.credential(
+                            googleUser.idToken,
+                            googleUser.accessToken
+                        );
+                    try {
+                        await firebase.auth().signInWithCredential(credential);
+                        console.log('user is signed in ');
+                    } catch (error) {
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        const email = error.email;
+                        const credential = error.credential;
+                    }
+                } else {
+                    console.log('User already signed-in Firebase.');
+                }
+            });
     }
     function isUserEqual(googleUser, firebaseUser) {
         if (firebaseUser) {
@@ -150,6 +132,33 @@ const Login = ({ navigation }) => {
             }
         }
         return false;
+    }
+
+    async function onGoogleLogin() {
+        try {
+            const result = await Google.logInAsync({
+                androidClientId:
+                    '290407391510-6jal6o3b9rbi73nk9qh0nsu4dpbl7mao.apps.googleusercontent.com',
+                scopes: ['profile', 'email'],
+            });
+            const { type, accessToken, user } = result;
+            if (type === 'success') {
+                // Then you can use the Google REST API
+                let userInfoResponse = await fetch(
+                    'https://www.googleapis.com/userinfo/v2/me',
+                    {
+                        headers: { Authorization: `Bearer ${accessToken}` },
+                    }
+                );
+                newUser(result);
+                onSignIn(result);
+                console.log(user);
+                const name = user.givenName;
+                navigation.navigate('Home', { name });
+            }
+        } catch (error) {
+            console.log('SOMETHING WENT WRONG', error);
+        }
     }
 
     async function onEmailLogin() {
@@ -237,7 +246,7 @@ const Login = ({ navigation }) => {
                 ) : (
                     <Button
                         text="Get Started"
-                        onPress={() => setStartClicked(true)}
+                        onPress={onPressGetStarted}
                         style={{
                             alignSelf: 'center',
                         }}
