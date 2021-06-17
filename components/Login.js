@@ -15,6 +15,8 @@ import { Entypo, AntDesign } from '@expo/vector-icons';
 import { Dimensions, PixelRatio } from 'react-native';
 import Button from './Button';
 import firebase from 'firebase';
+import * as Google from 'expo-google-app-auth';
+
 require('firebase/auth');
 const COLORS = {
     WHITE: '#fff',
@@ -44,18 +46,6 @@ const Login = ({ navigation }) => {
     const [startClicked, setStartClicked] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const google = new firebase.auth.GoogleAuthProvider();
-    // const name = result.user.displayName;
-    // function checkIfLoggedIn() {
-    //     firebase.auth().onAuthStateChanged((user) => {
-    //         if (user) {
-    //             navigation.navigate('Home', { name });
-    //         }
-    //     });
-    // }
-    // useEffect(() => {
-    //     checkIfLoggedIn();
-    // }, []);
 
     useEffect(() => {
         if (startClicked) {
@@ -76,11 +66,24 @@ const Login = ({ navigation }) => {
     }, [startClicked]);
     async function onGoogleLogin() {
         try {
-            const result = await Expo.Google.logInAsync({});
-            const credential = result.credential;
-            console.log('RESULT --->', result);
-            const token = credential.accessToken;
-            const user = result.user;
+            const { type, accessToken, user } = await Google.logInAsync({
+                androidClientId:
+                    '290407391510-6jal6o3b9rbi73nk9qh0nsu4dpbl7mao.apps.googleusercontent.com',
+                scopes: ['profile', 'email'],
+            });
+
+            if (type === 'success') {
+                // Then you can use the Google REST API
+                let userInfoResponse = await fetch(
+                    'https://www.googleapis.com/userinfo/v2/me',
+                    {
+                        headers: { Authorization: `Bearer ${accessToken}` },
+                    }
+                );
+                console.log(user);
+                const name = user.givenName;
+                navigation.navigate('Home', { name });
+            }
         } catch (error) {
             console.log('SOMETHING WENT WRONG', error);
         }
