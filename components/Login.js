@@ -14,9 +14,10 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo, AntDesign } from '@expo/vector-icons';
 import { Dimensions, PixelRatio } from 'react-native';
 import Button from './Button';
-import firebase from 'firebase';
 import * as Google from 'expo-google-app-auth';
 import firebaseConfig from './FirebaseConfig';
+import * as firebase from 'firebase';
+import 'firebase/firestore';
 
 require('firebase/auth');
 const COLORS = {
@@ -72,10 +73,14 @@ const Login = ({ navigation }) => {
     }, [startClicked]);
 
     function newUser(result) {
-        ref.doc('users').set({
+        ref.doc(result.user.uid).set({
             email: result.user.email,
-            firestName: result.user.givenName,
+            fName: result.user.givenName,
         });
+        console.log(
+            'ADDED TO DATABASE ****************************************************************'
+        );
+        console.log(ans);
     }
     function checkIfLoggedIn() {
         firebase.auth().onAuthStateChanged(function (user) {
@@ -105,6 +110,8 @@ const Login = ({ navigation }) => {
                         );
                     try {
                         await firebase.auth().signInWithCredential(credential);
+                        newUser(googleUser);
+
                         console.log('user is signed in ');
                     } catch (error) {
                         const errorCode = error.code;
@@ -150,7 +157,6 @@ const Login = ({ navigation }) => {
                         headers: { Authorization: `Bearer ${accessToken}` },
                     }
                 );
-                newUser(result);
                 onSignIn(result);
                 console.log(user);
                 const name = user.givenName;
