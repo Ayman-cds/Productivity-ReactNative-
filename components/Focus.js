@@ -21,6 +21,8 @@ import DraggableFlatList from 'react-native-draggable-flatlist';
 import Pomodoro from '../Pomodoro';
 import { FontAwesome } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { getAllData } from './FirebaseFucs';
+import NetInfo from '@react-native-community/netinfo';
 
 console.disableYellowBox = true;
 const COLORS = {
@@ -39,17 +41,18 @@ const COLORS = {
 const screenWidth = Dimensions.get('screen').width;
 const screenHeight = Dimensions.get('screen').height;
 
-const wp = (widthPercent: number) => {
+const wp = (widthPercent) => {
     return PixelRatio.roundToNearestPixel((screenWidth * widthPercent) / 100);
 };
 
-const hp = (heightPercent: number) => {
+const hp = (heightPercent) => {
     return PixelRatio.roundToNearestPixel((screenHeight * heightPercent) / 100);
 };
-function Focus({ navigation }) {
+function Focus({ navigation, route }) {
     const [task, setTask] = useState('');
     const [taskItems, setTaskItems] = useState([]);
     const [timing, setTiming] = useState(false);
+    const { name, uid } = route.params;
 
     const getTasks = async () => {
         try {
@@ -73,7 +76,6 @@ function Focus({ navigation }) {
         Vibration.vibrate(50);
         Keyboard.dismiss();
 
-        // if (task !== '' && task !== null && taskItems.length < 5) {
         let newTaskObj = {
             id: uuid.v4(),
             label: task,
@@ -103,6 +105,7 @@ function Focus({ navigation }) {
     };
     useEffect(() => {
         getTasks();
+        getAllData(uid);
     }, []);
     const renderItem = ({ item, index, drag, isActive }) => (
         <TouchableOpacity onLongPress={() => completedTask(index)}>
@@ -148,13 +151,6 @@ function Focus({ navigation }) {
                     behavior={Platform.os === 'ios' ? 'padding' : 'height'}
                     style={styles.addNewTask}
                 >
-                    {/* <TextInput
-                        style={styles.input}
-                        placeholder={'New Task'}
-                        placeholderTextColor="#21e6c1"
-                        value={task}
-                        onChangeText={(text) => setTask(text)}
-                    /> */}
                     <TextInput
                         style={styles.textInputStyle}
                         placeholder="New Task"
@@ -225,7 +221,6 @@ const styles = StyleSheet.create({
     addWrapper: {
         width: wp(19),
         height: hp(7),
-        // backgroundColor: '#39A6A3',
         borderRadius: 60,
         justifyContent: 'center',
         alignItems: 'center',

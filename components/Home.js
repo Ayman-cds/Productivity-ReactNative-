@@ -157,7 +157,7 @@ export default function Home({ navigation, route }) {
                         })}
                     </ScrollView>
                     <TouchableOpacity
-                        onPress={() => navigation.push('Focus')}
+                        onPress={() => navigation.push('Focus', { name, uid })}
                         style={styles.button}
                     >
                         <Text style={styles.buttonText}>FOCUS MODE</Text>

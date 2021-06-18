@@ -32,11 +32,11 @@ const COLORS = {
 const screenWidth = Dimensions.get('screen').width;
 const screenHeight = Dimensions.get('screen').height;
 
-const wp = (widthPercent: number) => {
+const wp = (widthPercent) => {
     return PixelRatio.roundToNearestPixel((screenWidth * widthPercent) / 100);
 };
 
-const hp = (heightPercent: number) => {
+const hp = (heightPercent) => {
     return PixelRatio.roundToNearestPixel((screenHeight * heightPercent) / 100);
 };
 
