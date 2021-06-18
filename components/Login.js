@@ -73,7 +73,8 @@ const Login = ({ navigation }) => {
     }, [startClicked]);
 
     function newUser(result) {
-        ref.doc(result.user.uid).set({
+        console.log('result===>>', result);
+        ref.doc(user.uid).set({
             email: result.user.email,
             fName: result.user.givenName,
             uncompletedTasks: [],
@@ -84,6 +85,8 @@ const Login = ({ navigation }) => {
         firebase.auth().onAuthStateChanged(function (user) {
             console.log('Auth state changed ');
             if (user) {
+                console.log('CHECK IF LOGGED INNNNNNNNNNNNNNNNNNN');
+                console.log('USER STUFFFF --->>>', user.uid);
                 navigation.navigate('Home', {
                     name: user.displayName,
                     uid: user.uid,
@@ -91,7 +94,8 @@ const Login = ({ navigation }) => {
             }
         });
     }
-
+    // sP5rfWhsWmXNDIlUgFQ1LBXifLa2;
+    //uid": SIUXmBl2myTDmHPWtgXdcB5wi5M2
     function onPressGetStarted() {
         checkIfLoggedIn();
         setStartClicked(true);

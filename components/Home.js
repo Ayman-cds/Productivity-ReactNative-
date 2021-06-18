@@ -23,8 +23,8 @@ import { Entypo } from '@expo/vector-icons';
 import { getAllData } from './FirebaseFucs';
 export default function Home({ navigation, route }) {
     const [taskItems, setTaskItems] = useState([]);
+    const [uncompletedTasks, setUncompletedTasks] = useState([]);
     const { name, email, uid } = route.params;
-    console.log('NAME===>>', name);
     const chartConfig = {
         backgroundGradientFrom: '#21E6C1',
         backgroundGradientFromOpacity: 0,
@@ -38,7 +38,10 @@ export default function Home({ navigation, route }) {
     };
 
     useEffect(() => {
-        getAllData(uid);
+        console.log(uid);
+        // const allData = getAllData('U11tsQ9sdfMDn8oUmoOe');
+        // console.log('allData (Home component) ====>> ', allData);
+        // setUncompletedTasks(allData.uncompletedTasks);
     }, []);
     const getTasks = async () => {
         try {
@@ -46,7 +49,7 @@ export default function Home({ navigation, route }) {
             const tasks = jsonTasks != null ? JSON.parse(jsonTasks) : [];
             setTaskItems(tasks);
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     };
     const signOut = () => {
@@ -57,6 +60,7 @@ export default function Home({ navigation, route }) {
         getTasks();
     }, []);
 
+    const tasks = uncompletedTasks;
     return (
         <View style={styles.container}>
             <LinearGradient
@@ -142,7 +146,7 @@ export default function Home({ navigation, route }) {
                         Uncompleted Tasks
                     </Text>
                     <ScrollView style={styles.uncompletedTasksScroll}>
-                        {taskItems.map((task) => {
+                        {uncompletedTasks.map((task) => {
                             return (
                                 <View style={styles.item}>
                                     <Text style={styles.taskLabel}>

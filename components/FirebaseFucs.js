@@ -8,20 +8,32 @@ if (firebase.apps.length === 0) {
 const ref = firebase.firestore().collection('users');
 
 export const getAllData = async (uid) => {
-    const result = await ref.doc(uid).get();
-    const data = result.data();
-    console.log(data);
-    return data;
+    try {
+        const result = await ref.doc(uid).get();
+        const data = result.data();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error('ERROR IN getAllData FIREBASEFUCS-->', error);
+    }
 };
 
 export const updateUncompletedTasks = async (uid, tasks) => {
-    const result = await ref.doc(uid).update({
-        tasks,
-    });
+    try {
+        const result = await ref.doc(uid).update({
+            tasks,
+        });
+    } catch (error) {
+        console.error('ERROR IN updateUncompletedTasks FIREBASEFUCS-->', error);
+    }
 };
 
 export const updateStats = async (uid, stats) => {
-    const result = await ref.doc(uid).update({
-        stats,
-    });
+    try {
+        const result = await ref.doc(uid).update({
+            stats,
+        });
+    } catch (error) {
+        console.error('ERROR IN updateStats FIREBASEFUCS-->', error);
+    }
 };
