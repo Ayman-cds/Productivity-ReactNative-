@@ -39,7 +39,11 @@ export default function Home({ navigation, route }) {
 
     useEffect(() => {
         console.log(uid);
-        // const allData = getAllData('U11tsQ9sdfMDn8oUmoOe');
+        const allData = getAllData(uid);
+        if (allData) {
+            setUncompletedTasks(allData);
+            uncompletedTasks;
+        }
         // console.log('allData (Home component) ====>> ', allData);
         // setUncompletedTasks(allData.uncompletedTasks);
     }, []);
@@ -146,7 +150,7 @@ export default function Home({ navigation, route }) {
                         Uncompleted Tasks
                     </Text>
                     <ScrollView style={styles.uncompletedTasksScroll}>
-                        {uncompletedTasks.map((task) => {
+                        {taskItems.map((task) => {
                             return (
                                 <View style={styles.item}>
                                     <Text style={styles.taskLabel}>

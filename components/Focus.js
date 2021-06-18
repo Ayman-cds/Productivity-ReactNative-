@@ -10,8 +10,6 @@ import {
     Keyboard,
     CheckBox,
     Vibration,
-    Pressable,
-    ScrollView,
     Dimensions,
     PixelRatio,
 } from 'react-native';
@@ -54,6 +52,10 @@ function Focus({ navigation, route }) {
     const [timing, setTiming] = useState(false);
     const { name, uid } = route.params;
 
+    const hasInternet = async () => {
+        const result = await NetInfo.fetch();
+        console.log('NET INFORMATION===>>', result);
+    };
     const getTasks = async () => {
         try {
             const jsonTasks = await AsyncStorage.getItem('tasks');
@@ -104,8 +106,10 @@ function Focus({ navigation, route }) {
         console.log(taskItems);
     };
     useEffect(() => {
+        hasInternet();
         getTasks();
-        getAllData(uid);
+
+        // getAllData(uid);
     }, []);
     const renderItem = ({ item, index, drag, isActive }) => (
         <TouchableOpacity onLongPress={() => completedTask(index)}>
