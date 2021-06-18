@@ -71,9 +71,10 @@ const Login = ({ navigation }) => {
             }).start();
         }
     }, [startClicked]);
-
     function newUser(result) {
-        console.log('result===>>', result);
+        const user = firebase.auth().currentUser;
+
+        console.log('result===>>', user);
         ref.doc(user.uid).set({
             email: result.user.email,
             fName: result.user.givenName,
