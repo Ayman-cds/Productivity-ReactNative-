@@ -19,11 +19,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import firebase from 'firebase';
 import { Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-
+import { Entypo } from '@expo/vector-icons';
+import { getAllData } from './FirebaseFucs';
 export default function Home({ navigation, route }) {
     const [taskItems, setTaskItems] = useState([]);
-    const { name } = route.params;
-    console.log('NAME===>>', name);
+    const [uncompletedTasks, setUncompletedTasks] = useState([]);
+    const { name, email, uid } = route.params;
     const chartConfig = {
         backgroundGradientFrom: '#21E6C1',
         backgroundGradientFromOpacity: 0,
@@ -35,18 +36,31 @@ export default function Home({ navigation, route }) {
         barPercentage: 0.5,
         useShadowColorFromDataset: false, // optional
     };
+
+    useEffect(() => {
+        console.log(uid);
+        // const allData = getAllData('U11tsQ9sdfMDn8oUmoOe');
+        // console.log('allData (Home component) ====>> ', allData);
+        // setUncompletedTasks(allData.uncompletedTasks);
+    }, []);
     const getTasks = async () => {
         try {
             const jsonTasks = await AsyncStorage.getItem('tasks');
             const tasks = jsonTasks != null ? JSON.parse(jsonTasks) : [];
             setTaskItems(tasks);
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
+    };
+    const signOut = () => {
+        firebase.auth().signOut();
+        navigation.navigate('Login');
     };
     useEffect(() => {
         getTasks();
     }, []);
+
+    const tasks = uncompletedTasks;
     return (
         <View style={styles.container}>
             <LinearGradient
@@ -56,11 +70,16 @@ export default function Home({ navigation, route }) {
                 colors={['#071E3D', '#278EA5', '#21E6C1']}
                 style={styles.background}
             >
-                <Text style={styles.greeting}> Hi {name},</Text>
-                <Button
-                    title="Sign Out"
-                    onPress={() => firebase.auth().signOut()}
-                />
+                <View style={styles.greetingAndSignout}>
+                    <Text style={styles.greeting}> Hi {name},</Text>
+                    <Entypo
+                        onPress={signOut}
+                        name="log-out"
+                        style={styles.logout}
+                        size={34}
+                        color="white"
+                    />
+                </View>
                 <View style={styles.chart}>
                     <LineChart
                         data={{
@@ -127,7 +146,7 @@ export default function Home({ navigation, route }) {
                         Uncompleted Tasks
                     </Text>
                     <ScrollView style={styles.uncompletedTasksScroll}>
-                        {taskItems.map((task) => {
+                        {uncompletedTasks.map((task) => {
                             return (
                                 <View style={styles.item}>
                                     <Text style={styles.taskLabel}>
@@ -150,6 +169,16 @@ export default function Home({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
+    greetingAndSignout: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    logout: {
+        paddingTop: 25,
+        paddingRight: 10,
+        opacity: 0.7,
+    },
     item: {
         backgroundColor: '#39A6A3',
         marginTop: 10,

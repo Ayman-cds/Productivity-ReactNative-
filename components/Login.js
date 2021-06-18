@@ -73,31 +73,34 @@ const Login = ({ navigation }) => {
     }, [startClicked]);
 
     function newUser(result) {
-        ref.doc(result.user.uid).set({
+        console.log('result===>>', result);
+        ref.doc(user.uid).set({
             email: result.user.email,
             fName: result.user.givenName,
+            uncompletedTasks: [],
+            weekStats: [],
         });
-        console.log(
-            'ADDED TO DATABASE ****************************************************************'
-        );
-        console.log(ans);
     }
     function checkIfLoggedIn() {
         firebase.auth().onAuthStateChanged(function (user) {
             console.log('Auth state changed ');
             if (user) {
-                console.log(user);
-                navigation.navigate('Home', { name: user.displayName });
+                console.log('CHECK IF LOGGED INNNNNNNNNNNNNNNNNNN');
+                console.log('USER STUFFFF --->>>', user.uid);
+                navigation.navigate('Home', {
+                    name: user.displayName,
+                    uid: user.uid,
+                });
             }
         });
     }
-
+    // sP5rfWhsWmXNDIlUgFQ1LBXifLa2;
+    //uid": SIUXmBl2myTDmHPWtgXdcB5wi5M2
     function onPressGetStarted() {
         checkIfLoggedIn();
         setStartClicked(true);
     }
     function onSignIn(googleUser) {
-        console.log('Google Auth Response', googleUser);
         const unsubscribe = firebase
             .auth()
             .onAuthStateChanged(async (firebaseUser) => {
@@ -158,7 +161,6 @@ const Login = ({ navigation }) => {
                     }
                 );
                 onSignIn(result);
-                console.log(user);
                 const name = user.givenName;
                 navigation.navigate('Home', { name });
             }
@@ -174,11 +176,12 @@ const Login = ({ navigation }) => {
             const result = await firebase
                 .auth()
                 .signInWithEmailAndPassword(email, password);
-            console.log(result);
             navigation.navigate('Home', {
                 name: result.user.displayName,
                 email,
+                uid: result.user.uid,
             });
+            console.log('SIGN IN WITH EMAIL UID--->>', result.user.uid);
             setName(result.user.displayName);
         } catch (error) {
             console.log('SOMETHING WENT WRONG', error);
