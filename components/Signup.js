@@ -14,6 +14,7 @@ import { Entypo, AntDesign } from '@expo/vector-icons';
 import { Dimensions, PixelRatio } from 'react-native';
 import Button from './Button';
 import firebase from 'firebase';
+import { getAllData } from './FirebaseFucs';
 require('firebase/auth');
 
 const COLORS = {
@@ -84,7 +85,9 @@ const Signup = ({ navigation }) => {
                 displayName: name,
             });
             newUser(result);
-            navigation.navigate('Home', { name, email });
+            const userdata = getAllData(user.uid);
+
+            navigation.navigate('Home', { name, email, userData });
         } catch (error) {
             console.log('SOMETHING WENT WRONG', error);
         }

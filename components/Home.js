@@ -21,10 +21,12 @@ import { Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo } from '@expo/vector-icons';
 import { getAllData } from './FirebaseFucs';
+import useInterval from 'react-useinterval';
+
 export default function Home({ navigation, route }) {
     const [taskItems, setTaskItems] = useState([]);
     const [uncompletedTasks, setUncompletedTasks] = useState([]);
-    const { name, email, uid } = route.params;
+    const { name, email, userData, uid } = route.params;
     const chartConfig = {
         backgroundGradientFrom: '#21E6C1',
         backgroundGradientFromOpacity: 0,
@@ -36,17 +38,14 @@ export default function Home({ navigation, route }) {
         barPercentage: 0.5,
         useShadowColorFromDataset: false, // optional
     };
-
-    useEffect(() => {
-        console.log(uid);
-        const allData = getAllData(uid);
-        if (allData) {
-            setUncompletedTasks(allData);
-            uncompletedTasks;
-        }
-        // console.log('allData (Home component) ====>> ', allData);
-        // setUncompletedTasks(allData.uncompletedTasks);
-    }, []);
+    useInterval(() => {
+        let data = getAllData(uid);
+        console.log('DATA FROM USEINTERVAL===>>>>>', data);
+    }, 500);
+    // useEffect(() => {
+    //     const data = getAllData(uid);
+    //     console.log('USER DATA ===>>>', data);
+    // });
     const getTasks = async () => {
         try {
             const jsonTasks = await AsyncStorage.getItem('tasks');
