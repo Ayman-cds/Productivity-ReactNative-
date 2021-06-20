@@ -35,8 +35,11 @@ function Home(props) {
     const { name, email, userData, uid } = props.route.params;
     useEffect(() => {
         props.fetchUser();
-        console.log(props);
     }, []);
+    useEffect(() => {
+        setAllData(props.currentUser);
+        console.log('All Data ---->>>', allData);
+    }, [fetchUser()]);
     const getTasks = async () => {
         try {
             const jsonTasks = await AsyncStorage.getItem('tasks');
@@ -48,7 +51,7 @@ function Home(props) {
     };
     const signOut = () => {
         firebase.auth().signOut();
-        navigation.navigate('Login');
+        props.navigation.navigate('Login');
     };
 
     return (
