@@ -22,27 +22,24 @@ import { Entypo } from '@expo/vector-icons';
 import { getAllData } from './FirebaseFucs';
 import useInterval from 'react-useinterval';
 import * as firebase from 'firebase';
+import { connect } from 'react-redux';
+import { fetchUser } from '../redux/actions';
 
 import 'firebase/firestore';
+import { bindActionCreators } from 'redux';
 
-export default function Home({ navigation, route }) {
+function Home(props) {
     const [taskItems, setTaskItems] = useState([]);
     const [allData, setAllData] = useState([]);
     const [uncompletedTasks, setUncompletedTasks] = useState([]);
-    const { name, email, userData, uid } = route.params;
-
-    useInterval(() => {
-        firebase
-            .firestore()
-            .collection('users')
-            .doc(uid)
-            .onSnapshot((doc) => {
-                setAllData(doc.data());
-                if (allData.uncompletedTasks) {
-                    setUncompletedTasks(allData.uncompletedTasks);
-                }
-            });
-    }, 1000);
+    const { name, email, userData, uid } = props.route.params;
+    useEffect(() => {
+        props.fetchUser();
+    }, []);
+    useEffect(() => {
+        setAllData(props.currentUser);
+        console.log('All Data ---->>>', allData);
+    }, [fetchUser()]);
     const getTasks = async () => {
         try {
             const jsonTasks = await AsyncStorage.getItem('tasks');
@@ -54,11 +51,8 @@ export default function Home({ navigation, route }) {
     };
     const signOut = () => {
         firebase.auth().signOut();
-        navigation.navigate('Login');
+        props.navigation.navigate('Login');
     };
-    useEffect(() => {
-        getTasks();
-    }, []);
 
     return (
         <View style={styles.container}>
@@ -70,7 +64,7 @@ export default function Home({ navigation, route }) {
                 style={styles.background}
             >
                 <View style={styles.greetingAndSignout}>
-                    <Text style={styles.greeting}> Hi {name},</Text>
+                    <Text style={styles.greeting}> Hi ,</Text>
                     <Entypo
                         onPress={signOut}
                         name="log-out"
@@ -160,7 +154,7 @@ export default function Home({ navigation, route }) {
                         )}
                     </ScrollView>
                     <TouchableOpacity
-                        onPress={() => navigation.push('Focus', { name, uid })}
+                        onPress={() => navigation.push('Focus')}
                         style={styles.button}
                     >
                         <Text style={styles.buttonText}>FOCUS MODE</Text>
@@ -247,3 +241,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
 });
+const mapStateToProps = (store) => ({
+    currentUser: store.userState.currentUser,
+});
+const mapDispatchToProps = (dispatch) => ({
+    fetchUser: () => dispatch(fetchUser()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
