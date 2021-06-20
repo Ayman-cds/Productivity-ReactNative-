@@ -48,7 +48,10 @@ export default function Home({ navigation, route }) {
         .doc(uid)
         .onSnapshot((doc) => {
             setAllData(doc.data());
-            // setUncompletedTasks(allData.uncompletedTasks);
+            console.log(allData.uncompletedTasks);
+            if (allData.uncompletedTasks) {
+                setUncompletedTasks(allData.uncompletedTasks);
+            }
         });
 
     // async function getAllData() {
