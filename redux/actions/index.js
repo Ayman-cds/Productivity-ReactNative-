@@ -13,6 +13,7 @@ export function fetchUser() {
                         type: USER_STATE_CHANGE,
                         currentUser: snapshot.data(),
                     });
+                    console.log(snapshot);
                 } else {
                     console.log('THIS USER DOES NOT EXIST');
                 }

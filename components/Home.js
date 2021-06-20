@@ -22,27 +22,33 @@ import { Entypo } from '@expo/vector-icons';
 import { getAllData } from './FirebaseFucs';
 import useInterval from 'react-useinterval';
 import * as firebase from 'firebase';
+import { connect } from 'react-redux';
+import { fetchUser } from '../redux/actions';
 
 import 'firebase/firestore';
+import { bindActionCreators } from 'redux';
 
-export default function Home({ navigation, route }) {
+function Home({ navigation, route }) {
     const [taskItems, setTaskItems] = useState([]);
     const [allData, setAllData] = useState([]);
     const [uncompletedTasks, setUncompletedTasks] = useState([]);
     const { name, email, userData, uid } = route.params;
 
-    useInterval(() => {
-        firebase
-            .firestore()
-            .collection('users')
-            .doc(uid)
-            .onSnapshot((doc) => {
-                setAllData(doc.data());
-                if (allData.uncompletedTasks) {
-                    setUncompletedTasks(allData.uncompletedTasks);
-                }
-            });
-    }, 1000);
+    useEffect(() => {
+        fetchUser();
+    }, []);
+    // useInterval(() => {
+    //     firebase
+    //         .firestore()
+    //         .collection('users')
+    //         .doc(uid)
+    //         .onSnapshot((doc) => {
+    //             setAllData(doc.data());
+    //             if (allData.uncompletedTasks) {
+    //                 setUncompletedTasks(allData.uncompletedTasks);
+    //             }
+    //         });
+    // }, 1000);
     const getTasks = async () => {
         try {
             const jsonTasks = await AsyncStorage.getItem('tasks');
@@ -56,9 +62,6 @@ export default function Home({ navigation, route }) {
         firebase.auth().signOut();
         navigation.navigate('Login');
     };
-    useEffect(() => {
-        getTasks();
-    }, []);
 
     return (
         <View style={styles.container}>
@@ -247,3 +250,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
 });
+
+const mapDispatchToProps = (dispatch) =>
+    bindActionCreators({ fetchUser }, dispatch);
+
+export default connect(null, mapDispatchToProps)(Home);
