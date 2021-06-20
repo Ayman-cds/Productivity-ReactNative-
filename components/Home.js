@@ -42,18 +42,6 @@ export default function Home({ navigation, route }) {
         useShadowColorFromDataset: false, // optional
     };
 
-    const allUserData = firebase
-        .firestore()
-        .collection('users')
-        .doc(uid)
-        .onSnapshot((doc) => {
-            setAllData(doc.data());
-            console.log(allData.uncompletedTasks);
-            if (allData.uncompletedTasks) {
-                setUncompletedTasks(allData.uncompletedTasks);
-            }
-        });
-
     // async function getAllData() {
     //     const results = await firebase
     //         .firestore()
@@ -66,10 +54,19 @@ export default function Home({ navigation, route }) {
     //     console.log('GET ALL DATAAAA A-->', allData);
     //     // setUncompletedTasks(allData.uncompletedTasks);
     // }
-    useEffect(() => {
-        // getAllData();
-        console.log('ALL DATA ====>>', allData);
-    }, []);
+    useInterval(() => {
+        firebase
+            .firestore()
+            .collection('users')
+            .doc(uid)
+            .onSnapshot((doc) => {
+                setAllData(doc.data());
+                console.log(allData.uncompletedTasks);
+                if (allData.uncompletedTasks) {
+                    setUncompletedTasks(allData.uncompletedTasks);
+                }
+            });
+    }, 2000);
     const getTasks = async () => {
         try {
             const jsonTasks = await AsyncStorage.getItem('tasks');
