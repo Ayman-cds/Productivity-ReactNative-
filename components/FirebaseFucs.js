@@ -8,13 +8,17 @@ if (firebase.apps.length === 0) {
 const ref = firebase.firestore().collection('users');
 
 export function getAllData(uid) {
-    ref.onSnapshot((querySnapshot) => {
-        const data = [];
-        querySnapshot.forEach((doc) => {
-            items2.push(doc.data());
-        });
+    try {
+        let data = [];
+        ref.doc(uid)
+            .get()
+            .then((result) => {
+                data = result.data();
+            });
         return data;
-    });
+    } catch (error) {
+        console.error('ERROR IN getAllData FIREBASEFUCS-->', error);
+    }
 }
 
 export const updateUncompletedTasks = async (uid, tasks) => {

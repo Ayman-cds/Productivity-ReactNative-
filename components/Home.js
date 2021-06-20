@@ -16,15 +16,18 @@ import {
     StackedBarChart,
 } from 'react-native-chart-kit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import firebase from 'firebase';
 import { Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo } from '@expo/vector-icons';
 import { getAllData } from './FirebaseFucs';
 import useInterval from 'react-useinterval';
+import * as firebase from 'firebase';
+
+import 'firebase/firestore';
 
 export default function Home({ navigation, route }) {
     const [taskItems, setTaskItems] = useState([]);
+    const [allData, setAllData] = useState([]);
     const [uncompletedTasks, setUncompletedTasks] = useState([]);
     const { name, email, userData, uid } = route.params;
     const chartConfig = {
@@ -38,14 +41,32 @@ export default function Home({ navigation, route }) {
         barPercentage: 0.5,
         useShadowColorFromDataset: false, // optional
     };
-    useInterval(() => {
-        let data = getAllData(uid);
-        console.log('DATA FROM USEINTERVAL===>>>>>', data);
-    }, 500);
-    // useEffect(() => {
-    //     const data = getAllData(uid);
-    //     console.log('USER DATA ===>>>', data);
-    // });
+
+    const allUserData = firebase
+        .firestore()
+        .collection('users')
+        .doc(uid)
+        .onSnapshot((doc) => {
+            setAllData(doc.data());
+            // setUncompletedTasks(allData.uncompletedTasks);
+        });
+
+    // async function getAllData() {
+    //     const results = await firebase
+    //         .firestore()
+    //         .collection('users')
+    //         .doc(uid)
+    //         .get();
+
+    //     // const results = await ref.doc(uid).get();
+    //     setAllData(results.data());
+    //     console.log('GET ALL DATAAAA A-->', allData);
+    //     // setUncompletedTasks(allData.uncompletedTasks);
+    // }
+    useEffect(() => {
+        // getAllData();
+        console.log('ALL DATA ====>>', allData);
+    }, []);
     const getTasks = async () => {
         try {
             const jsonTasks = await AsyncStorage.getItem('tasks');
@@ -59,11 +80,11 @@ export default function Home({ navigation, route }) {
         firebase.auth().signOut();
         navigation.navigate('Login');
     };
+    // console.log(allData);
     useEffect(() => {
         getTasks();
     }, []);
 
-    const tasks = uncompletedTasks;
     return (
         <View style={styles.container}>
             <LinearGradient
@@ -149,15 +170,19 @@ export default function Home({ navigation, route }) {
                         Uncompleted Tasks
                     </Text>
                     <ScrollView style={styles.uncompletedTasksScroll}>
-                        {taskItems.map((task) => {
-                            return (
-                                <View style={styles.item}>
-                                    <Text style={styles.taskLabel}>
-                                        {task.label}
-                                    </Text>
-                                </View>
-                            );
-                        })}
+                        {uncompletedTasks.length ? (
+                            uncompletedTasks.map((task) => {
+                                return (
+                                    <View style={styles.item}>
+                                        <Text style={styles.taskLabel}>
+                                            {task.label}
+                                        </Text>
+                                    </View>
+                                );
+                            })
+                        ) : (
+                            <Text>No Uncompleted tasks </Text>
+                        )}
                     </ScrollView>
                     <TouchableOpacity
                         onPress={() => navigation.push('Focus', { name, uid })}
