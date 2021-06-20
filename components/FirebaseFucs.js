@@ -7,11 +7,14 @@ if (firebase.apps.length === 0) {
 }
 const ref = firebase.firestore().collection('users');
 
-export async function getAllData(uid) {
+export function getAllData(uid) {
     try {
-        const result = await ref.doc(uid).get();
-        const data = result.data();
-        console.log('DATAAAAAAAA---->>>>>', data);
+        let data = [];
+        ref.doc(uid)
+            .get()
+            .then((result) => {
+                data = result.data();
+            });
         return data;
     } catch (error) {
         console.error('ERROR IN getAllData FIREBASEFUCS-->', error);

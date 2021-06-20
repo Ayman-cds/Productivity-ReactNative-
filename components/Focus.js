@@ -21,6 +21,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { getAllData } from './FirebaseFucs';
 import NetInfo from '@react-native-community/netinfo';
+import { MaterialIcons } from '@expo/vector-icons';
 
 console.disableYellowBox = true;
 const COLORS = {
@@ -52,10 +53,10 @@ function Focus({ navigation, route }) {
     const [timing, setTiming] = useState(false);
     const { name, uid } = route.params;
 
-    const hasInternet = async () => {
-        const result = await NetInfo.fetch();
-        console.log('NET INFORMATION===>>', result);
-    };
+    // const hasInternet = async () => {
+    //     const result = await NetInfo.fetch();
+    //     console.log('NET INFORMATION===>>', result);
+    // };
     const getTasks = async () => {
         try {
             const jsonTasks = await AsyncStorage.getItem('tasks');
@@ -74,20 +75,22 @@ function Focus({ navigation, route }) {
         }
     };
 
-    const handleAddTask = async () => {
+    const handleAddTask = () => {
         Vibration.vibrate(50);
         Keyboard.dismiss();
 
-        let newTaskObj = {
-            id: uuid.v4(),
-            label: task,
-            isChecked: false,
-        };
-        let newTasks = [...taskItems, newTaskObj];
-        setTaskItems(newTasks);
-        console.log(newTasks);
-        setTask('');
-        storeTasks(newTasks);
+        if (task !== '') {
+            let newTaskObj = {
+                id: uuid.v4(),
+                label: task,
+                isChecked: false,
+            };
+            let newTasks = [...taskItems, newTaskObj];
+            setTaskItems(newTasks);
+            console.log(newTasks);
+            setTask('');
+            storeTasks(newTasks);
+        }
     };
 
     const completedTask = async (index) => {
@@ -106,7 +109,7 @@ function Focus({ navigation, route }) {
         console.log(taskItems);
     };
     useEffect(() => {
-        hasInternet();
+        // hasInternet();
         getTasks();
 
         // getAllData(uid);
@@ -122,16 +125,16 @@ function Focus({ navigation, route }) {
         </TouchableOpacity>
     );
 
-    const handleCheck = (label) => {
-        let updated = [...taskItems];
-        updated = updated.map((task, index) => {
-            if (label === task.label) {
-                return { ...task, isCheked: !task.isCheked };
-            }
-            return task;
-        });
-        setTaskItems(updated);
-    };
+    // const handleCheck = (label) => {
+    //     let updated = [...taskItems];
+    //     updated = updated.map((task, index) => {
+    //         if (label === task.label) {
+    //             return { ...task, isCheked: !task.isCheked };
+    //         }
+    //         return task;
+    //     });
+    //     setTaskItems(updated);
+    // };
     return (
         <LinearGradient
             Background
@@ -151,6 +154,12 @@ function Focus({ navigation, route }) {
                 onDragEnd={({ data }) => setTaskItems(data)}
             />
             <View style={styles.textInput}>
+                <MaterialIcons
+                    name="delete-sweep"
+                    size={24}
+                    color="black"
+                    onPress={deleteAll}
+                />
                 <KeyboardAvoidingView
                     behavior={Platform.os === 'ios' ? 'padding' : 'height'}
                     style={styles.addNewTask}
@@ -159,6 +168,7 @@ function Focus({ navigation, route }) {
                         style={styles.textInputStyle}
                         placeholder="New Task"
                         placeholderTextColor="#fff"
+                        onChangeText={(task) => setTask(task)}
                     />
                     <TouchableOpacity
                         style={styles.addWrapper}

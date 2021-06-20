@@ -16,37 +16,33 @@ import {
     StackedBarChart,
 } from 'react-native-chart-kit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import firebase from 'firebase';
 import { Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo } from '@expo/vector-icons';
 import { getAllData } from './FirebaseFucs';
+import useInterval from 'react-useinterval';
+import * as firebase from 'firebase';
+
+import 'firebase/firestore';
+
 export default function Home({ navigation, route }) {
     const [taskItems, setTaskItems] = useState([]);
+    const [allData, setAllData] = useState([]);
     const [uncompletedTasks, setUncompletedTasks] = useState([]);
-    const { name, email, uid } = route.params;
-    const chartConfig = {
-        backgroundGradientFrom: '#21E6C1',
-        backgroundGradientFromOpacity: 0,
-        backgroundGradientTo: '#071E3D',
-        backgroundGradientToOpacity: 1,
-        opacity: 1,
-        color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-        strokeWidth: 2, // optional, default 3
-        barPercentage: 0.5,
-        useShadowColorFromDataset: false, // optional
-    };
+    const { name, email, userData, uid } = route.params;
 
-    useEffect(() => {
-        console.log(uid);
-        const allData = getAllData(uid);
-        if (allData) {
-            setUncompletedTasks(allData);
-            uncompletedTasks;
-        }
-        // console.log('allData (Home component) ====>> ', allData);
-        // setUncompletedTasks(allData.uncompletedTasks);
-    }, []);
+    useInterval(() => {
+        firebase
+            .firestore()
+            .collection('users')
+            .doc(uid)
+            .onSnapshot((doc) => {
+                setAllData(doc.data());
+                if (allData.uncompletedTasks) {
+                    setUncompletedTasks(allData.uncompletedTasks);
+                }
+            });
+    }, 1000);
     const getTasks = async () => {
         try {
             const jsonTasks = await AsyncStorage.getItem('tasks');
@@ -64,7 +60,6 @@ export default function Home({ navigation, route }) {
         getTasks();
     }, []);
 
-    const tasks = uncompletedTasks;
     return (
         <View style={styles.container}>
             <LinearGradient
@@ -150,15 +145,19 @@ export default function Home({ navigation, route }) {
                         Uncompleted Tasks
                     </Text>
                     <ScrollView style={styles.uncompletedTasksScroll}>
-                        {taskItems.map((task) => {
-                            return (
-                                <View style={styles.item}>
-                                    <Text style={styles.taskLabel}>
-                                        {task.label}
-                                    </Text>
-                                </View>
-                            );
-                        })}
+                        {uncompletedTasks.length ? (
+                            uncompletedTasks.map((task) => {
+                                return (
+                                    <View style={styles.item}>
+                                        <Text style={styles.taskLabel}>
+                                            {task.label}
+                                        </Text>
+                                    </View>
+                                );
+                            })
+                        ) : (
+                            <Text>No Uncompleted tasks </Text>
+                        )}
                     </ScrollView>
                     <TouchableOpacity
                         onPress={() => navigation.push('Focus', { name, uid })}
