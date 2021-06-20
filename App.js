@@ -7,6 +7,10 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import rootReducer from './redux/reducers';
 import thunk from 'redux-thunk';
+import { YellowBox } from 'react-native';
+
+YellowBox.ignoreWarnings(['Require cycle']);
+
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
 if (firebase.apps.length === 0) {

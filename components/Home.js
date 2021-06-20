@@ -28,27 +28,15 @@ import { fetchUser } from '../redux/actions';
 import 'firebase/firestore';
 import { bindActionCreators } from 'redux';
 
-function Home({ navigation, route }) {
+function Home(props) {
     const [taskItems, setTaskItems] = useState([]);
     const [allData, setAllData] = useState([]);
     const [uncompletedTasks, setUncompletedTasks] = useState([]);
-    const { name, email, userData, uid } = route.params;
-
+    const { name, email, userData, uid } = props.route.params;
     useEffect(() => {
-        fetchUser();
+        props.fetchUser();
+        console.log(props);
     }, []);
-    // useInterval(() => {
-    //     firebase
-    //         .firestore()
-    //         .collection('users')
-    //         .doc(uid)
-    //         .onSnapshot((doc) => {
-    //             setAllData(doc.data());
-    //             if (allData.uncompletedTasks) {
-    //                 setUncompletedTasks(allData.uncompletedTasks);
-    //             }
-    //         });
-    // }, 1000);
     const getTasks = async () => {
         try {
             const jsonTasks = await AsyncStorage.getItem('tasks');
@@ -73,7 +61,7 @@ function Home({ navigation, route }) {
                 style={styles.background}
             >
                 <View style={styles.greetingAndSignout}>
-                    <Text style={styles.greeting}> Hi {name},</Text>
+                    <Text style={styles.greeting}> Hi ,</Text>
                     <Entypo
                         onPress={signOut}
                         name="log-out"
@@ -163,7 +151,7 @@ function Home({ navigation, route }) {
                         )}
                     </ScrollView>
                     <TouchableOpacity
-                        onPress={() => navigation.push('Focus', { name, uid })}
+                        onPress={() => navigation.push('Focus')}
                         style={styles.button}
                     >
                         <Text style={styles.buttonText}>FOCUS MODE</Text>
@@ -250,8 +238,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
 });
+const mapStateToProps = (store) => ({
+    currentUser: store.userState.currentUser,
+});
+const mapDispatchToProps = (dispatch) => ({
+    fetchUser: () => dispatch(fetchUser()),
+});
 
-const mapDispatchToProps = (dispatch) =>
-    bindActionCreators({ fetchUser }, dispatch);
-
-export default connect(null, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
