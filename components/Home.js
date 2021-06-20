@@ -30,30 +30,7 @@ export default function Home({ navigation, route }) {
     const [allData, setAllData] = useState([]);
     const [uncompletedTasks, setUncompletedTasks] = useState([]);
     const { name, email, userData, uid } = route.params;
-    const chartConfig = {
-        backgroundGradientFrom: '#21E6C1',
-        backgroundGradientFromOpacity: 0,
-        backgroundGradientTo: '#071E3D',
-        backgroundGradientToOpacity: 1,
-        opacity: 1,
-        color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-        strokeWidth: 2, // optional, default 3
-        barPercentage: 0.5,
-        useShadowColorFromDataset: false, // optional
-    };
 
-    // async function getAllData() {
-    //     const results = await firebase
-    //         .firestore()
-    //         .collection('users')
-    //         .doc(uid)
-    //         .get();
-
-    //     // const results = await ref.doc(uid).get();
-    //     setAllData(results.data());
-    //     console.log('GET ALL DATAAAA A-->', allData);
-    //     // setUncompletedTasks(allData.uncompletedTasks);
-    // }
     useInterval(() => {
         firebase
             .firestore()
@@ -61,12 +38,11 @@ export default function Home({ navigation, route }) {
             .doc(uid)
             .onSnapshot((doc) => {
                 setAllData(doc.data());
-                console.log(allData.uncompletedTasks);
                 if (allData.uncompletedTasks) {
                     setUncompletedTasks(allData.uncompletedTasks);
                 }
             });
-    }, 2000);
+    }, 1000);
     const getTasks = async () => {
         try {
             const jsonTasks = await AsyncStorage.getItem('tasks');
@@ -80,7 +56,6 @@ export default function Home({ navigation, route }) {
         firebase.auth().signOut();
         navigation.navigate('Login');
     };
-    // console.log(allData);
     useEffect(() => {
         getTasks();
     }, []);
