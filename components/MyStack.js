@@ -7,11 +7,7 @@ import Signup from './Signup';
 const Stack = createStackNavigator();
 const MyStack = () => {
     return (
-        <Stack.Navigator
-            screenOptions={{ headerShown: false }}
-            // cardOverlayEnabled="true"
-            // animation="timing"
-        >
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Signup" component={Signup} />
             <Stack.Screen name="Home" component={Home} />

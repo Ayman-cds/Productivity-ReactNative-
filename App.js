@@ -8,7 +8,7 @@ import { createStore, applyMiddleware } from 'redux';
 import rootReducer from './redux/reducers';
 import thunk from 'redux-thunk';
 import { YellowBox } from 'react-native';
-
+import Home from './components/Home';
 YellowBox.ignoreWarnings(['Require cycle']);
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
