@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-
+import { USER_STATE_CHANGE } from '../constants';
 export function fetchUser() {
     return (dispatch) => {
         firebase
@@ -13,6 +13,8 @@ export function fetchUser() {
                         type: USER_STATE_CHANGE,
                         currentUser: snapshot.data(),
                     });
+                } else {
+                    console.log('THIS USER DOES NOT EXIST');
                 }
             });
     };
