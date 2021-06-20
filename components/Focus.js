@@ -53,10 +53,10 @@ function Focus({ navigation, route }) {
     const [timing, setTiming] = useState(false);
     const { name, uid } = route.params;
 
-    const hasInternet = async () => {
-        const result = await NetInfo.fetch();
-        console.log('NET INFORMATION===>>', result);
-    };
+    // const hasInternet = async () => {
+    //     const result = await NetInfo.fetch();
+    //     console.log('NET INFORMATION===>>', result);
+    // };
     const getTasks = async () => {
         try {
             const jsonTasks = await AsyncStorage.getItem('tasks');
@@ -86,7 +86,7 @@ function Focus({ navigation, route }) {
                 isChecked: false,
             };
             let newTasks = [...taskItems, newTaskObj];
-            setTaskItems('NEW TASKS --->', newTasks);
+            setTaskItems(newTasks);
             console.log(newTasks);
             setTask('');
             storeTasks(newTasks);
@@ -154,6 +154,12 @@ function Focus({ navigation, route }) {
                 onDragEnd={({ data }) => setTaskItems(data)}
             />
             <View style={styles.textInput}>
+                <MaterialIcons
+                    name="delete-sweep"
+                    size={24}
+                    color="black"
+                    onPress={deleteAll}
+                />
                 <KeyboardAvoidingView
                     behavior={Platform.os === 'ios' ? 'padding' : 'height'}
                     style={styles.addNewTask}
