@@ -18,7 +18,6 @@ import * as Google from 'expo-google-app-auth';
 import firebaseConfig from './FirebaseConfig';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
-import { getAllData } from './FirebaseFucs';
 
 require('firebase/auth');
 const COLORS = {
@@ -89,11 +88,8 @@ const Login = ({ navigation }) => {
             if (user) {
                 console.log('CHECK IF LOGGED INNNNNNNNNNNNNNNNNNN');
                 console.log('USER STUFFFF --->>>', user.uid);
-                const userData = getAllData(user.uid);
-
                 navigation.navigate('Home', {
                     name: user.displayName,
-                    userData,
                     uid: user.uid,
                 });
             }
