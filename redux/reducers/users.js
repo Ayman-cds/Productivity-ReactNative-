@@ -1,4 +1,4 @@
-import { USER_COMPLETEDTASKS_CHANGE, USER_STATE_CHANGE } from '../constants';
+import { USER_COMPLETED_TASKS_CHANGE, USER_STATE_CHANGE } from '../constants';
 
 const initialState = {
     currentUser: null,
@@ -13,7 +13,7 @@ export const user = (state = initialState, action) => {
                 ...state,
                 currentUser: action.currentUser,
             };
-        case USER_COMPLETEDTASKS_CHANGE:
+        case USER_COMPLETED_TASKS_CHANGE:
             return {
                 ...state,
                 uncompletedTasks: action.uncompletedTasks,
