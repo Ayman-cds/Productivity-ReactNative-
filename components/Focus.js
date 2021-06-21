@@ -100,7 +100,7 @@ function Focus(props) {
         let itemCopy = [...taskItems];
         itemCopy.splice(index, 1);
         setTaskItems(itemCopy);
-        storeTasks(taskItems);
+        storeTasks(itemCopy);
         updateUserTasks(itemCopy);
     };
 

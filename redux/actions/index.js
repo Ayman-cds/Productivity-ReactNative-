@@ -25,9 +25,11 @@ export function fetchUser() {
 }
 
 export function updateUserTasks(tasks) {
-    firebase
-        .firestore()
-        .collection('users')
-        .doc(firebase.auth().currentUser.uid)
-        .update({ uncompletedTasks: tasks });
+    return (dispatch) => {
+        firebase
+            .firestore()
+            .collection('users')
+            .doc(firebase.auth().currentUser.uid)
+            .update({ uncompletedTasks: tasks });
+    };
 }
