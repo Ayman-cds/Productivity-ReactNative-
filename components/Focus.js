@@ -23,7 +23,7 @@ import { getAllData } from './FirebaseFucs';
 import NetInfo from '@react-native-community/netinfo';
 import { MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
-
+import { updateUserTasks } from '../redux/actions';
 console.disableYellowBox = true;
 const COLORS = {
     WHITE: '#fff',
@@ -62,6 +62,10 @@ function Focus(props) {
             console.log(error);
         }
     };
+
+    // const getTasks = () => {
+    //     setTaskItems(props.currentUser.uncompletedTasks);
+    // };
     const storeTasks = async (tasksArr) => {
         try {
             const jsonTasks = JSON.stringify(tasksArr);
@@ -79,13 +83,13 @@ function Focus(props) {
             let newTaskObj = {
                 id: uuid.v4(),
                 label: task,
-                isChecked: false,
             };
             let newTasks = [...taskItems, newTaskObj];
             setTaskItems(newTasks);
             console.log(newTasks);
             setTask('');
             storeTasks(newTasks);
+            updateUserTasks(newTasks);
         }
     };
 
@@ -97,11 +101,14 @@ function Focus(props) {
         itemCopy.splice(index, 1);
         setTaskItems(itemCopy);
         storeTasks(taskItems);
+        updateUserTasks(itemCopy);
     };
 
     const deleteAll = async () => {
         setTaskItems([]);
         storeTasks(taskItems);
+        updateUserTasks(taskItems);
+
         console.log(taskItems);
     };
     useEffect(() => {
@@ -136,7 +143,7 @@ function Focus(props) {
                 style={styles.list}
                 data={taskItems}
                 renderItem={renderItem}
-                keyExtractor={(item, index) => item.id.toString()}
+                keyExtractor={(item) => item.id.toString()}
                 onDragEnd={({ data }) => setTaskItems(data)}
             />
             <View style={styles.textInput}>
