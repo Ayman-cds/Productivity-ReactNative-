@@ -22,6 +22,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { getAllData } from './FirebaseFucs';
 import NetInfo from '@react-native-community/netinfo';
 import { MaterialIcons } from '@expo/vector-icons';
+import { connect } from 'react-redux';
 
 console.disableYellowBox = true;
 const COLORS = {
@@ -47,16 +48,11 @@ const wp = (widthPercent) => {
 const hp = (heightPercent) => {
     return PixelRatio.roundToNearestPixel((screenHeight * heightPercent) / 100);
 };
-function Focus({ navigation, route }) {
+function Focus(props) {
     const [task, setTask] = useState('');
     const [taskItems, setTaskItems] = useState([]);
     const [timing, setTiming] = useState(false);
-    const { name, uid } = route.params;
-
-    // const hasInternet = async () => {
-    //     const result = await NetInfo.fetch();
-    //     console.log('NET INFORMATION===>>', result);
-    // };
+    // const { name, uid } = props.route.params;
     const getTasks = async () => {
         try {
             const jsonTasks = await AsyncStorage.getItem('tasks');
@@ -124,17 +120,7 @@ function Focus({ navigation, route }) {
             </View>
         </TouchableOpacity>
     );
-
-    // const handleCheck = (label) => {
-    //     let updated = [...taskItems];
-    //     updated = updated.map((task, index) => {
-    //         if (label === task.label) {
-    //             return { ...task, isCheked: !task.isCheked };
-    //         }
-    //         return task;
-    //     });
-    //     setTaskItems(updated);
-    // };
+    console.log('current user ===>>>', props.currentUser);
     return (
         <LinearGradient
             Background
@@ -143,7 +129,7 @@ function Focus({ navigation, route }) {
             colors={['#071E3D', '#278EA5', '#21E6C1']}
             style={styles.background}
         >
-            <TouchableOpacity onLongPress={() => navigation.push('Home')}>
+            <TouchableOpacity onLongPress={() => props.navigation.push('Home')}>
                 <Pomodoro />
             </TouchableOpacity>
             <DraggableFlatList
@@ -272,4 +258,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Focus;
+const mapStateToProps = (store) => ({
+    currentUser: store.userState.currentUser,
+});
+export default connect(mapStateToProps)(Focus);

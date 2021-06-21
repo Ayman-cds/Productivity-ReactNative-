@@ -38,6 +38,9 @@ function Home(props) {
     }, []);
     useEffect(() => {
         setAllData(props.currentUser);
+        if (allData) {
+            setUncompletedTasks(allData.uncompletedTasks);
+        }
         console.log('All Data ---->>>', allData);
     }, [fetchUser()]);
     const getTasks = async () => {
@@ -139,7 +142,7 @@ function Home(props) {
                         Uncompleted Tasks
                     </Text>
                     <ScrollView style={styles.uncompletedTasksScroll}>
-                        {uncompletedTasks.length ? (
+                        {uncompletedTasks ? (
                             uncompletedTasks.map((task) => {
                                 return (
                                     <View style={styles.item}>
@@ -154,7 +157,7 @@ function Home(props) {
                         )}
                     </ScrollView>
                     <TouchableOpacity
-                        onPress={() => navigation.push('Focus')}
+                        onPress={() => props.navigation.push('Focus')}
                         style={styles.button}
                     >
                         <Text style={styles.buttonText}>FOCUS MODE</Text>
