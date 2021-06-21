@@ -76,6 +76,7 @@ function Focus(props) {
         Vibration.vibrate(50);
         Keyboard.dismiss();
 
+        setTask('');
         if (task !== '') {
             let newTaskObj = {
                 id: uuid.v4(),
@@ -84,7 +85,6 @@ function Focus(props) {
             let newTasks = [...taskItems, newTaskObj];
             setTaskItems(newTasks);
             console.log(newTasks);
-            setTask('');
             storeTasks(newTasks);
             props.updateUserTasks(newTasks);
         }
@@ -109,10 +109,7 @@ function Focus(props) {
         console.log(taskItems);
     };
     useEffect(() => {
-        // hasInternet();
         getTasks();
-
-        // getAllData(uid);
     }, []);
     const renderItem = ({ item, index, drag, isActive }) => (
         <TouchableOpacity onLongPress={() => completedTask(index)}>
@@ -157,6 +154,7 @@ function Focus(props) {
                     <TextInput
                         style={styles.textInputStyle}
                         placeholder="New Task"
+                        value={task}
                         placeholderTextColor="#fff"
                         onChangeText={(task) => setTask(task)}
                     />
@@ -246,14 +244,12 @@ const styles = StyleSheet.create({
         width: wp(70),
         height: hp(7),
         opacity: 0.8,
-        // backgroundColor: COLORS.GRADIENT_OPACITY,
         alignSelf: 'center',
         textAlign: 'center',
         marginVertical: hp(2),
         color: COLORS.WHITE,
         fontSize: wp(4),
         letterSpacing: wp(0.1),
-        // fontFamily: 'Montserrat',
         shadowOffset: { width: 0, height: 6 },
         shadowOpacity: 0.8,
         shadowRadius: 5,

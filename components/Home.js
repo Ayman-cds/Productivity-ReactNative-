@@ -67,7 +67,7 @@ function Home(props) {
                 style={styles.background}
             >
                 <View style={styles.greetingAndSignout}>
-                    <Text style={styles.greeting}> Hi ,</Text>
+                    <Text style={styles.greeting}> Hi {name},</Text>
                     <Entypo
                         onPress={signOut}
                         name="log-out"
