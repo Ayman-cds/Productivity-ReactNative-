@@ -130,7 +130,9 @@ function Focus(props) {
             colors={['#071E3D', '#278EA5', '#21E6C1']}
             style={styles.background}
         >
-            <TouchableOpacity onLongPress={() => props.navigation.push('Home')}>
+            <TouchableOpacity
+                onLongPress={() => props.navigation.navigate('Home')}
+            >
                 <Pomodoro />
             </TouchableOpacity>
             <DraggableFlatList

@@ -6,6 +6,7 @@ import {
     Button,
     ScrollView,
     TouchableOpacity,
+    ActivityIndicator,
 } from 'react-native';
 import {
     LineChart,
@@ -142,7 +143,7 @@ function Home(props) {
                         Uncompleted Tasks
                     </Text>
                     <ScrollView style={styles.uncompletedTasksScroll}>
-                        {uncompletedTasks ? (
+                        {allData ? (
                             uncompletedTasks.map((task) => {
                                 return (
                                     <View style={styles.item}>
@@ -153,7 +154,7 @@ function Home(props) {
                                 );
                             })
                         ) : (
-                            <Text>No Uncompleted tasks </Text>
+                            <ActivityIndicator size="large" color="#071E3D" />
                         )}
                     </ScrollView>
                     <TouchableOpacity
