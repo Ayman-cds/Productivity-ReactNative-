@@ -63,9 +63,6 @@ function Focus(props) {
         }
     };
 
-    // const getTasks = () => {
-    //     setTaskItems(props.currentUser.uncompletedTasks);
-    // };
     const storeTasks = async (tasksArr) => {
         try {
             const jsonTasks = JSON.stringify(tasksArr);
@@ -89,7 +86,7 @@ function Focus(props) {
             console.log(newTasks);
             setTask('');
             storeTasks(newTasks);
-            updateUserTasks(newTasks);
+            props.updateUserTasks(newTasks);
         }
     };
 
@@ -101,13 +98,13 @@ function Focus(props) {
         itemCopy.splice(index, 1);
         setTaskItems(itemCopy);
         storeTasks(itemCopy);
-        updateUserTasks(itemCopy);
+        props.updateUserTasks(itemCopy);
     };
 
     const deleteAll = async () => {
         setTaskItems([]);
         storeTasks(taskItems);
-        updateUserTasks(taskItems);
+        props.updateUserTasks(taskItems);
 
         console.log(taskItems);
     };
@@ -127,7 +124,7 @@ function Focus(props) {
             </View>
         </TouchableOpacity>
     );
-    console.log('current user ===>>>', props.currentUser);
+    console.log('current user ===>>>', props);
     return (
         <LinearGradient
             Background
@@ -266,6 +263,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (store) => ({
+    uncompletedTasks: store.userState.uncompletedTasks,
     currentUser: store.userState.currentUser,
 });
-export default connect(mapStateToProps)(Focus);
+const mapDispatchToProps = (dispatch) => ({
+    updateUserTasks: (tasks) => dispatch(updateUserTasks(tasks)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Focus);

@@ -39,7 +39,7 @@ function Home(props) {
     useEffect(() => {
         setAllData(props.currentUser);
         if (allData) {
-            setUncompletedTasks(allData.uncompletedTasks);
+            setUncompletedTasks(props.uncompletedTasks);
         }
         console.log('All Data ---->>>', allData);
     }, [fetchUser()]);
@@ -246,6 +246,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (store) => ({
     currentUser: store.userState.currentUser,
+    uncompletedTasks: store.userState.uncompletedTasks,
 });
 const mapDispatchToProps = (dispatch) => ({
     fetchUser: () => dispatch(fetchUser()),
