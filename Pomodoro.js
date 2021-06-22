@@ -18,8 +18,10 @@ function Pomodoro(props) {
     const [reset, setReset] = useState(false);
     const [focusTime, setFocusTime] = useState(0);
     useEffect(() => {
-        props.updateFocusTime();
-        console.log(props);
+        if (minutes !== 24 && minutes !== 25) {
+            props.updateFocusTime();
+            console.log(props);
+        }
     }, [minutes]);
     if (start) {
         let interval = setInterval(() => {
@@ -39,7 +41,7 @@ function Pomodoro(props) {
             } else {
                 setSeconds(seconds - 1);
             }
-        }, 250);
+        }, 100);
     }
     const minTimer = minutes < 10 ? `0${minutes}` : minutes;
     const secTimer = seconds < 10 ? `0${seconds}` : seconds;

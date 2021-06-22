@@ -32,6 +32,8 @@ function Home(props) {
     const [allData, setAllData] = useState([]);
     const [uncompletedTasks, setUncompletedTasks] = useState([]);
     const { name } = props.route.params;
+    let hrs = Math.floor(props.focusTime / 60);
+    let mins = props.focusTime - hrs * 60;
     useEffect(() => {
         props.fetchUser();
     }, []);
@@ -40,7 +42,6 @@ function Home(props) {
         if (allData) {
             setUncompletedTasks(props.uncompletedTasks);
         }
-        console.log('All Data ---->>>', allData);
     }, [fetchUser()]);
     const getTasks = async () => {
         try {
@@ -78,7 +79,9 @@ function Home(props) {
                 <ScrollView horizontal={true}>
                     <View style={styles.dailyStatsItem}>
                         <Text style={styles.dailyStats}>Daily Stats:</Text>
-                        <Text style={styles.dailyStatsText}>1h 20m</Text>
+                        <Text
+                            style={styles.dailyStatsText}
+                        >{` ${hrs}h ${mins}m`}</Text>
                         <Text style={styles.dailyStatsPercentage}>
                             20% Greater Than Average
                         </Text>
@@ -294,6 +297,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (store) => ({
     currentUser: store.userState.currentUser,
     uncompletedTasks: store.userState.uncompletedTasks,
+    focusTime: store.userState.focusTime,
 });
 const mapDispatchToProps = (dispatch) => ({
     fetchUser: () => dispatch(fetchUser()),
