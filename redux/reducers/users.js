@@ -26,7 +26,7 @@ export const user = (state = initialState, action) => {
         case UPDATE_FOCUS_TIME:
             return {
                 ...state,
-                focusTime: state.focusTime + action.focusTime,
+                focusTime: state.focusTime + 1,
             };
         default:
             return state;

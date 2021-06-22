@@ -1,5 +1,9 @@
 import firebase from 'firebase';
-import { USER_COMPLETED_TASKS_CHANGE, USER_STATE_CHANGE } from '../constants';
+import {
+    USER_COMPLETED_TASKS_CHANGE,
+    USER_STATE_CHANGE,
+    UPDATE_FOCUS_TIME,
+} from '../constants';
 
 export function fetchUser() {
     return (dispatch) => {
@@ -38,11 +42,10 @@ export function updateUserTasks(tasks) {
             });
     };
 }
-export function updateFocusTime(focusTime) {
+export function updateFocusTime() {
     return (dispatch) => {
         dispatch({
             type: UPDATE_FOCUS_TIME,
-            focusTime,
         });
     };
 }

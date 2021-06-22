@@ -17,11 +17,13 @@ function Pomodoro(props) {
     const [start, setStart] = useState(false);
     const [reset, setReset] = useState(false);
     const [focusTime, setFocusTime] = useState(0);
-    console.log('PROPSSS--->', props);
+    useEffect(() => {
+        props.updateFocusTime();
+        console.log(props);
+    }, [minutes]);
     if (start) {
         let interval = setInterval(() => {
             clearInterval(interval);
-
             if (seconds === 0) {
                 if (minutes !== 0) {
                     setSeconds(59);
@@ -34,13 +36,10 @@ function Pomodoro(props) {
                     setMinutes(minutes);
                     setDisplayMessage(!displayMessage);
                 }
-                setFocusTime(focusTime + 1);
-                // updateFocusTime(focusTime);
-                // console.log(focusTime);
             } else {
                 setSeconds(seconds - 1);
             }
-        }, 1000);
+        }, 250);
     }
     const minTimer = minutes < 10 ? `0${minutes}` : minutes;
     const secTimer = seconds < 10 ? `0${seconds}` : seconds;
@@ -107,7 +106,10 @@ const styles = StyleSheet.create({
     },
 });
 
+const mapStateToProps = (store) => ({
+    focusTime: store.userState.focusTime,
+});
 const mapDispatchToProps = (dispatch) => ({
     updateFocusTime: (focusTime) => dispatch(updateFocusTime(focusTime)),
 });
-export default connect(null, mapDispatchToProps)(Pomodoro);
+export default connect(mapStateToProps, mapDispatchToProps)(Pomodoro);
