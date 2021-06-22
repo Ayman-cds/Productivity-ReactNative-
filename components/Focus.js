@@ -16,7 +16,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
 import DraggableFlatList from 'react-native-draggable-flatlist';
-import { Pomodoro } from '../Pomodoro';
+import Pomodoro from '../Pomodoro';
 import { FontAwesome } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import NetInfo from '@react-native-community/netinfo';

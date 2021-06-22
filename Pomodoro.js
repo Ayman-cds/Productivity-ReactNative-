@@ -7,20 +7,25 @@ import {
     Vibration,
     Pressable,
 } from 'react-native';
+import { connect } from 'react-redux';
 import { updateFocusTime } from './redux/actions';
 
-export function Pomodoro(props) {
+function Pomodoro(props) {
     const [minutes, setMinutes] = useState(25);
     const [seconds, setSeconds] = useState(0);
     const [displayMessage, setDisplayMessage] = useState(false);
     const [start, setStart] = useState(false);
     const [reset, setReset] = useState(false);
     const [focusTime, setFocusTime] = useState(0);
-    console.log('PROPSSS--->', props);
+    useEffect(() => {
+        if (minutes !== 24 && minutes !== 25) {
+            props.updateFocusTime();
+            console.log(props);
+        }
+    }, [minutes]);
     if (start) {
         let interval = setInterval(() => {
             clearInterval(interval);
-
             if (seconds === 0) {
                 if (minutes !== 0) {
                     setSeconds(59);
@@ -33,13 +38,10 @@ export function Pomodoro(props) {
                     setMinutes(minutes);
                     setDisplayMessage(!displayMessage);
                 }
-                setFocusTime(focusTime + 1);
-                // updateFocusTime(focusTime);
-                // console.log(focusTime);
             } else {
                 setSeconds(seconds - 1);
             }
-        }, 1000);
+        }, 100);
     }
     const minTimer = minutes < 10 ? `0${minutes}` : minutes;
     const secTimer = seconds < 10 ? `0${seconds}` : seconds;
@@ -106,7 +108,10 @@ const styles = StyleSheet.create({
     },
 });
 
+const mapStateToProps = (store) => ({
+    focusTime: store.userState.focusTime,
+});
 const mapDispatchToProps = (dispatch) => ({
     updateFocusTime: (focusTime) => dispatch(updateFocusTime(focusTime)),
 });
-export default (null, mapDispatchToProps)(Pomodoro);
+export default connect(mapStateToProps, mapDispatchToProps)(Pomodoro);

@@ -11,7 +11,6 @@ const initialState = {
 };
 
 export const user = (state = initialState, action) => {
-    console.log('THIS IS THE ACTION ---->>  ', action);
     switch (action.type) {
         case USER_STATE_CHANGE:
             return {
@@ -27,7 +26,7 @@ export const user = (state = initialState, action) => {
         case UPDATE_FOCUS_TIME:
             return {
                 ...state,
-                focusTime: state.focusTime + action.focusTime,
+                focusTime: state.focusTime + 1,
             };
         default:
             return state;
