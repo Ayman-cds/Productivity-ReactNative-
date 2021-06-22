@@ -79,6 +79,7 @@ function Home(props) {
                 </View>
                 <ScrollView horizontal={true}>
                     <View style={styles.dailyStatsItem}>
+                        <Text style={styles.dailyStats}>Daily Stats:</Text>
                         <Text style={styles.dailyStatsText}>1h 20m</Text>
                         <Text style={styles.dailyStatsPercentage}>
                             20% Greater Than Average
@@ -213,6 +214,12 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         borderRadius: 10,
         flexDirection: 'row',
+    },
+    dailyStats: {
+        fontSize: 30,
+        color: '#fff',
+        fontWeight: 'bold',
+        // textAlign: 'center',
     },
     dailyStatsItem: {
         width: Dimensions.get('window').width - 20,

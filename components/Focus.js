@@ -142,12 +142,12 @@ function Focus(props) {
                 onDragEnd={({ data }) => setTaskItems(data)}
             />
             <View style={styles.textInput}>
-                <MaterialIcons
+                {/* <MaterialIcons
                     name="delete-sweep"
                     size={24}
                     color="black"
                     onPress={deleteAll}
-                />
+                /> */}
                 <KeyboardAvoidingView
                     behavior={Platform.os === 'ios' ? 'padding' : 'height'}
                     style={styles.addNewTask}
