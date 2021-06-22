@@ -4,6 +4,7 @@ import Home from './Home';
 import React from 'react';
 import Login from './Login';
 import Signup from './Signup';
+import { Pomodoro } from '../Pomodoro';
 const Stack = createStackNavigator();
 const MyStack = () => {
     return (

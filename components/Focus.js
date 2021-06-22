@@ -16,7 +16,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
 import DraggableFlatList from 'react-native-draggable-flatlist';
-import Pomodoro from '../Pomodoro';
+import { Pomodoro } from '../Pomodoro';
 import { FontAwesome } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import NetInfo from '@react-native-community/netinfo';
@@ -83,7 +83,6 @@ function Focus(props) {
             };
             let newTasks = [...taskItems, newTaskObj];
             setTaskItems(newTasks);
-            console.log(newTasks);
             storeTasks(newTasks);
             props.updateUserTasks(newTasks);
         }
@@ -104,8 +103,6 @@ function Focus(props) {
         setTaskItems([]);
         storeTasks(taskItems);
         props.updateUserTasks(taskItems);
-
-        console.log(taskItems);
     };
     useEffect(() => {
         getTasks();
@@ -120,7 +117,6 @@ function Focus(props) {
             </View>
         </TouchableOpacity>
     );
-    console.log('current user ===>>>', props);
     return (
         <LinearGradient
             Background

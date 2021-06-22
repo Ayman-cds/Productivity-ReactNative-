@@ -7,14 +7,16 @@ import {
     Vibration,
     Pressable,
 } from 'react-native';
+import { updateFocusTime } from './redux/actions';
 
-export default function Pomodoro() {
+export function Pomodoro(props) {
     const [minutes, setMinutes] = useState(25);
     const [seconds, setSeconds] = useState(0);
     const [displayMessage, setDisplayMessage] = useState(false);
     const [start, setStart] = useState(false);
     const [reset, setReset] = useState(false);
     const [focusTime, setFocusTime] = useState(0);
+    console.log('PROPSSS--->', props);
     if (start) {
         let interval = setInterval(() => {
             clearInterval(interval);
@@ -32,7 +34,8 @@ export default function Pomodoro() {
                     setDisplayMessage(!displayMessage);
                 }
                 setFocusTime(focusTime + 1);
-                console.log(focusTime);
+                // updateFocusTime(focusTime);
+                // console.log(focusTime);
             } else {
                 setSeconds(seconds - 1);
             }
@@ -102,3 +105,8 @@ const styles = StyleSheet.create({
         fontSize: 60,
     },
 });
+
+const mapDispatchToProps = (dispatch) => ({
+    updateFocusTime: (focusTime) => dispatch(updateFocusTime(focusTime)),
+});
+export default (null, mapDispatchToProps)(Pomodoro);
