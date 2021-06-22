@@ -14,7 +14,6 @@ import { Entypo, AntDesign } from '@expo/vector-icons';
 import { Dimensions, PixelRatio } from 'react-native';
 import Button from './Button';
 import firebase from 'firebase';
-import { getAllData } from './FirebaseFucs';
 require('firebase/auth');
 
 const COLORS = {
@@ -51,6 +50,7 @@ const Signup = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         if (startClicked) {
             Animated.timing(bottomFlex, {
@@ -78,6 +78,7 @@ const Signup = ({ navigation }) => {
     }
     async function onEmailSignup() {
         try {
+            setLoading(true);
             const result = await firebase
                 .auth()
                 .createUserWithEmailAndPassword(email, password);
@@ -85,6 +86,7 @@ const Signup = ({ navigation }) => {
                 displayName: name,
             });
             newUser(result);
+            setLoading(false);
 
             navigation.navigate('Home', { name });
         } catch (error) {

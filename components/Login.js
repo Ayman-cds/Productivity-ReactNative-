@@ -113,7 +113,6 @@ const Login = ({ navigation }) => {
                     try {
                         await firebase.auth().signInWithCredential(credential);
                         newUser(googleUser);
-                        getAllData(uid);
 
                         console.log('user is signed in ');
                     } catch (error) {
@@ -162,8 +161,7 @@ const Login = ({ navigation }) => {
                 );
                 onSignIn(result);
                 const name = user.givenName;
-                const userData = getAllData(user.uid);
-                navigation.navigate('Home', { name, userData, uid: user.uid });
+                navigation.navigate('Home', { name, uid: user.uid });
             }
         } catch (error) {
             console.log('SOMETHING WENT WRONG', error);
@@ -177,14 +175,12 @@ const Login = ({ navigation }) => {
             const result = await firebase
                 .auth()
                 .signInWithEmailAndPassword(email, password);
-            const userData = getAllData(result.user.uid);
             console.log('SIGN IN WITH EMAIL UID--->>', result.user.uid);
             setName(result.user.displayName);
             navigation.navigate('Home', {
                 name: result.user.displayName,
                 email,
                 uid: result.user.uid,
-                userData,
             });
         } catch (error) {
             console.log('SOMETHING WENT WRONG', error);

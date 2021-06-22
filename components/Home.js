@@ -20,8 +20,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo } from '@expo/vector-icons';
-import { getAllData } from './FirebaseFucs';
-import useInterval from 'react-useinterval';
 import * as firebase from 'firebase';
 import { connect } from 'react-redux';
 import { fetchUser } from '../redux/actions';
