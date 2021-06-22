@@ -16,13 +16,13 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
 import DraggableFlatList from 'react-native-draggable-flatlist';
-import Pomodoro from '../Pomodoro';
+import { Pomodoro } from '../Pomodoro';
 import { FontAwesome } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { getAllData } from './FirebaseFucs';
 import NetInfo from '@react-native-community/netinfo';
 import { MaterialIcons } from '@expo/vector-icons';
-
+import { connect } from 'react-redux';
+import { updateUserTasks } from '../redux/actions';
 console.disableYellowBox = true;
 const COLORS = {
     WHITE: '#fff',
@@ -47,16 +47,11 @@ const wp = (widthPercent) => {
 const hp = (heightPercent) => {
     return PixelRatio.roundToNearestPixel((screenHeight * heightPercent) / 100);
 };
-function Focus({ navigation, route }) {
+function Focus(props) {
     const [task, setTask] = useState('');
     const [taskItems, setTaskItems] = useState([]);
     const [timing, setTiming] = useState(false);
-    const { name, uid } = route.params;
-
-    // const hasInternet = async () => {
-    //     const result = await NetInfo.fetch();
-    //     console.log('NET INFORMATION===>>', result);
-    // };
+    // const { name, uid } = props.route.params;
     const getTasks = async () => {
         try {
             const jsonTasks = await AsyncStorage.getItem('tasks');
@@ -66,6 +61,7 @@ function Focus({ navigation, route }) {
             console.log(error);
         }
     };
+
     const storeTasks = async (tasksArr) => {
         try {
             const jsonTasks = JSON.stringify(tasksArr);
@@ -79,17 +75,16 @@ function Focus({ navigation, route }) {
         Vibration.vibrate(50);
         Keyboard.dismiss();
 
+        setTask('');
         if (task !== '') {
             let newTaskObj = {
                 id: uuid.v4(),
                 label: task,
-                isChecked: false,
             };
             let newTasks = [...taskItems, newTaskObj];
             setTaskItems(newTasks);
-            console.log(newTasks);
-            setTask('');
             storeTasks(newTasks);
+            props.updateUserTasks(newTasks);
         }
     };
 
@@ -100,19 +95,17 @@ function Focus({ navigation, route }) {
         let itemCopy = [...taskItems];
         itemCopy.splice(index, 1);
         setTaskItems(itemCopy);
-        storeTasks(taskItems);
+        storeTasks(itemCopy);
+        props.updateUserTasks(itemCopy);
     };
 
     const deleteAll = async () => {
         setTaskItems([]);
         storeTasks(taskItems);
-        console.log(taskItems);
+        props.updateUserTasks(taskItems);
     };
     useEffect(() => {
-        // hasInternet();
         getTasks();
-
-        // getAllData(uid);
     }, []);
     const renderItem = ({ item, index, drag, isActive }) => (
         <TouchableOpacity onLongPress={() => completedTask(index)}>
@@ -124,17 +117,6 @@ function Focus({ navigation, route }) {
             </View>
         </TouchableOpacity>
     );
-
-    // const handleCheck = (label) => {
-    //     let updated = [...taskItems];
-    //     updated = updated.map((task, index) => {
-    //         if (label === task.label) {
-    //             return { ...task, isCheked: !task.isCheked };
-    //         }
-    //         return task;
-    //     });
-    //     setTaskItems(updated);
-    // };
     return (
         <LinearGradient
             Background
@@ -143,23 +125,25 @@ function Focus({ navigation, route }) {
             colors={['#071E3D', '#278EA5', '#21E6C1']}
             style={styles.background}
         >
-            <TouchableOpacity onLongPress={() => navigation.push('Home')}>
+            <TouchableOpacity
+                onLongPress={() => props.navigation.navigate('Home')}
+            >
                 <Pomodoro />
             </TouchableOpacity>
             <DraggableFlatList
                 style={styles.list}
                 data={taskItems}
                 renderItem={renderItem}
-                keyExtractor={(item, index) => item.id.toString()}
+                keyExtractor={(item) => item.id.toString()}
                 onDragEnd={({ data }) => setTaskItems(data)}
             />
             <View style={styles.textInput}>
-                <MaterialIcons
+                {/* <MaterialIcons
                     name="delete-sweep"
                     size={24}
                     color="black"
                     onPress={deleteAll}
-                />
+                /> */}
                 <KeyboardAvoidingView
                     behavior={Platform.os === 'ios' ? 'padding' : 'height'}
                     style={styles.addNewTask}
@@ -167,6 +151,7 @@ function Focus({ navigation, route }) {
                     <TextInput
                         style={styles.textInputStyle}
                         placeholder="New Task"
+                        value={task}
                         placeholderTextColor="#fff"
                         onChangeText={(task) => setTask(task)}
                     />
@@ -256,14 +241,12 @@ const styles = StyleSheet.create({
         width: wp(70),
         height: hp(7),
         opacity: 0.8,
-        // backgroundColor: COLORS.GRADIENT_OPACITY,
         alignSelf: 'center',
         textAlign: 'center',
         marginVertical: hp(2),
         color: COLORS.WHITE,
         fontSize: wp(4),
         letterSpacing: wp(0.1),
-        // fontFamily: 'Montserrat',
         shadowOffset: { width: 0, height: 6 },
         shadowOpacity: 0.8,
         shadowRadius: 5,
@@ -272,4 +255,11 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Focus;
+const mapStateToProps = (store) => ({
+    uncompletedTasks: store.userState.uncompletedTasks,
+    currentUser: store.userState.currentUser,
+});
+const mapDispatchToProps = (dispatch) => ({
+    updateUserTasks: (tasks) => dispatch(updateUserTasks(tasks)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Focus);

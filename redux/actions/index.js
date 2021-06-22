@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-import { USER_STATE_CHANGE } from '../constants';
+import { USER_COMPLETED_TASKS_CHANGE, USER_STATE_CHANGE } from '../constants';
 
 export function fetchUser() {
     return (dispatch) => {
@@ -21,5 +21,29 @@ export function fetchUser() {
                     }
                 });
         }
+    };
+}
+
+export function updateUserTasks(tasks) {
+    return (dispatch) => {
+        firebase
+            .firestore()
+            .collection('users')
+            .doc(firebase.auth().currentUser.uid)
+            .update({ uncompletedTasks: tasks })
+            .then(() => {
+                dispatch({
+                    type: USER_COMPLETED_TASKS_CHANGE,
+                    uncompletedTasks: tasks,
+                });
+            });
+    };
+}
+export function updateFocusTime(focusTime) {
+    return (dispatch) => {
+        dispatch({
+            type: UPDATE_FOCUS_TIME,
+            focusTime,
+        });
     };
 }

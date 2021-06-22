@@ -11,10 +11,9 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo, AntDesign } from '@expo/vector-icons';
-import { Dimensions, PixelRatio } from 'react-native';
+import { Dimensions, PixelRatio, ActivityIndicator } from 'react-native';
 import Button from './Button';
 import firebase from 'firebase';
-import { getAllData } from './FirebaseFucs';
 require('firebase/auth');
 
 const COLORS = {
@@ -51,6 +50,7 @@ const Signup = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         if (startClicked) {
             Animated.timing(bottomFlex, {
@@ -78,6 +78,7 @@ const Signup = ({ navigation }) => {
     }
     async function onEmailSignup() {
         try {
+            setLoading(true);
             const result = await firebase
                 .auth()
                 .createUserWithEmailAndPassword(email, password);
@@ -85,9 +86,9 @@ const Signup = ({ navigation }) => {
                 displayName: name,
             });
             newUser(result);
-            const userdata = getAllData(user.uid);
+            setLoading(false);
 
-            navigation.navigate('Home', { name, email, userData });
+            navigation.navigate('Home', { name });
         } catch (error) {
             console.log('SOMETHING WENT WRONG', error);
         }
@@ -134,14 +135,18 @@ const Signup = ({ navigation }) => {
                         placeholderTextColor={COLORS.WHITE}
                         secureTextEntry
                     />
-                    <Button
-                        text="Signup"
-                        onPress={onEmailSignup}
-                        style={{
-                            alignSelf: 'center',
-                            marginVertical: hp(2),
-                        }}
-                    />
+                    {loading ? (
+                        <ActivityIndicator size="large" color="#071E3D" />
+                    ) : (
+                        <Button
+                            text="Signup"
+                            onPress={onEmailSignup}
+                            style={{
+                                alignSelf: 'center',
+                                marginVertical: hp(2),
+                            }}
+                        />
+                    )}
                     <TouchableOpacity
                         onPress={() => navigation.navigate('Login')}
                         style={{

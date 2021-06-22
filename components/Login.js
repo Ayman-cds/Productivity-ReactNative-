@@ -8,11 +8,12 @@ import {
     TextInput,
     TouchableOpacity,
     Platform,
+    Alert,
 } from 'react-native';
 import Expo from 'expo';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo, AntDesign } from '@expo/vector-icons';
-import { Dimensions, PixelRatio } from 'react-native';
+import { Dimensions, PixelRatio, ActivityIndicator } from 'react-native';
 import Button from './Button';
 import * as Google from 'expo-google-app-auth';
 import firebaseConfig from './FirebaseConfig';
@@ -53,6 +54,7 @@ const Login = ({ navigation }) => {
     const [name, setName] = useState();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (startClicked) {
@@ -113,7 +115,6 @@ const Login = ({ navigation }) => {
                     try {
                         await firebase.auth().signInWithCredential(credential);
                         newUser(googleUser);
-                        getAllData(uid);
 
                         console.log('user is signed in ');
                     } catch (error) {
@@ -146,6 +147,7 @@ const Login = ({ navigation }) => {
 
     async function onGoogleLogin() {
         try {
+            setLoading(true);
             const result = await Google.logInAsync({
                 androidClientId:
                     '290407391510-6jal6o3b9rbi73nk9qh0nsu4dpbl7mao.apps.googleusercontent.com',
@@ -162,32 +164,35 @@ const Login = ({ navigation }) => {
                 );
                 onSignIn(result);
                 const name = user.givenName;
-                const userData = getAllData(user.uid);
-                navigation.navigate('Home', { name, userData, uid: user.uid });
+                navigation.navigate('Home', { name, uid: user.uid });
             }
+            setLoading(false);
         } catch (error) {
+            setLoading(false);
+
             console.log('SOMETHING WENT WRONG', error);
+            Alert.alert('Google Authentication Error', `${error}`.slice(7));
         }
     }
 
     async function onEmailLogin() {
         try {
-            console.log('EMAIL ---->>>', email);
-            console.log('password ---->>>', password);
+            setLoading(true);
             const result = await firebase
                 .auth()
                 .signInWithEmailAndPassword(email, password);
-            const userData = getAllData(result.user.uid);
             console.log('SIGN IN WITH EMAIL UID--->>', result.user.uid);
             setName(result.user.displayName);
+            setLoading(false);
             navigation.navigate('Home', {
                 name: result.user.displayName,
                 email,
                 uid: result.user.uid,
-                userData,
             });
         } catch (error) {
-            console.log('SOMETHING WENT WRONG', error);
+            setLoading(false);
+            console.error(error);
+            Alert.alert('Incorrect Email/Password', `${error}`.slice(7));
         }
     }
 
@@ -224,14 +229,19 @@ const Login = ({ navigation }) => {
                             placeholderTextColor={COLORS.WHITE}
                             secureTextEntry
                         />
-                        <Button
-                            text="Login"
-                            onPress={onEmailLogin}
-                            style={{
-                                alignSelf: 'center',
-                                marginVertical: hp(2),
-                            }}
-                        />
+                        {loading ? (
+                            <ActivityIndicator size="large" color="#071E3D" />
+                        ) : (
+                            <Button
+                                text="Login"
+                                onPress={onEmailLogin}
+                                style={{
+                                    alignSelf: 'center',
+                                    marginVertical: hp(2),
+                                }}
+                            />
+                        )}
+
                         <TouchableOpacity
                             onPress={() => navigation.navigate('Signup')}
                             style={{
