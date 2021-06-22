@@ -34,8 +34,8 @@ function Home(props) {
     const { name } = props.route.params;
     useEffect(() => {
         props.fetchUser();
-        console.log('nameee ====>>', name);
-        console.log('props =======>', props);
+        // console.log('nameee ====>>', name);
+        // console.log('props =======>', props);
     }, []);
     useEffect(() => {
         setAllData(props.currentUser);

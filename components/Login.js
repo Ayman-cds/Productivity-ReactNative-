@@ -76,7 +76,7 @@ const Login = ({ navigation }) => {
     function newUser(result) {
         const user = firebase.auth().currentUser;
 
-        console.log('result===>>', user);
+        // console.log('result===>>', user);
         ref.doc(user.uid).set({
             email: result.user.email,
             fName: result.user.givenName,
@@ -88,8 +88,6 @@ const Login = ({ navigation }) => {
         firebase.auth().onAuthStateChanged(function (user) {
             console.log('Auth state changed ');
             if (user) {
-                console.log('CHECK IF LOGGED INNNNNNNNNNNNNNNNNNN');
-                console.log('USER STUFFFF --->>>', user.uid);
                 navigation.navigate('Home', {
                     name: user.displayName,
                     uid: user.uid,
@@ -181,7 +179,6 @@ const Login = ({ navigation }) => {
             const result = await firebase
                 .auth()
                 .signInWithEmailAndPassword(email, password);
-            console.log('SIGN IN WITH EMAIL UID--->>', result.user.uid);
             setName(result.user.displayName);
             setLoading(false);
             navigation.navigate('Home', {

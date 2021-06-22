@@ -11,7 +11,6 @@ const initialState = {
 };
 
 export const user = (state = initialState, action) => {
-    console.log('THIS IS THE ACTION ---->>  ', action);
     switch (action.type) {
         case USER_STATE_CHANGE:
             return {

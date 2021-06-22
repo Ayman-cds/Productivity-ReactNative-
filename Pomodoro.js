@@ -7,9 +7,10 @@ import {
     Vibration,
     Pressable,
 } from 'react-native';
+import { connect } from 'react-redux';
 import { updateFocusTime } from './redux/actions';
 
-export function Pomodoro(props) {
+function Pomodoro(props) {
     const [minutes, setMinutes] = useState(25);
     const [seconds, setSeconds] = useState(0);
     const [displayMessage, setDisplayMessage] = useState(false);
@@ -109,4 +110,4 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = (dispatch) => ({
     updateFocusTime: (focusTime) => dispatch(updateFocusTime(focusTime)),
 });
-export default (null, mapDispatchToProps)(Pomodoro);
+export default connect(null, mapDispatchToProps)(Pomodoro);
