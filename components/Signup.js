@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo, AntDesign } from '@expo/vector-icons';
-import { Dimensions, PixelRatio } from 'react-native';
+import { Dimensions, PixelRatio, ActivityIndicator } from 'react-native';
 import Button from './Button';
 import firebase from 'firebase';
 require('firebase/auth');
@@ -135,14 +135,18 @@ const Signup = ({ navigation }) => {
                         placeholderTextColor={COLORS.WHITE}
                         secureTextEntry
                     />
-                    <Button
-                        text="Signup"
-                        onPress={onEmailSignup}
-                        style={{
-                            alignSelf: 'center',
-                            marginVertical: hp(2),
-                        }}
-                    />
+                    {loading ? (
+                        <ActivityIndicator size="large" color="#071E3D" />
+                    ) : (
+                        <Button
+                            text="Signup"
+                            onPress={onEmailSignup}
+                            style={{
+                                alignSelf: 'center',
+                                marginVertical: hp(2),
+                            }}
+                        />
+                    )}
                     <TouchableOpacity
                         onPress={() => navigation.navigate('Login')}
                         style={{

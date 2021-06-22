@@ -53,6 +53,7 @@ const Login = ({ navigation }) => {
     const [name, setName] = useState();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (startClicked) {
@@ -220,14 +221,19 @@ const Login = ({ navigation }) => {
                             placeholderTextColor={COLORS.WHITE}
                             secureTextEntry
                         />
-                        <Button
-                            text="Login"
-                            onPress={onEmailLogin}
-                            style={{
-                                alignSelf: 'center',
-                                marginVertical: hp(2),
-                            }}
-                        />
+                        {loading ? (
+                            <ActivityIndicator size="large" color="#071E3D" />
+                        ) : (
+                            <Button
+                                text="Login"
+                                onPress={onEmailLogin}
+                                style={{
+                                    alignSelf: 'center',
+                                    marginVertical: hp(2),
+                                }}
+                            />
+                        )}
+
                         <TouchableOpacity
                             onPress={() => navigation.navigate('Signup')}
                             style={{

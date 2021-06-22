@@ -23,9 +23,7 @@ import { Entypo } from '@expo/vector-icons';
 import * as firebase from 'firebase';
 import { connect } from 'react-redux';
 import { fetchUser } from '../redux/actions';
-
 import 'firebase/firestore';
-import { bindActionCreators } from 'redux';
 
 function Home(props) {
     const [taskItems, setTaskItems] = useState([]);
@@ -197,7 +195,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     background: {
-        // position: 'absolute',
         left: 0,
         right: 0,
         top: 0,
@@ -236,7 +233,6 @@ const styles = StyleSheet.create({
         marginRight: 30,
         backgroundColor: '#21E6C1',
         borderRadius: 10,
-        // borderWidth: 1,
     },
     buttonText: {
         color: '#fff',
