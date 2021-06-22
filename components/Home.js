@@ -26,6 +26,7 @@ import { connect } from 'react-redux';
 import { fetchUser } from '../redux/actions';
 import 'firebase/firestore';
 import Carousel from 'react-native-snap-carousel';
+import { Directions } from 'react-native-gesture-handler';
 
 function Home(props) {
     const [taskItems, setTaskItems] = useState([]);
@@ -76,7 +77,12 @@ function Home(props) {
                         color="white"
                     />
                 </View>
-                <ScrollView horizontal={true}>
+                <ScrollView
+                    pagingEnabled
+                    horizontal={true}
+                    // decelerationRate={1}
+                    snapToInterval={Dimensions.get('window').width - 20}
+                >
                     <View style={styles.dailyStatsItem}>
                         <Text style={styles.dailyStats}>Daily Stats:</Text>
                         <Text
