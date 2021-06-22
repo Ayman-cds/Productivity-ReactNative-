@@ -85,9 +85,8 @@ const Signup = ({ navigation }) => {
                 displayName: name,
             });
             newUser(result);
-            const userdata = getAllData(user.uid);
 
-            navigation.navigate('Home', { name, email, userData });
+            navigation.navigate('Home', { name });
         } catch (error) {
             console.log('SOMETHING WENT WRONG', error);
         }

@@ -33,9 +33,11 @@ function Home(props) {
     const [taskItems, setTaskItems] = useState([]);
     const [allData, setAllData] = useState([]);
     const [uncompletedTasks, setUncompletedTasks] = useState([]);
-    const { name, email, userData, uid } = props.route.params;
+    const { name } = props.route.params;
     useEffect(() => {
         props.fetchUser();
+        console.log('nameee ====>>', name);
+        console.log('props =======>', props);
     }, []);
     useEffect(() => {
         setAllData(props.currentUser);
