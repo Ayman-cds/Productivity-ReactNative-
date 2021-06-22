@@ -14,6 +14,7 @@ export default function Pomodoro() {
     const [displayMessage, setDisplayMessage] = useState(false);
     const [start, setStart] = useState(false);
     const [reset, setReset] = useState(false);
+    const [focusTime, setFocusTime] = useState(0);
     if (start) {
         let interval = setInterval(() => {
             clearInterval(interval);
@@ -30,6 +31,8 @@ export default function Pomodoro() {
                     setMinutes(minutes);
                     setDisplayMessage(!displayMessage);
                 }
+                setFocusTime(focusTime + 1);
+                console.log(focusTime);
             } else {
                 setSeconds(seconds - 1);
             }
@@ -96,8 +99,6 @@ const styles = StyleSheet.create({
     },
     numbers: {
         color: '#071E3D',
-        // textDecorationLine: 'underline',
-        // fontFamily: 'monospace',
         fontSize: 60,
     },
 });

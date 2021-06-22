@@ -1,8 +1,13 @@
-import { USER_COMPLETED_TASKS_CHANGE, USER_STATE_CHANGE } from '../constants';
+import {
+    USER_COMPLETED_TASKS_CHANGE,
+    USER_STATE_CHANGE,
+    UPDATE_FOCUS_TIME,
+} from '../constants';
 
 const initialState = {
     currentUser: null,
     uncompletedTasks: [],
+    focusTime: 0,
 };
 
 export const user = (state = initialState, action) => {
@@ -18,6 +23,11 @@ export const user = (state = initialState, action) => {
             return {
                 ...state,
                 uncompletedTasks: action.uncompletedTasks,
+            };
+        case UPDATE_FOCUS_TIME:
+            return {
+                ...state,
+                focusTime: action.focusTime,
             };
         default:
             return state;

@@ -39,3 +39,11 @@ export function updateUserTasks(tasks) {
             });
     };
 }
+export function updateFocusTime(focusTime) {
+    return (dispatch) => {
+        dispatch({
+            type: UPDATE_FOCUS_TIME,
+            focusTime,
+        });
+    };
+}
