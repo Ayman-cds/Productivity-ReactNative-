@@ -22,13 +22,18 @@ const updateStats = (focusTime, stats) => {
     if (stats.length) {
         let lastStat = stats[stats.length - 1];
         let lastStatDate = new Date(lastStat.date);
+        lastStatDate.setHours(0, 0, 0, 0);
+        date.setHours(0, 0, 0, 0);
         if (lastStat.date === lastStatDate) {
             lastStat.time = time;
+            console.log('I AM EQUAL TO IT ');
         } else {
             stats.push(focusTime);
+            console.log('I AM NOT EQUAL TO IT ');
         }
     } else {
         stats.push(focusTime);
+        console.log('STATS HAD NOTHING INSIDE IT  ');
     }
 
     return stats;

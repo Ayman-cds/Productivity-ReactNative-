@@ -23,6 +23,7 @@ import NetInfo from '@react-native-community/netinfo';
 import { MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import { updateUserTasks } from '../redux/actions';
+import { updateStats } from '../redux/actions/index.js';
 console.disableYellowBox = true;
 const COLORS = {
     WHITE: '#fff',
@@ -71,6 +72,15 @@ function Focus(props) {
         }
     };
 
+    const handleExitFocusMode = () => {
+        // console.log('PROPS------>>', props);
+        Vibration.vibrate(50);
+        Vibration.vibrate(50);
+        console.log('STATS before ===>>>', props.stats);
+        props.updateStats();
+        console.log('STATS after ===>>>', props.stats);
+        props.navigation.navigate('Home');
+    };
     const handleAddTask = () => {
         Vibration.vibrate(50);
         Keyboard.dismiss();
@@ -125,9 +135,7 @@ function Focus(props) {
             colors={['#071E3D', '#278EA5', '#21E6C1']}
             style={styles.background}
         >
-            <TouchableOpacity
-                onLongPress={() => props.navigation.navigate('Home')}
-            >
+            <TouchableOpacity onLongPress={handleExitFocusMode}>
                 <Pomodoro />
             </TouchableOpacity>
             <DraggableFlatList
@@ -258,8 +266,11 @@ const styles = StyleSheet.create({
 const mapStateToProps = (store) => ({
     uncompletedTasks: store.userState.uncompletedTasks,
     currentUser: store.userState.currentUser,
+    stats: store.userState.stats,
+    focusTime: store.userState.focusTime,
 });
 const mapDispatchToProps = (dispatch) => ({
     updateUserTasks: (tasks) => dispatch(updateUserTasks(tasks)),
+    updateStats: () => dispatch(updateStats()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Focus);

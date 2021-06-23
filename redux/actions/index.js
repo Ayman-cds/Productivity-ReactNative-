@@ -51,11 +51,10 @@ export function updateFocusTime() {
     };
 }
 
-export function updateStats(focusTime) {
+export function updateStats() {
     return (dispatch) => {
         dispatch({
             type: UPDATE_STATS,
-            focusTime,
         });
     };
 }

@@ -103,7 +103,6 @@ function Home(props) {
                 <ScrollView
                     pagingEnabled
                     horizontal={true}
-                    // decelerationRate={1}
                     snapToInterval={Dimensions.get('window').width - 20}
                 >
                     <View style={styles.dailyStatsItem}>
