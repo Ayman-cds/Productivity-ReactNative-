@@ -9,7 +9,14 @@ const getCurrentDate = () => {
     var date = new Date();
     return date;
 };
-var date1 = new Date(getCurrentDate());
+console.log(getCurrentDate());
+
+// use like this --> isSameDay(new Date(date), new Date(date))
+const isSameDay = (first, second) =>
+    first.getFullYear() === second.getFullYear() &&
+    first.getMonth() === second.getMonth() &&
+    first.getDate() === second.getDate();
+
 const initialState = {
     currentUser: null,
     uncompletedTasks: [],
@@ -21,10 +28,7 @@ const updateStats = (focusTime, stats) => {
     const { date, time } = focusTime;
     if (stats.length) {
         let lastStat = stats[stats.length - 1];
-        let lastStatDate = new Date(lastStat.date);
-        lastStatDate.setHours(0, 0, 0, 0);
-        date.setHours(0, 0, 0, 0);
-        if (lastStat.date === lastStatDate) {
+        if (isSameDay(new Date(lastStat.date), new Date(date))) {
             lastStat.time = time;
             console.log('I AM EQUAL TO IT ');
         } else {
