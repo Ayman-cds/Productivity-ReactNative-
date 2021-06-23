@@ -74,7 +74,7 @@ const Signup = ({ navigation }) => {
             email: result.user.email,
             fName: result.user.displayName,
             uncompletedTasks: [],
-            weekStats: [],
+            stats: [],
         });
     }
     async function onEmailSignup() {

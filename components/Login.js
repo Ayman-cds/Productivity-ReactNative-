@@ -81,7 +81,7 @@ const Login = ({ navigation }) => {
             email: result.user.email,
             fName: result.user.givenName,
             uncompletedTasks: [],
-            weekStats: [],
+            stats: [],
         });
     }
     function checkIfLoggedIn() {

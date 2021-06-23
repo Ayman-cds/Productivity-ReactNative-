@@ -5,7 +5,6 @@ import {
     UPDATE_FOCUS_TIME,
     UPDATE_STATS,
 } from '../constants';
-
 export function fetchUser() {
     return (dispatch) => {
         if (firebase.auth().currentUser) {
@@ -57,4 +56,12 @@ export function updateStats() {
             type: UPDATE_STATS,
         });
     };
+}
+
+export default function updateStatsDB(stats) {
+    firebase
+        .firestore()
+        .collection('users')
+        .doc(firebase.auth().currentUser.uid)
+        .update({ stats });
 }
