@@ -16,6 +16,7 @@ const isSameDay = (first, second) =>
     first.getFullYear() === second.getFullYear() &&
     first.getMonth() === second.getMonth() &&
     first.getDate() === second.getDate();
+import firebase from 'firebase';
 
 const initialState = {
     currentUser: null,
@@ -23,6 +24,13 @@ const initialState = {
     focusTime: { time: 0, date: getCurrentDate() },
     stats: [],
 };
+async function updateStatsDB(stats) {
+    await firebase
+        .firestore()
+        .collection('users')
+        .doc(firebase.auth().currentUser.uid)
+        .update({ stats });
+}
 
 const updateStats = (focusTime, stats) => {
     const { date, time } = focusTime;
@@ -30,16 +38,13 @@ const updateStats = (focusTime, stats) => {
         let lastStat = stats[stats.length - 1];
         if (isSameDay(new Date(lastStat.date), new Date(date))) {
             lastStat.time = time;
-            console.log('I AM EQUAL TO IT ');
         } else {
             stats.push(focusTime);
-            console.log('I AM NOT EQUAL TO IT ');
         }
     } else {
         stats.push(focusTime);
-        console.log('STATS HAD NOTHING INSIDE IT  ');
     }
-
+    updateStatsDB(stats);
     return stats;
 };
 
