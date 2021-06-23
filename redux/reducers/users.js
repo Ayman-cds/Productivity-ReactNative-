@@ -1,3 +1,4 @@
+import firebase from 'firebase';
 import {
     USER_COMPLETED_TASKS_CHANGE,
     USER_STATE_CHANGE,
@@ -16,7 +17,6 @@ const isSameDay = (first, second) =>
     first.getFullYear() === second.getFullYear() &&
     first.getMonth() === second.getMonth() &&
     first.getDate() === second.getDate();
-import firebase from 'firebase';
 
 const initialState = {
     currentUser: null,
