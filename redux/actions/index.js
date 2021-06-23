@@ -3,6 +3,7 @@ import {
     USER_COMPLETED_TASKS_CHANGE,
     USER_STATE_CHANGE,
     UPDATE_FOCUS_TIME,
+    UPDATE_STATS,
 } from '../constants';
 
 export function fetchUser() {
@@ -46,6 +47,14 @@ export function updateFocusTime() {
     return (dispatch) => {
         dispatch({
             type: UPDATE_FOCUS_TIME,
+        });
+    };
+}
+
+export function updateStats() {
+    return (dispatch) => {
+        dispatch({
+            type: UPDATE_STATS,
         });
     };
 }

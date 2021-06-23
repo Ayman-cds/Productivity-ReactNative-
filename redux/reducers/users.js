@@ -2,12 +2,45 @@ import {
     USER_COMPLETED_TASKS_CHANGE,
     USER_STATE_CHANGE,
     UPDATE_FOCUS_TIME,
+    UPDATE_STATS,
 } from '../constants';
+
+const getCurrentDate = () => {
+    var date = new Date();
+    return date;
+};
+console.log(getCurrentDate());
+
+// use like this --> isSameDay(new Date(date), new Date(date))
+const isSameDay = (first, second) =>
+    first.getFullYear() === second.getFullYear() &&
+    first.getMonth() === second.getMonth() &&
+    first.getDate() === second.getDate();
 
 const initialState = {
     currentUser: null,
     uncompletedTasks: [],
-    focusTime: 0,
+    focusTime: { time: 0, date: getCurrentDate() },
+    stats: [],
+};
+
+const updateStats = (focusTime, stats) => {
+    const { date, time } = focusTime;
+    if (stats.length) {
+        let lastStat = stats[stats.length - 1];
+        if (isSameDay(new Date(lastStat.date), new Date(date))) {
+            lastStat.time = time;
+            console.log('I AM EQUAL TO IT ');
+        } else {
+            stats.push(focusTime);
+            console.log('I AM NOT EQUAL TO IT ');
+        }
+    } else {
+        stats.push(focusTime);
+        console.log('STATS HAD NOTHING INSIDE IT  ');
+    }
+
+    return stats;
 };
 
 export const user = (state = initialState, action) => {
@@ -26,7 +59,15 @@ export const user = (state = initialState, action) => {
         case UPDATE_FOCUS_TIME:
             return {
                 ...state,
-                focusTime: state.focusTime + 1,
+                focusTime: {
+                    ...state.focusTime,
+                    time: state.focusTime.time + 1,
+                },
+            };
+        case UPDATE_STATS:
+            return {
+                ...state,
+                stats: updateStats(state.focusTime, state.stats),
             };
         default:
             return state;

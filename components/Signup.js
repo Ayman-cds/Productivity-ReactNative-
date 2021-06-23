@@ -8,6 +8,7 @@ import {
     TextInput,
     TouchableOpacity,
     Platform,
+    Alert,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo, AntDesign } from '@expo/vector-icons';
@@ -90,6 +91,9 @@ const Signup = ({ navigation }) => {
 
             navigation.navigate('Home', { name });
         } catch (error) {
+            setLoading(false);
+            Alert.alert('Google Authentication Error', `${error}`.slice(7));
+
             console.log('SOMETHING WENT WRONG', error);
         }
     }
