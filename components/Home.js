@@ -16,7 +16,9 @@ date.format(now, 'hh:mm A [GMT]Z', true);   // => '07:14 AM GMT+0000'
 
 const pattern = date.compile('ddd, MMM DD YYYY');
 date.format(now, pattern);                  // => 'Fri, Jan 02 2015'
-*/
+*/ import date from 'date-and-time';
+
+const pattern = date.compile('ddd, MMM DD YYYY');
 
 import React, { useEffect, useState } from 'react';
 import {
@@ -53,8 +55,9 @@ function Home(props) {
     const [allData, setAllData] = useState([]);
     const [uncompletedTasks, setUncompletedTasks] = useState([]);
     const { name } = props.route.params;
-    let hrs = Math.floor(props.focusTime / 60);
-    let mins = props.focusTime - hrs * 60;
+
+    let hrs = Math.floor(props.focusTime.time / 60);
+    let mins = props.focusTime.time - hrs * 60;
     useEffect(() => {
         props.fetchUser();
     }, []);

@@ -53,9 +53,16 @@ export function updateFocusTime() {
 
 export function updateFocusDateAndTime(stats) {
     return (dispatch) => {
-        dispatch({
-            type: UPDATE_STATS,
-            stats,
-        });
+        firebase
+            .firestore()
+            .collection('users')
+            .doc(firebase.auth.currentUser.uid)
+            .update({ stats })
+            .then(() => {
+                dispatch({
+                    type: UPDATE_STATS,
+                    stats,
+                });
+            });
     };
 }

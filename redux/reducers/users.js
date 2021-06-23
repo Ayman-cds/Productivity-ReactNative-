@@ -4,10 +4,20 @@ import {
     UPDATE_FOCUS_TIME,
 } from '../constants';
 
+const getCurrentDate = () => {
+    var date = new Date().getDate();
+    var month = new Date().getMonth() + 1;
+    var year = new Date().getFullYear();
+
+    //Alert.alert(date + '-' + month + '-' + year);
+    // You can turn it in to your desired format
+    return date + '-' + month + '-' + year; //format: dd-mm-yyyy;
+};
 const initialState = {
     currentUser: null,
     uncompletedTasks: [],
-    focusTime: 0,
+    focusTime: { time: 0, date: getCurrentDate() },
+    stats: [],
 };
 
 export const user = (state = initialState, action) => {
@@ -26,7 +36,10 @@ export const user = (state = initialState, action) => {
         case UPDATE_FOCUS_TIME:
             return {
                 ...state,
-                focusTime: state.focusTime + 1,
+                focusTime: {
+                    ...state.focusTime,
+                    time: state.focusTime.time + 1,
+                },
             };
         default:
             return state;
