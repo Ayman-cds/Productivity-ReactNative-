@@ -16,12 +16,22 @@ import { Dimensions, PixelRatio, ActivityIndicator } from 'react-native';
 import Button from './Button';
 import firebase from 'firebase';
 require('firebase/auth');
+const days = {
+    1: 'Mon',
+    2: 'Tue',
+    3: 'Wed',
+    4: 'Thur',
+    5: 'Fri',
+    6: 'Sat',
+    7: 'Sun',
+};
 const getCurrentDate = () => {
     const date = new Date();
-    const day = date.getDate();
+    const day = days[date.getDay()];
+    const dateNum = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
-    return `${day}/${month}/${year}`.split('/');
+    return `${dateNum}/${month}/${year}/${day}`.split('/');
 };
 
 const COLORS = {

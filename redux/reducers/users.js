@@ -6,12 +6,22 @@ import {
     UPDATE_STATS,
 } from '../constants';
 
+const days = {
+    1: 'Mon',
+    2: 'Tue',
+    3: 'Wed',
+    4: 'Thur',
+    5: 'Fri',
+    6: 'Sat',
+    7: 'Sun',
+};
 const getCurrentDate = () => {
     const date = new Date();
-    const day = date.getDate();
+    const day = days[date.getDay()];
+    const dateNum = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
-    return `${day}/${month}/${year}`.split('/');
+    return `${dateNum}/${month}/${year}/${day}`.split('/');
 };
 
 // use like this --> isSameDay(new Date(date), new Date(date))
@@ -21,7 +31,7 @@ const isSameDay = (first, second) =>
 // checks if the last focus time information is of the same day
 const lastFocusDay = (lastFocusTime) => {
     let today = getCurrentDate();
-    let lastFocusDate = lastFocusTime.date;
+    let lastFocusDate = lastFocusTime['date'];
     // console.log('TODAY ---->', today);
     // console.log('LAST FOCUS DATE ---->', lastFocusDate);
     if (isSameDay(lastFocusDate, today)) {
@@ -34,7 +44,8 @@ const initialState = {
     currentUser: null,
     uncompletedTasks: [],
     focusTime: null,
-    stats: [0],
+    stats: [],
+    weeksStats: [0],
 };
 async function updateStatsDB(stats, focusTime) {
     await firebase
@@ -48,7 +59,7 @@ const updateStats = (focusTime, stats) => {
     const { date, time } = focusTime;
     if (stats.length) {
         let lastStat = stats[stats.length - 1];
-        console.log('UPDATE STATS DATE--->>', lastStat.date);
+        console.log('UPDATE STATS DATE--->>', lastStat);
         console.log('UPDATE STATS DATE--->>', date);
         if (isSameDay(lastStat.date, date)) {
             console.log('I AM HEREEEEEE IT IS THE SAME DAY');
@@ -68,7 +79,7 @@ const updateStats = (focusTime, stats) => {
 const weeksStats = (stats) => {
     let newStats = [];
     stats.forEach((stats) => newStats.push(stats['time']));
-    // console.log('NEW STATS FROM REDUCER --->', newStats);
+    console.log('NEW STATS FROM REDUCER --->', newStats);
     return newStats;
 };
 
@@ -80,7 +91,8 @@ export const user = (state = initialState, action) => {
                 currentUser: action.currentUser,
                 uncompletedTasks: action.currentUser.uncompletedTasks,
                 focusTime: lastFocusDay(action.lastFocusTime),
-                stats: weeksStats(action.currentUser.stats),
+                stats: action.currentUser.stats,
+                weeksStats: weeksStats(action.currentUser.stats),
             };
         case USER_COMPLETED_TASKS_CHANGE:
             return {
@@ -92,13 +104,14 @@ export const user = (state = initialState, action) => {
                 ...state,
                 focusTime: {
                     ...state.focusTime,
-                    time: state.focusTime.time + 1,
+                    time: state.focusTime ? state.focusTime.time + 1 : 0 + 1,
                 },
             };
         case UPDATE_STATS:
             return {
                 ...state,
                 stats: updateStats(state.focusTime, state.stats),
+                weeksStats: weeksStats(state.stats),
             };
         default:
             return state;

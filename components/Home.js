@@ -45,6 +45,7 @@ function Home(props) {
         setLoading(true);
         setAllData(props.currentUser);
         if (allData) {
+            console.log(props);
             setUncompletedTasks(props.uncompletedTasks);
             setLoading(false);
         }
@@ -113,7 +114,9 @@ function Home(props) {
                                 ],
                                 datasets: [
                                     {
-                                        data: props.stats ? props.stats : [0],
+                                        data: props.weeksStats
+                                            ? props.weeksStats
+                                            : [0],
                                     },
                                 ],
                             }}
@@ -296,7 +299,7 @@ const mapStateToProps = (store) => ({
     currentUser: store.userState.currentUser,
     uncompletedTasks: store.userState.uncompletedTasks,
     focusTime: store.userState.focusTime,
-    stats: store.userState.stats,
+    weeksStats: store.userState.weeksStats,
 });
 const mapDispatchToProps = (dispatch) => ({
     fetchUser: () => dispatch(fetchUser()),
