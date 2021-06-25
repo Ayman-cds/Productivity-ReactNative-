@@ -45,7 +45,7 @@ function Home(props) {
         setLoading(true);
         setAllData(props.currentUser);
         if (allData) {
-            console.log(props);
+            console.log('PROPS ====>>>', props);
             setUncompletedTasks(props.uncompletedTasks);
             setLoading(false);
         }

@@ -6,18 +6,18 @@ import {
     UPDATE_STATS,
 } from '../constants';
 
-const days = {
-    1: 'Mon',
-    2: 'Tue',
-    3: 'Wed',
-    4: 'Thur',
-    5: 'Fri',
-    6: 'Sat',
-    7: 'Sun',
-};
+// const days = {
+//     1: 'Mon',
+//     2: 'Tue',
+//     3: 'Wed',
+//     4: 'Thur',
+//     5: 'Fri',
+//     6: 'Sat',
+//     7: 'Sun',
+// };
 const getCurrentDate = () => {
     const date = new Date();
-    const day = days[date.getDay()];
+    const day = date.getDay();
     const dateNum = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
@@ -45,7 +45,7 @@ const initialState = {
     uncompletedTasks: [],
     focusTime: null,
     stats: [],
-    weeksStats: [0],
+    weeksStats: [0, 0, 0, 0, 0, 0, 0],
 };
 async function updateStatsDB(stats, focusTime) {
     await firebase
@@ -57,6 +57,7 @@ async function updateStatsDB(stats, focusTime) {
 
 const updateStats = (focusTime, stats) => {
     const { date, time } = focusTime;
+    console.log('FOCUS TIME --->>>>', focusTime);
     if (stats.length) {
         let lastStat = stats[stats.length - 1];
         console.log('UPDATE STATS DATE--->>', lastStat);
@@ -77,8 +78,10 @@ const updateStats = (focusTime, stats) => {
 };
 
 const weeksStats = (stats) => {
-    let newStats = [];
-    stats.forEach((stats) => newStats.push(stats['time']));
+    let newStats = [0, 0, 0, 0, 0, 0, 0];
+    stats.forEach((stats) => {
+        newStats[parseInt(stats['date'][3]) - 1] = stats['time'];
+    });
     console.log('NEW STATS FROM REDUCER --->', newStats);
     return newStats;
 };
