@@ -55,6 +55,7 @@ export const user = (state = initialState, action) => {
                 ...state,
                 currentUser: action.currentUser,
                 uncompletedTasks: action.currentUser.uncompletedTasks,
+                focusTime: action.currentUser.lastFocusTime,
             };
         case USER_COMPLETED_TASKS_CHANGE:
             return {

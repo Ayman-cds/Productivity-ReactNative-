@@ -40,6 +40,9 @@ function Home(props) {
     let mins = props.focusTime.time - hrs * 60;
     useEffect(() => {
         props.fetchUser();
+        if (allData) {
+            setLoading(false);
+        }
     }, []);
     useEffect(() => {
         setLoading(true);
