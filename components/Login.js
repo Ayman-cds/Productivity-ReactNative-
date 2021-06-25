@@ -19,6 +19,13 @@ import * as Google from 'expo-google-app-auth';
 import firebaseConfig from './FirebaseConfig';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
+const getCurrentDate = () => {
+    const date = new Date();
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`.split('/');
+};
 
 require('firebase/auth');
 const COLORS = {
@@ -82,6 +89,7 @@ const Login = ({ navigation }) => {
             fName: result.user.givenName,
             uncompletedTasks: [],
             stats: [],
+            lastFocusTime: { time: 0, date: getCurrentDate() },
         });
     }
     function checkIfLoggedIn() {

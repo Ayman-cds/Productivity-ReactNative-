@@ -16,6 +16,13 @@ import { Dimensions, PixelRatio, ActivityIndicator } from 'react-native';
 import Button from './Button';
 import firebase from 'firebase';
 require('firebase/auth');
+const getCurrentDate = () => {
+    const date = new Date();
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`.split('/');
+};
 
 const COLORS = {
     WHITE: '#fff',
@@ -75,6 +82,7 @@ const Signup = ({ navigation }) => {
             fName: result.user.displayName,
             uncompletedTasks: [],
             stats: [],
+            lastFocusTime: { time: 0, date: getCurrentDate() },
         });
     }
     async function onEmailSignup() {

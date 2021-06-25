@@ -7,44 +7,61 @@ import {
 } from '../constants';
 
 const getCurrentDate = () => {
-    var date = new Date();
-    return date;
+    const date = new Date();
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`.split('/');
 };
-console.log(getCurrentDate());
 
 // use like this --> isSameDay(new Date(date), new Date(date))
 const isSameDay = (first, second) =>
-    first.getFullYear() === second.getFullYear() &&
-    first.getMonth() === second.getMonth() &&
-    first.getDate() === second.getDate();
+    first[0] === second[0] && first[1] === second[1] && first[2] === second[2];
 
+// checks if the last focus time information is of the same day
+const lastFocusDay = (lastFocusTime) => {
+    let today = getCurrentDate();
+    let lastFocusDate = lastFocusTime.date;
+    // console.log('TODAY ---->', today);
+    // console.log('LAST FOCUS DATE ---->', lastFocusDate);
+    if (isSameDay(lastFocusDate, today)) {
+        return lastFocusTime;
+    } else {
+        return { time: 0, date: today };
+    }
+};
 const initialState = {
     currentUser: null,
     uncompletedTasks: [],
-    focusTime: { time: 0, date: getCurrentDate() },
+    focusTime: null,
     stats: [],
 };
-async function updateStatsDB(stats) {
+async function updateStatsDB(stats, focusTime) {
     await firebase
         .firestore()
         .collection('users')
         .doc(firebase.auth().currentUser.uid)
-        .update({ stats });
+        .update({ stats, lastFocusTime: focusTime });
 }
 
 const updateStats = (focusTime, stats) => {
     const { date, time } = focusTime;
     if (stats.length) {
         let lastStat = stats[stats.length - 1];
-        if (isSameDay(new Date(lastStat.date), new Date(date))) {
+        console.log('UPDATE STATS DATE--->>', lastStat.date);
+        console.log('UPDATE STATS DATE--->>', date);
+        if (isSameDay(lastStat.date, date)) {
+            console.log('I AM HEREEEEEE IT IS THE SAME DAY');
             lastStat.time = time;
         } else {
             stats.push(focusTime);
+            console.log('I AM HEREEEEEE IT IS NOT THE SAME DAY');
         }
     } else {
         stats.push(focusTime);
+        console.log('I AM HEREEEEEE STATS.LENGTH IS FALSY');
     }
-    updateStatsDB(stats);
+    updateStatsDB(stats, focusTime);
     return stats;
 };
 
@@ -55,6 +72,8 @@ export const user = (state = initialState, action) => {
                 ...state,
                 currentUser: action.currentUser,
                 uncompletedTasks: action.currentUser.uncompletedTasks,
+                focusTime: lastFocusDay(action.lastFocusTime),
+                stats: action.currentUser.stats,
             };
         case USER_COMPLETED_TASKS_CHANGE:
             return {

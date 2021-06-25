@@ -20,7 +20,6 @@ function Pomodoro(props) {
     useEffect(() => {
         if (minutes !== 24 && minutes !== 25) {
             props.updateFocusTime();
-            console.log(props);
         }
     }, [minutes]);
     if (start) {

@@ -1,22 +1,4 @@
-/* 
-implement nighly updates of database based on current focus time
-stats --> {
-    date: date of task,
-    focus time: minutes of fucus on that day 
-}
-if the time is past 12 am then update the database and reset the focus 
-timer 
-figure out how  
-
-const now = new Date();
-date.format(now, 'YYYY/MM/DD HH:mm:ss');    // => '2015/01/02 23:14:05'
-date.format(now, 'ddd, MMM DD YYYY');       // => 'Fri, Jan 02 2015'
-date.format(now, 'hh:mm A [GMT]Z');         // => '11:14 PM GMT-0800'
-date.format(now, 'hh:mm A [GMT]Z', true);   // => '07:14 AM GMT+0000'
-
-const pattern = date.compile('ddd, MMM DD YYYY');
-date.format(now, pattern);                  // => 'Fri, Jan 02 2015'
-*/ import date from 'date-and-time';
+import date from 'date-and-time';
 
 const pattern = date.compile('ddd, MMM DD YYYY');
 
@@ -47,25 +29,29 @@ import * as firebase from 'firebase';
 import { connect } from 'react-redux';
 import { fetchUser } from '../redux/actions';
 import 'firebase/firestore';
-import Carousel from 'react-native-snap-carousel';
-import { Directions } from 'react-native-gesture-handler';
 
 function Home(props) {
     const [taskItems, setTaskItems] = useState([]);
     const [allData, setAllData] = useState([]);
     const [uncompletedTasks, setUncompletedTasks] = useState([]);
     const { name } = props.route.params;
-
-    let hrs = Math.floor(props.focusTime.time / 60);
-    let mins = props.focusTime.time - hrs * 60;
+    const [loading, setLoading] = useState(false);
+    let hrs = props.focusTime ? Math.floor(props.focusTime.time / 60) : 0;
+    let mins = props.focusTime ? props.focusTime.time - hrs * 60 : 0;
     useEffect(() => {
         props.fetchUser();
+        if (allData) {
+            setLoading(false);
+        }
     }, []);
     useEffect(() => {
+        setLoading(true);
         setAllData(props.currentUser);
         if (allData) {
             setUncompletedTasks(props.uncompletedTasks);
+            setLoading(false);
         }
+        // console.log(props);
     }, [fetchUser()]);
     const getTasks = async () => {
         try {
@@ -184,7 +170,7 @@ function Home(props) {
                         Uncompleted Tasks
                     </Text>
                     <ScrollView style={styles.uncompletedTasksScroll}>
-                        {allData ? (
+                        {!loading ? (
                             uncompletedTasks.map((task) => {
                                 return (
                                     <View style={styles.item}>
@@ -208,12 +194,6 @@ function Home(props) {
                             // marginVertical: hp(2,
                         }}
                     />
-                    {/* <TouchableOpacity
-                        onPress={() => props.navigation.push('Focus')}
-                        style={styles.button}
-                    >
-                        <Text style={styles.buttonText}>FOCUS MODE</Text>
-                    </TouchableOpacity> */}
                 </LinearGradient>
             </LinearGradient>
         </View>
