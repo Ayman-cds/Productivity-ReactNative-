@@ -1,22 +1,4 @@
-/* 
-implement nighly updates of database based on current focus time
-stats --> {
-    date: date of task,
-    focus time: minutes of fucus on that day 
-}
-if the time is past 12 am then update the database and reset the focus 
-timer 
-figure out how  
-
-const now = new Date();
-date.format(now, 'YYYY/MM/DD HH:mm:ss');    // => '2015/01/02 23:14:05'
-date.format(now, 'ddd, MMM DD YYYY');       // => 'Fri, Jan 02 2015'
-date.format(now, 'hh:mm A [GMT]Z');         // => '11:14 PM GMT-0800'
-date.format(now, 'hh:mm A [GMT]Z', true);   // => '07:14 AM GMT+0000'
-
-const pattern = date.compile('ddd, MMM DD YYYY');
-date.format(now, pattern);                  // => 'Fri, Jan 02 2015'
-*/ import date from 'date-and-time';
+import date from 'date-and-time';
 
 const pattern = date.compile('ddd, MMM DD YYYY');
 
@@ -47,25 +29,26 @@ import * as firebase from 'firebase';
 import { connect } from 'react-redux';
 import { fetchUser } from '../redux/actions';
 import 'firebase/firestore';
-import Carousel from 'react-native-snap-carousel';
-import { Directions } from 'react-native-gesture-handler';
 
 function Home(props) {
     const [taskItems, setTaskItems] = useState([]);
     const [allData, setAllData] = useState([]);
     const [uncompletedTasks, setUncompletedTasks] = useState([]);
     const { name } = props.route.params;
-
+    const [loading, setLoading] = useState(false);
     let hrs = Math.floor(props.focusTime.time / 60);
     let mins = props.focusTime.time - hrs * 60;
     useEffect(() => {
         props.fetchUser();
     }, []);
     useEffect(() => {
+        setLoading(true);
         setAllData(props.currentUser);
         if (allData) {
             setUncompletedTasks(props.uncompletedTasks);
         }
+        console.log(props);
+        setLoading(false);
     }, [fetchUser()]);
     const getTasks = async () => {
         try {

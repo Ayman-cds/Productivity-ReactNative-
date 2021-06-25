@@ -18,6 +18,7 @@ export function fetchUser() {
                         dispatch({
                             type: USER_STATE_CHANGE,
                             currentUser: snapshot.data(),
+                            focusTime: snapshot.data().focusTime,
                         });
                     } else {
                         console.log('THIS USER DOES NOT EXIST');
