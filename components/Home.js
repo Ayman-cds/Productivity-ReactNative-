@@ -31,6 +31,18 @@ function Home(props) {
     const [allData, setAllData] = useState([]);
     const [uncompletedTasks, setUncompletedTasks] = useState([]);
     const [stats, setStats] = useState([]);
+    let statsAverage = props.stats
+        ? props.stats.map((stat) => stat.time).reduce((a, b) => a + b, 0) /
+          props.stats.length
+        : 0;
+    let percentageOfAverage = props.focusTime
+        ? (props.focusTime.time / statsAverage) * 100
+        : 0;
+
+    console.log('tootal of the weeek ------->>>', statsAverage);
+    console.log('number of stuff inthe week ------->', props.weeksStats.length);
+    console.log('WEEKSAVERAGE ----> ', statsAverage);
+    console.log('WEEKSAVERAGE percentage ----> ', percentageOfAverage);
     const { name } = props.route.params;
     const [loading, setLoading] = useState(false);
     let hrs = props.focusTime ? Math.floor(props.focusTime.time / 60) : 0;
@@ -50,7 +62,6 @@ function Home(props) {
             setLoading(false);
         }
     }, [fetchUser()]);
-
     const getTasks = async () => {
         try {
             const jsonTasks = await AsyncStorage.getItem('tasks');
@@ -300,6 +311,7 @@ const mapStateToProps = (store) => ({
     uncompletedTasks: store.userState.uncompletedTasks,
     focusTime: store.userState.focusTime,
     weeksStats: store.userState.weeksStats,
+    stats: store.userState.stats,
 });
 const mapDispatchToProps = (dispatch) => ({
     fetchUser: () => dispatch(fetchUser()),
