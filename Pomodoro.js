@@ -40,7 +40,7 @@ function Pomodoro(props) {
             } else {
                 setSeconds(seconds - 1);
             }
-        }, 100);
+        }, 50);
     }
     const minTimer = minutes < 10 ? `0${minutes}` : minutes;
     const secTimer = seconds < 10 ? `0${seconds}` : seconds;

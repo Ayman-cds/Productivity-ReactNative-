@@ -32,8 +32,6 @@ const isSameDay = (first, second) =>
 const lastFocusDay = (lastFocusTime) => {
     let today = getCurrentDate();
     let lastFocusDate = lastFocusTime['date'];
-    // console.log('TODAY ---->', today);
-    // console.log('LAST FOCUS DATE ---->', lastFocusDate);
     if (isSameDay(lastFocusDate, today)) {
         return lastFocusTime;
     } else {
