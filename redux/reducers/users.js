@@ -7,10 +7,12 @@ import {
 } from '../constants';
 
 const getCurrentDate = () => {
-    var date = new Date();
-    return date;
+    const date = new Date();
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
 };
-console.log(getCurrentDate());
 
 // use like this --> isSameDay(new Date(date), new Date(date))
 const isSameDay = (first, second) =>
@@ -18,6 +20,18 @@ const isSameDay = (first, second) =>
     first.getMonth() === second.getMonth() &&
     first.getDate() === second.getDate();
 
+// checks if the last focus time information is of the same day
+const lastFocusDay = (lastFocusTime) => {
+    let today = getCurrentDate();
+    let lastFocusDate = lastFocusTime;
+    console.log('TODAY ---->', today);
+    console.log('LAST FOCUS DATE ---->', new Date(lastFocusDate));
+    if (isSameDay(new Date(lastFocusDate), new Date(today))) {
+        return lastFocusTime;
+    } else {
+        return { time: 0, date: today };
+    }
+};
 const initialState = {
     currentUser: null,
     uncompletedTasks: [],
@@ -55,7 +69,7 @@ export const user = (state = initialState, action) => {
                 ...state,
                 currentUser: action.currentUser,
                 uncompletedTasks: action.currentUser.uncompletedTasks,
-                focusTime: action.currentUser.lastFocusTime,
+                focusTime: lastFocusDay(state.focusTime),
             };
         case USER_COMPLETED_TASKS_CHANGE:
             return {

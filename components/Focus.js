@@ -73,12 +73,9 @@ function Focus(props) {
     };
 
     const handleExitFocusMode = () => {
-        // console.log('PROPS------>>', props);
         Vibration.vibrate(50);
         Vibration.vibrate(50);
-        console.log('STATS before ===>>>', props.stats);
         props.updateStats();
-        console.log('STATS after ===>>>', props.stats);
         props.navigation.navigate('Home');
     };
     const handleAddTask = () => {

@@ -50,10 +50,10 @@ function Home(props) {
         if (allData) {
             setUncompletedTasks(props.uncompletedTasks);
             setLoading(false);
-            console.log('CURRENT USER  ===>', props.currentUser);
-            console.log('-------------------------------------------');
+            // console.log('CURRENT USER  ===>', props.currentUser);
+            // console.log('-------------------------------------------');
         }
-        console.log(props);
+        // console.log(props);
     }, [fetchUser()]);
     const getTasks = async () => {
         try {
