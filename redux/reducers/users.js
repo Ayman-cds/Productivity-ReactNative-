@@ -24,12 +24,12 @@ const initialState = {
     focusTime: { time: 0, date: getCurrentDate() },
     stats: [],
 };
-async function updateStatsDB(stats) {
+async function updateStatsDB(stats, focusTime) {
     await firebase
         .firestore()
         .collection('users')
         .doc(firebase.auth().currentUser.uid)
-        .update({ stats });
+        .update({ stats, lastFocusTime: focusTime });
 }
 
 const updateStats = (focusTime, stats) => {
@@ -44,7 +44,7 @@ const updateStats = (focusTime, stats) => {
     } else {
         stats.push(focusTime);
     }
-    updateStatsDB(stats);
+    updateStatsDB(stats, focusTime);
     return stats;
 };
 

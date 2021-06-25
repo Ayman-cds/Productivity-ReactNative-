@@ -46,9 +46,11 @@ function Home(props) {
         setAllData(props.currentUser);
         if (allData) {
             setUncompletedTasks(props.uncompletedTasks);
+            setLoading(false);
+            console.log('CURRENT USER  ===>', props.currentUser);
+            console.log('-------------------------------------------');
         }
         console.log(props);
-        setLoading(false);
     }, [fetchUser()]);
     const getTasks = async () => {
         try {
@@ -167,7 +169,7 @@ function Home(props) {
                         Uncompleted Tasks
                     </Text>
                     <ScrollView style={styles.uncompletedTasksScroll}>
-                        {allData ? (
+                        {!loading ? (
                             uncompletedTasks.map((task) => {
                                 return (
                                     <View style={styles.item}>
@@ -191,12 +193,6 @@ function Home(props) {
                             // marginVertical: hp(2,
                         }}
                     />
-                    {/* <TouchableOpacity
-                        onPress={() => props.navigation.push('Focus')}
-                        style={styles.button}
-                    >
-                        <Text style={styles.buttonText}>FOCUS MODE</Text>
-                    </TouchableOpacity> */}
                 </LinearGradient>
             </LinearGradient>
         </View>
