@@ -36,8 +36,8 @@ function Home(props) {
     const [uncompletedTasks, setUncompletedTasks] = useState([]);
     const { name } = props.route.params;
     const [loading, setLoading] = useState(false);
-    let hrs = Math.floor(props.focusTime.time / 60);
-    let mins = props.focusTime.time - hrs * 60;
+    let hrs = props.focusTime ? Math.floor(props.focusTime.time / 60) : 0;
+    let mins = props.focusTime ? props.focusTime.time - hrs * 60 : 0;
     useEffect(() => {
         props.fetchUser();
         if (allData) {
@@ -50,8 +50,6 @@ function Home(props) {
         if (allData) {
             setUncompletedTasks(props.uncompletedTasks);
             setLoading(false);
-            // console.log('CURRENT USER  ===>', props.currentUser);
-            // console.log('-------------------------------------------');
         }
         // console.log(props);
     }, [fetchUser()]);

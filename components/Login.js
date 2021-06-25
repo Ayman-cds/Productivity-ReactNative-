@@ -20,9 +20,13 @@ import firebaseConfig from './FirebaseConfig';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 const getCurrentDate = () => {
-    var date = new Date();
-    return date;
+    const date = new Date();
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`.split('/');
 };
+
 require('firebase/auth');
 const COLORS = {
     WHITE: '#fff',

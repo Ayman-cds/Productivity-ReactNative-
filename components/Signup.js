@@ -17,9 +17,13 @@ import Button from './Button';
 import firebase from 'firebase';
 require('firebase/auth');
 const getCurrentDate = () => {
-    var date = new Date();
-    return date;
+    const date = new Date();
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`.split('/');
 };
+
 const COLORS = {
     WHITE: '#fff',
     TEAL: '#278EA5',

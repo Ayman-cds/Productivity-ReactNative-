@@ -18,7 +18,7 @@ export function fetchUser() {
                         dispatch({
                             type: USER_STATE_CHANGE,
                             currentUser: snapshot.data(),
-                            focusTime: snapshot.data().focusTime,
+                            lastFocusTime: snapshot.data().lastFocusTime,
                         });
                     } else {
                         console.log('THIS USER DOES NOT EXIST');
@@ -59,10 +59,10 @@ export function updateStats() {
     };
 }
 
-export default function updateStatsDB(stats) {
-    firebase
-        .firestore()
-        .collection('users')
-        .doc(firebase.auth().currentUser.uid)
-        .update({ stats });
-}
+// export default function updateStatsDB(stats) {
+//     firebase
+//         .firestore()
+//         .collection('users')
+//         .doc(firebase.auth().currentUser.uid)
+//         .update({ stats });
+// }
