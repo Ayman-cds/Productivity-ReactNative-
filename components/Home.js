@@ -1,7 +1,3 @@
-import date from 'date-and-time';
-
-const pattern = date.compile('ddd, MMM DD YYYY');
-
 import React, { useEffect, useState } from 'react';
 import {
     View,
@@ -34,6 +30,7 @@ function Home(props) {
     const [taskItems, setTaskItems] = useState([]);
     const [allData, setAllData] = useState([]);
     const [uncompletedTasks, setUncompletedTasks] = useState([]);
+    const [stats, setStats] = useState([]);
     const { name } = props.route.params;
     const [loading, setLoading] = useState(false);
     let hrs = props.focusTime ? Math.floor(props.focusTime.time / 60) : 0;
@@ -51,8 +48,8 @@ function Home(props) {
             setUncompletedTasks(props.uncompletedTasks);
             setLoading(false);
         }
-        // console.log(props);
     }, [fetchUser()]);
+
     const getTasks = async () => {
         try {
             const jsonTasks = await AsyncStorage.getItem('tasks');
@@ -66,7 +63,6 @@ function Home(props) {
         firebase.auth().signOut();
         props.navigation.navigate('Login');
     };
-
     return (
         <View style={styles.container}>
             <LinearGradient
@@ -117,13 +113,7 @@ function Home(props) {
                                 ],
                                 datasets: [
                                     {
-                                        data: [
-                                            Math.round(Math.random() * 10),
-                                            Math.round(Math.random() * 10),
-                                            Math.round(Math.random() * 10),
-                                            Math.round(Math.random() * 10),
-                                            Math.round(Math.random() * 10),
-                                        ],
+                                        data: props.stats ? props.stats : [0],
                                     },
                                 ],
                             }}
@@ -306,6 +296,7 @@ const mapStateToProps = (store) => ({
     currentUser: store.userState.currentUser,
     uncompletedTasks: store.userState.uncompletedTasks,
     focusTime: store.userState.focusTime,
+    stats: store.userState.stats,
 });
 const mapDispatchToProps = (dispatch) => ({
     fetchUser: () => dispatch(fetchUser()),

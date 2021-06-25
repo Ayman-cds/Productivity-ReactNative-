@@ -34,7 +34,7 @@ const initialState = {
     currentUser: null,
     uncompletedTasks: [],
     focusTime: null,
-    stats: [],
+    stats: [0],
 };
 async function updateStatsDB(stats, focusTime) {
     await firebase
@@ -65,6 +65,13 @@ const updateStats = (focusTime, stats) => {
     return stats;
 };
 
+const weeksStats = (stats) => {
+    let newStats = [];
+    stats.forEach((stats) => newStats.push(stats['time']));
+    // console.log('NEW STATS FROM REDUCER --->', newStats);
+    return newStats;
+};
+
 export const user = (state = initialState, action) => {
     switch (action.type) {
         case USER_STATE_CHANGE:
@@ -73,7 +80,7 @@ export const user = (state = initialState, action) => {
                 currentUser: action.currentUser,
                 uncompletedTasks: action.currentUser.uncompletedTasks,
                 focusTime: lastFocusDay(action.lastFocusTime),
-                stats: action.currentUser.stats,
+                stats: weeksStats(action.currentUser.stats),
             };
         case USER_COMPLETED_TASKS_CHANGE:
             return {
