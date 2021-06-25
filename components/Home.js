@@ -36,13 +36,16 @@ function Home(props) {
           props.stats.length
         : 0;
     let percentageOfAverage = props.focusTime
-        ? (props.focusTime.time / statsAverage) * 100
+        ? Math.floor((props.focusTime.time / statsAverage) * 100)
         : 0;
-
-    console.log('tootal of the weeek ------->>>', statsAverage);
-    console.log('number of stuff inthe week ------->', props.weeksStats.length);
-    console.log('WEEKSAVERAGE ----> ', statsAverage);
-    console.log('WEEKSAVERAGE percentage ----> ', percentageOfAverage);
+    let comparedToYesterday =
+        props.focusTime && props.stats.length > 2
+            ? Math.floor(
+                  props.focusTime.time -
+                      props.stats[props.stats.length - 2].time
+              )
+            : 0;
+    let moreOrLess = comparedToYesterday > 0 ? 'more' : 'less';
     const { name } = props.route.params;
     const [loading, setLoading] = useState(false);
     let hrs = props.focusTime ? Math.floor(props.focusTime.time / 60) : 0;
@@ -105,10 +108,10 @@ function Home(props) {
                             style={styles.dailyStatsText}
                         >{` ${hrs}h ${mins}m`}</Text>
                         <Text style={styles.dailyStatsPercentage}>
-                            20% Greater Than Average
+                            {`${percentageOfAverage}% Greater Than Average`}
                         </Text>
                         <Text style={styles.dailyStatsPercentage}>
-                            10% > yesterday
+                            {`${comparedToYesterday} mins ${moreOrLess} than yesterday.`}
                         </Text>
                     </View>
                     <View style={styles.chart}>
