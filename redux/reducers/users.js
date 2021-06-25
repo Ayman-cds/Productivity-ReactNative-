@@ -56,6 +56,8 @@ async function updateStatsDB(stats, focusTime) {
 }
 
 const updateStats = (focusTime, stats) => {
+    console.log('stats ======>>>', stats);
+    console.log('stats ======>>>', focusTime);
     const { date, time } = focusTime;
     console.log('FOCUS TIME --->>>>', focusTime);
     if (stats.length) {

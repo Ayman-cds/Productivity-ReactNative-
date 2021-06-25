@@ -122,14 +122,14 @@ function Home(props) {
                             }}
                             width={Dimensions.get('window').width - 10} // from react-native
                             height={200}
-                            yAxisSuffix="h"
+                            yAxisSuffix=" min"
                             yAxisInterval={1} // optional, defaults to 1
                             chartConfig={{
                                 backgroundColor: '#278EA5',
                                 backgroundGradientFrom: '#071E3D',
                                 backgroundGradientTo: '#278EA5',
                                 opacity: 1,
-                                decimalPlaces: 2, // optional, defaults to 2dp
+                                decimalPlaces: 0, // optional, defaults to 2dp
                                 // yAxisLabel: 'Hours of fsdfsdfsdfsocus',
                                 color: (opacity = 1) =>
                                     `rgba(255, 255, 255, ${opacity})`,
