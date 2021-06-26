@@ -166,7 +166,11 @@ const Login = ({ navigation }) => {
             setLoading(true);
             const result = await Google.logInAsync({
                 androidClientId:
-                    '290407391510-6jal6o3b9rbi73nk9qh0nsu4dpbl7mao.apps.googleusercontent.com',
+                    '290407391510-rsmtqhl9s3a36tu42va08eomhrlsq58l.apps.googleusercontent.com',
+                androidStandaloneAppClientId:
+                    '290407391510-rsmtqhl9s3a36tu42va08eomhrlsq58l.apps.googleusercontent.com',
+                // webClientId:
+                //     '290407391510-f0c6v7pouqft4jan3asma6t06uh3646r.apps.googleusercontent.com',
                 scopes: ['profile', 'email'],
             });
             const { type, accessToken, user } = result;
