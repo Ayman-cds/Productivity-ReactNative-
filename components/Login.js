@@ -256,15 +256,19 @@ const Login = ({ navigation }) => {
 
                         {Platform.OS === 'android' ? (
                             <View style={styles.loginInWith}>
-                                <AntDesign
-                                    name="google"
-                                    size={28}
-                                    color="#fff"
+                                <TouchableOpacity
+                                    style={styles.loginInWith}
                                     onPress={onGoogleLogin}
-                                />
-                                <Text style={styles.google}>
-                                    Sign in with Google
-                                </Text>
+                                >
+                                    <AntDesign
+                                        name="google"
+                                        size={28}
+                                        color="#fff"
+                                    />
+                                    <Text style={styles.google}>
+                                        Sign in with Google
+                                    </Text>
+                                </TouchableOpacity>
                             </View>
                         ) : null}
                         <TouchableOpacity

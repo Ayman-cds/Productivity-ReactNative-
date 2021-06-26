@@ -51,7 +51,6 @@ const hp = (heightPercent) => {
 function Focus(props) {
     const [task, setTask] = useState('');
     const [taskItems, setTaskItems] = useState([]);
-    const [timing, setTiming] = useState(false);
     const getTasks = async () => {
         try {
             const jsonTasks = await AsyncStorage.getItem('tasks');
