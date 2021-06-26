@@ -32,13 +32,20 @@ function Home(props) {
     const [allData, setAllData] = useState([]);
     const [uncompletedTasks, setUncompletedTasks] = useState([]);
     const [stats, setStats] = useState([]);
-    const [refreshing, setRefreshing] = React.useState(false);
+    const [refreshing, setRefreshing] = useState(false);
 
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
 
         wait(2000).then(() => setRefreshing(false));
     }, []);
+    const wait = (timeout) => {
+        return new Promise((resolve) => {
+            props.fetchUser();
+            setTimeout(resolve, timeout);
+        });
+    };
+
     let statsAverage = props.stats
         ? props.stats.map((stat) => stat.time).reduce((a, b) => a + b, 0) /
           props.stats.length
@@ -106,6 +113,12 @@ function Home(props) {
                     pagingEnabled
                     horizontal={true}
                     snapToInterval={Dimensions.get('window').width - 20}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                        />
+                    }
                 >
                     <View style={styles.dailyStatsItem}>
                         <Text style={styles.dailyStats}>Daily Stats:</Text>
