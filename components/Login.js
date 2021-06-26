@@ -261,6 +261,19 @@ const Login = ({ navigation }) => {
                             />
                         )}
 
+                        {Platform.OS === 'android' ? (
+                            <View style={styles.loginInWith}>
+                                <AntDesign
+                                    name="google"
+                                    size={28}
+                                    color="#fff"
+                                    onPress={onGoogleLogin}
+                                />
+                                <Text style={styles.google}>
+                                    Sign in with Google
+                                </Text>
+                            </View>
+                        ) : null}
                         <TouchableOpacity
                             onPress={() => navigation.navigate('Signup')}
                             style={{
@@ -272,17 +285,9 @@ const Login = ({ navigation }) => {
                                 Create a new account
                             </Text>
                         </TouchableOpacity>
-                        {Platform.OS === 'android' ? (
-                            <View style={styles.loginInWith}>
-                                <Text>Sign in with Google</Text>
-                                <AntDesign
-                                    name="google"
-                                    size={34}
-                                    color="#071E3D"
-                                    onPress={onGoogleLogin}
-                                />
-                            </View>
-                        ) : null}
+                        {/* <View style={styles.orView}>
+                            <Text style={styles.or}>/</Text>
+                        </View> */}
                     </LinearGradient>
                 ) : (
                     <Button
@@ -305,8 +310,23 @@ const styles = StyleSheet.create({
     },
     loginInWith: {
         flexDirection: 'row',
-        justifyContent: 'space-around',
-        padding: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingBottom: 10,
+        opacity: 0.7,
+    },
+    google: {
+        paddingLeft: 10,
+        color: '#fff',
+    },
+    or: {
+        opacity: 0.7,
+        color: '#fff',
+    },
+    orView: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        opacity: 0.7,
     },
     topPart: {
         flex: 2,

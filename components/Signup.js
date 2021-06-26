@@ -16,15 +16,6 @@ import { Dimensions, PixelRatio, ActivityIndicator } from 'react-native';
 import Button from './Button';
 import firebase from 'firebase';
 require('firebase/auth');
-// const days = {
-//     1: 'Mon',
-//     2: 'Tue',
-//     3: 'Wed',
-//     4: 'Thur',
-//     5: 'Fri',
-//     6: 'Sat',
-//     7: 'Sun',
-// };
 const getCurrentDate = () => {
     const date = new Date();
     const day = date.getDay();
@@ -180,21 +171,7 @@ const Signup = ({ navigation }) => {
                             Login to an existing account
                         </Text>
                     </TouchableOpacity>
-                    {Platform.OS === 'android' ? (
-                        <View style={styles.SignupInWith}>
-                            <Entypo
-                                name="facebook-with-circle"
-                                size={34}
-                                color="#071E3D"
-                            />
-                            <AntDesign
-                                name="google"
-                                size={34}
-                                color="#071E3D"
-                            />
-                            <AntDesign name="twitter" size={34} color="black" />
-                        </View>
-                    ) : null}
+                    <View style={styles.SignupInWith}></View>
                 </LinearGradient>
             </Animated.View>
         </LinearGradient>
@@ -220,14 +197,11 @@ const styles = StyleSheet.create({
     SignupContainer: {
         borderTopLeftRadius: wp(20),
         borderBottomRightRadius: wp(20),
-        // flex: 1,
     },
-    bottomPart: {},
     bookTextStyle: {
         color: COLORS.WHITE,
         fontSize: wp(14),
         letterSpacing: wp(4),
-        // fontFamily: 'Montserrat-Light',
     },
     SignupTextStyle: {
         alignSelf: 'center',
@@ -237,7 +211,6 @@ const styles = StyleSheet.create({
         opacity: 0.7,
         fontSize: wp(8),
         letterSpacing: wp(0.1),
-        // fontFamily: 'Montserrat',
     },
     textInputStyle: {
         borderRadius: wp(5),
