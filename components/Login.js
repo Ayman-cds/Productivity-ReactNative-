@@ -9,6 +9,7 @@ import {
     TouchableOpacity,
     Platform,
     Alert,
+    KeyboardAvoidingView,
 } from 'react-native';
 import Expo from 'expo';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -169,19 +170,11 @@ const Login = ({ navigation }) => {
                     '290407391510-6jal6o3b9rbi73nk9qh0nsu4dpbl7mao.apps.googleusercontent.com',
                 androidStandaloneAppClientId:
                     '290407391510-rsmtqhl9s3a36tu42va08eomhrlsq58l.apps.googleusercontent.com',
-                webClientId:
-                    '290407391510-f0c6v7pouqft4jan3asma6t06uh3646r.apps.googleusercontent.com',
                 scopes: ['profile', 'email'],
             });
-            const { type, accessToken, user } = result;
+            console.log('RESULT ----->>>>', result);
+            const { type, user } = result;
             if (type === 'success') {
-                // Then you can use the Google REST API
-                let userInfoResponse = await fetch(
-                    'https://www.googleapis.com/userinfo/v2/me',
-                    {
-                        headers: { Authorization: `Bearer ${accessToken}` },
-                    }
-                );
                 onSignIn(result);
                 const name = user.givenName;
                 navigation.navigate('Home', { name, uid: user.uid });
@@ -222,8 +215,8 @@ const Login = ({ navigation }) => {
             style={styles.container}
         >
             <View style={styles.topPart}>
-                <Text style={styles.bookTextStyle}>FOCUS</Text>
-                <Text style={styles.bookTextStyle}>TIMER</Text>
+                <Text style={styles.bookTextStyle}>10K</Text>
+                <Text style={styles.bookTextStyle}>HRS</Text>
             </View>
             <Animated.View style={[styles.bottomPart, { flex: bottomFlex }]}>
                 {startClicked ? (
