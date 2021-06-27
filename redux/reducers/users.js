@@ -45,7 +45,6 @@ async function updateStatsDB(stats, focusTime) {
 
 const updateStats = (focusTime, stats) => {
     const { date, time } = focusTime;
-    console.log('FOCUS TIME --->>>>', focusTime);
     if (stats.length) {
         let lastStat = stats[stats.length - 1];
         if (isSameDay(lastStat.date, date)) {
