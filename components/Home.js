@@ -33,7 +33,10 @@ function Home(props) {
     const [uncompletedTasks, setUncompletedTasks] = useState([]);
     const [stats, setStats] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const { name } = props.route.params;
 
+    // pull down to refresh
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
 
@@ -63,8 +66,6 @@ function Home(props) {
             ? props.focusTime.time - props.stats[props.stats.length - 2].time
             : 0;
     let moreOrLess = comparedToYesterday > 0 ? 'more' : 'less';
-    const { name } = props.route.params;
-    const [loading, setLoading] = useState(false);
     let hrs = props.focusTime ? Math.floor(props.focusTime.time / 60) : 0;
     let mins = props.focusTime ? props.focusTime.time - hrs * 60 : 0;
 
@@ -97,20 +98,36 @@ function Home(props) {
         firebase.auth().signOut();
         props.navigation.navigate('Login');
     };
-    const commitsData = [
-        { date: '2017-01-02', count: 1 },
-        { date: '2017-01-03', count: 2 },
-        { date: '2017-01-04', count: 3 },
-        { date: '2017-01-05', count: 14 },
-        { date: '2017-01-06', count: 5 },
-        { date: '2017-01-30', count: 2 },
-        { date: '2017-01-31', count: 3 },
-        { date: '2017-03-01', count: 2 },
-        { date: '2017-04-02', count: 4 },
-        { date: '2017-03-05', count: 2 },
-        { date: '2017-02-30', count: 4 },
-    ];
 
+    const dateConverter = (dateArr) => {
+        //input date from db [28, 6, 2021]
+        let day = dateArr[0].length >= 2 ? dateArr[0] : `0${dateArr[0] - 10}`;
+        let month = dateArr[1].length >= 2 ? dateArr[1] : `0${dateArr[1] - 1}`;
+        let year = dateArr[2];
+        console.log(`=========>>>${year}-${month}-${day}`);
+        return `${year}-${month}-${day}`;
+    };
+    // const commitsData = [
+    //     { date: '2017-01-02', count: 1 },
+    //     { date: '2017-01-03', count: 2 },
+    //     { date: '2017-01-04', count: 3 },
+    //     { date: '2017-01-05', count: 14 },
+    //     { date: '2017-01-06', count: 5 },
+    //     { date: '2017-01-30', count: 2 },
+    //     { date: '2017-01-31', count: 3 },
+    //     { date: '2017-03-01', count: 2 },
+    //     { date: '2017-04-02', count: 4 },
+    //     { date: '2017-03-05', count: 2 },
+    //     { date: '2017-02-30', count: 4 },
+    // ];
+    const commitsData = props.stats.map((stat) => {
+        let obj = {
+            date: dateConverter(stat.date),
+            count: stat.completedTasks,
+        };
+        return obj;
+    });
+    console.log('chart data ====>', commitsData);
     return (
         <View style={styles.container}>
             <LinearGradient
@@ -217,10 +234,11 @@ function Home(props) {
                     </View>
                     <ContributionGraph
                         values={commitsData}
-                        endDate={new Date('2017-04-01')}
+                        endDate={new Date('2021-07-12')}
                         numDays={105}
                         width={Dimensions.get('window').width - 10}
                         height={220}
+                        showOutOfRangeDays={true}
                         chartConfig={{
                             backgroundColor: '#278EA5',
                             backgroundGradientFrom: '#071E3D',
@@ -234,11 +252,6 @@ function Home(props) {
                                 `rgba(255, 255, 255, ${opacity})`,
                             style: {
                                 borderRadius: 16,
-                            },
-                            propsForDots: {
-                                r: '6',
-                                strokeWidth: '2',
-                                stroke: '#071E3D',
                             },
                         }}
                     />
