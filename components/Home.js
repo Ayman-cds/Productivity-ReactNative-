@@ -93,10 +93,10 @@ function Home(props) {
         props.navigation.navigate('Login');
     };
     const commitsData = [
-        { date: '2017-1-02', count: 1 },
-        { date: '2017-1-03', count: 2 },
-        { date: '2017-1-04', count: 3 },
-        { date: '2017-01-05', count: 4 },
+        { date: '2017-01-02', count: 1 },
+        { date: '2017-01-03', count: 2 },
+        { date: '2017-01-04', count: 3 },
+        { date: '2017-01-05', count: 14 },
         { date: '2017-01-06', count: 5 },
         { date: '2017-01-30', count: 2 },
         { date: '2017-01-31', count: 3 },

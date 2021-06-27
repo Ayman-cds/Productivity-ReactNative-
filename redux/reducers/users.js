@@ -1,9 +1,11 @@
 import firebase from 'firebase';
+import { updateUncompletedTasks } from '../../components/FirebaseFucs';
 import {
     USER_COMPLETED_TASKS_CHANGE,
     USER_STATE_CHANGE,
     UPDATE_FOCUS_TIME,
     UPDATE_STATS,
+    UPDATE_COMPLETED_TASKS_STATS,
 } from '../constants';
 const getCurrentDate = () => {
     const date = new Date();
@@ -58,6 +60,9 @@ const updateStats = (focusTime, stats) => {
     updateStatsDB(stats, focusTime);
     return stats;
 };
+const updateCompletedTasksStats = (stats) => {
+    stats[stats.length - 1]['completedTasks'] += 1;
+};
 
 const weeksStats = (stats) => {
     let newStats = [0, 0, 0, 0, 0, 0, 0];
@@ -96,6 +101,11 @@ export const user = (state = initialState, action) => {
                 ...state,
                 stats: updateStats(state.focusTime, state.stats),
                 weeksStats: weeksStats(state.stats),
+            };
+        case UPDATE_COMPLETED_TASKS_STATS:
+            return {
+                ...state,
+                stats: updateCompletedTasksStats(state.stats),
             };
         default:
             return state;
