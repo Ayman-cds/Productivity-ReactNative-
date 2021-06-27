@@ -46,10 +46,13 @@ function Home(props) {
         });
     };
 
-    let statsAverage = props.stats
-        ? props.stats.map((stat) => stat.time).reduce((a, b) => a + b, 0) /
-          props.stats.length
+    let lifeTimeFocus = props.stats
+        ? props.stats.map((stat) => stat.time).reduce((a, b) => a + b, 0)
         : 0;
+    let lifeTimeHrs = lifeTimeFocus ? Math.floor(lifeTimeFocus / 60) : 0;
+    let lifeTimeMins = lifeTimeFocus ? lifeTimeFocus - lifeTimeHrs * 60 : 0;
+
+    let statsAverage = props.stats ? lifeTimeFocus / props.stats.length : 0;
     let percentageOfAverage = props.focusTime
         ? Math.floor((props.focusTime.time / statsAverage) * 100)
         : 0;
@@ -72,7 +75,6 @@ function Home(props) {
         setLoading(true);
         setAllData(props.currentUser);
         if (allData) {
-            console.log('PROPS ====>>>', props);
             setUncompletedTasks(props.uncompletedTasks);
             setLoading(false);
         }
@@ -90,6 +92,20 @@ function Home(props) {
         firebase.auth().signOut();
         props.navigation.navigate('Login');
     };
+    const commitsData = [
+        { date: '2017-1-02', count: 1 },
+        { date: '2017-1-03', count: 2 },
+        { date: '2017-1-04', count: 3 },
+        { date: '2017-01-05', count: 4 },
+        { date: '2017-01-06', count: 5 },
+        { date: '2017-01-30', count: 2 },
+        { date: '2017-01-31', count: 3 },
+        { date: '2017-03-01', count: 2 },
+        { date: '2017-04-02', count: 4 },
+        { date: '2017-03-05', count: 2 },
+        { date: '2017-02-30', count: 4 },
+    ];
+
     return (
         <View style={styles.container}>
             <LinearGradient
@@ -154,7 +170,7 @@ function Home(props) {
                                     },
                                 ],
                             }}
-                            width={Dimensions.get('window').width - 10} // from react-native
+                            width={Dimensions.get('window').width - 10}
                             height={200}
                             yAxisSuffix=" min"
                             yAxisInterval={1} // optional, defaults to 1
@@ -185,6 +201,42 @@ function Home(props) {
                             }}
                         />
                     </View>
+                    <View style={styles.dailyStatsItem}>
+                        <Text style={styles.dailyStats}>LIfe Time Stats:</Text>
+                        <Text
+                            style={styles.dailyStatsText}
+                        >{` ${lifeTimeHrs}h ${lifeTimeMins}m`}</Text>
+                        <Text style={styles.dailyStatsPercentage}>
+                            Well done but keep going!
+                        </Text>
+                    </View>
+                    <ContributionGraph
+                        values={commitsData}
+                        endDate={new Date('2017-04-01')}
+                        numDays={105}
+                        width={Dimensions.get('window').width - 10}
+                        height={220}
+                        chartConfig={{
+                            backgroundColor: '#278EA5',
+                            backgroundGradientFrom: '#071E3D',
+                            backgroundGradientTo: '#278EA5',
+                            opacity: 1,
+                            decimalPlaces: 0, // optional, defaults to 2dp
+                            // yAxisLabel: 'Hours of fsdfsdfsdfsocus',
+                            color: (opacity = 1) =>
+                                `rgba(255, 255, 255, ${opacity})`,
+                            labelColor: (opacity = 1) =>
+                                `rgba(255, 255, 255, ${opacity})`,
+                            style: {
+                                borderRadius: 16,
+                            },
+                            propsForDots: {
+                                r: '6',
+                                strokeWidth: '2',
+                                stroke: '#071E3D',
+                            },
+                        }}
+                    />
                 </ScrollView>
                 <LinearGradient
                     Background
