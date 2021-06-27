@@ -100,7 +100,11 @@ const Login = ({ navigation }) => {
             fName: result.user.givenName,
             uncompletedTasks: [],
             stats: [],
-            lastFocusTime: { time: 0, date: getCurrentDate() },
+            lastFocusTime: {
+                time: 0,
+                date: getCurrentDate(),
+                completedTasks: 0,
+            },
         });
     }
     function checkIfLoggedIn() {

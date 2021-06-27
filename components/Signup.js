@@ -83,7 +83,11 @@ const Signup = ({ navigation }) => {
             fName: result.user.displayName,
             uncompletedTasks: [],
             stats: [],
-            lastFocusTime: { time: 0, date: getCurrentDate() },
+            lastFocusTime: {
+                time: 0,
+                date: getCurrentDate(),
+                completedTasks: 0,
+            },
         });
     }
     async function onEmailSignup() {
