@@ -58,11 +58,3 @@ export function updateStats() {
         });
     };
 }
-
-// export default function updateStatsDB(stats) {
-//     firebase
-//         .firestore()
-//         .collection('users')
-//         .doc(firebase.auth().currentUser.uid)
-//         .update({ stats });
-// }

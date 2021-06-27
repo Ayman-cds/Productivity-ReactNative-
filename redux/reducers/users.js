@@ -1,5 +1,4 @@
 import firebase from 'firebase';
-import { updateUncompletedTasks } from '../../components/FirebaseFucs';
 import {
     USER_COMPLETED_TASKS_CHANGE,
     USER_STATE_CHANGE,
@@ -27,7 +26,7 @@ const lastFocusDay = (lastFocusTime) => {
     if (isSameDay(lastFocusDate, today)) {
         return lastFocusTime;
     } else {
-        return { time: 0, date: today };
+        return { time: 0, date: today, completedTasks: 0 };
     }
 };
 const initialState = {
@@ -106,6 +105,12 @@ export const user = (state = initialState, action) => {
             return {
                 ...state,
                 stats: updateCompletedTasksStats(state.stats),
+                focusTime: {
+                    ...state.focusTime,
+                    completedTasks: state.focusTime
+                        ? state.focusTime.completedTasks + 1
+                        : 0 + 1,
+                },
             };
         default:
             return state;
