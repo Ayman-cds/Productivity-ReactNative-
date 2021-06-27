@@ -99,10 +99,12 @@ function Home(props) {
         props.navigation.navigate('Login');
     };
 
+    // Contribution chart =========
+
     const dateConverter = (dateArr) => {
         //input date from db [28, 6, 2021]
         let day = dateArr[0].length >= 2 ? dateArr[0] : `0${dateArr[0] - 10}`;
-        let month = dateArr[1].length >= 2 ? dateArr[1] : `0${dateArr[1] - 1}`;
+        let month = dateArr[1].length >= 2 ? dateArr[1] : `0${dateArr[1]}`;
         let year = dateArr[2];
         console.log(`=========>>>${year}-${month}-${day}`);
         return `${year}-${month}-${day}`;
@@ -115,6 +117,8 @@ function Home(props) {
         return obj;
     });
     console.log('chart data ====>', taskData);
+    //==================
+
     return (
         <View style={styles.container}>
             <LinearGradient
@@ -223,19 +227,14 @@ function Home(props) {
                         values={taskData}
                         endDate={new Date()}
                         numDays={105}
-                        width={Dimensions.get('window').width - 10}
+                        width={Dimensions.get('window').width}
                         height={220}
                         showOutOfRangeDays={true}
                         chartConfig={{
                             backgroundColor: '#278EA5',
                             backgroundGradientFrom: '#071E3D',
                             backgroundGradientTo: '#278EA5',
-                            opacity: 1,
-                            decimalPlaces: 0, // optional, defaults to 2dp
-                            // yAxisLabel: 'Hours of fsdfsdfsdfsocus',
                             color: (opacity = 1) =>
-                                `rgba(255, 255, 255, ${opacity})`,
-                            labelColor: (opacity = 1) =>
                                 `rgba(255, 255, 255, ${opacity})`,
                             style: {
                                 borderRadius: 16,

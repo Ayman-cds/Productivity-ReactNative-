@@ -20,15 +20,6 @@ import * as Google from 'expo-google-app-auth';
 import firebaseConfig from './FirebaseConfig';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
-// const days = {
-//     1: 'Mon',
-//     2: 'Tue',
-//     3: 'Wed',
-//     4: 'Thur',
-//     5: 'Fri',
-//     6: 'Sat',
-//     7: 'Sun',
-// };
 const getCurrentDate = () => {
     const date = new Date();
     const day = date.getDay();
@@ -106,6 +97,10 @@ const Login = ({ navigation }) => {
                 completedTasks: 0,
             },
         });
+        navigation.navigate('Home', {
+            name: user.displayName,
+            uid: user.uid,
+        });
     }
     function checkIfLoggedIn() {
         firebase.auth().onAuthStateChanged(function (user) {
@@ -135,7 +130,10 @@ const Login = ({ navigation }) => {
                         );
                     console.log('firebase user ------> ', firebaseUser);
                     try {
-                        await firebase.auth().signInWithCredential(credential);
+                        const result = await firebase
+                            .auth()
+                            .signInWithCredential(credential);
+                        console.log(result);
                         newUser(googleUser);
 
                         console.log('user is signed in ');
