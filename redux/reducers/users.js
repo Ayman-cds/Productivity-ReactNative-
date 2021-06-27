@@ -4,6 +4,7 @@ import {
     USER_STATE_CHANGE,
     UPDATE_FOCUS_TIME,
     UPDATE_STATS,
+    UPDATE_COMPLETED_TASKS_STATS,
 } from '../constants';
 const getCurrentDate = () => {
     const date = new Date();
@@ -25,7 +26,7 @@ const lastFocusDay = (lastFocusTime) => {
     if (isSameDay(lastFocusDate, today)) {
         return lastFocusTime;
     } else {
-        return { time: 0, date: today };
+        return { time: 0, date: today, completedTasks: 0 };
     }
 };
 const initialState = {
@@ -55,6 +56,14 @@ const updateStats = (focusTime, stats) => {
     } else {
         stats.push(focusTime);
     }
+    updateStatsDB(stats, focusTime);
+    return stats;
+};
+const updateCompletedTasksStats = (stats, focusTime) => {
+    console.log('stats ====>>>>', stats);
+    console.log('focusTime ====>>>>', focusTime);
+
+    stats.length ? (stats[stats.length - 1]['completedTasks'] += 1) : [];
     updateStatsDB(stats, focusTime);
     return stats;
 };
@@ -96,6 +105,17 @@ export const user = (state = initialState, action) => {
                 ...state,
                 stats: updateStats(state.focusTime, state.stats),
                 weeksStats: weeksStats(state.stats),
+            };
+        case UPDATE_COMPLETED_TASKS_STATS:
+            return {
+                ...state,
+                focusTime: {
+                    ...state.focusTime,
+                    completedTasks: state.focusTime
+                        ? state.focusTime.completedTasks + 1
+                        : 0 + 1,
+                },
+                stats: updateCompletedTasksStats(state.stats, state.focusTime),
             };
         default:
             return state;

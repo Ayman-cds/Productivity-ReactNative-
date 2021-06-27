@@ -11,7 +11,6 @@ import {
     Alert,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Entypo, AntDesign } from '@expo/vector-icons';
 import { Dimensions, PixelRatio, ActivityIndicator } from 'react-native';
 import Button from './Button';
 import firebase from 'firebase';
@@ -83,7 +82,11 @@ const Signup = ({ navigation }) => {
             fName: result.user.displayName,
             uncompletedTasks: [],
             stats: [],
-            lastFocusTime: { time: 0, date: getCurrentDate() },
+            lastFocusTime: {
+                time: 0,
+                date: getCurrentDate(),
+                completedTasks: 0,
+            },
         });
     }
     async function onEmailSignup() {

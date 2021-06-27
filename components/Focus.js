@@ -22,7 +22,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import NetInfo from '@react-native-community/netinfo';
 import { MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
-import { updateUserTasks } from '../redux/actions';
+import { updateCompletedTasks, updateUserTasks } from '../redux/actions';
 import { updateStats } from '../redux/actions/index.js';
 console.disableYellowBox = true;
 const COLORS = {
@@ -102,6 +102,7 @@ function Focus(props) {
         setTaskItems(itemCopy);
         storeTasks(itemCopy);
         props.updateUserTasks(itemCopy);
+        props.updateCompletedTasks();
     };
 
     const deleteAll = async () => {
@@ -141,12 +142,6 @@ function Focus(props) {
                 onDragEnd={({ data }) => setTaskItems(data)}
             />
             <View style={styles.textInput}>
-                {/* <MaterialIcons
-                    name="delete-sweep"
-                    size={24}
-                    color="black"
-                    onPress={deleteAll}
-                /> */}
                 <KeyboardAvoidingView
                     behavior={Platform.os === 'ios' ? 'padding' : 'height'}
                     style={styles.addNewTask}
@@ -267,5 +262,6 @@ const mapStateToProps = (store) => ({
 const mapDispatchToProps = (dispatch) => ({
     updateUserTasks: (tasks) => dispatch(updateUserTasks(tasks)),
     updateStats: () => dispatch(updateStats()),
+    updateCompletedTasks: () => dispatch(updateCompletedTasks()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Focus);

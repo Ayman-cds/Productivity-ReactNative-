@@ -4,6 +4,7 @@ import {
     USER_STATE_CHANGE,
     UPDATE_FOCUS_TIME,
     UPDATE_STATS,
+    UPDATE_COMPLETED_TASKS_STATS,
 } from '../constants';
 export function fetchUser() {
     return (dispatch) => {
@@ -59,10 +60,10 @@ export function updateStats() {
     };
 }
 
-// export default function updateStatsDB(stats) {
-//     firebase
-//         .firestore()
-//         .collection('users')
-//         .doc(firebase.auth().currentUser.uid)
-//         .update({ stats });
-// }
+export function updateCompletedTasks() {
+    return (dispatch) => {
+        dispatch({
+            type: UPDATE_COMPLETED_TASKS_STATS,
+        });
+    };
+}

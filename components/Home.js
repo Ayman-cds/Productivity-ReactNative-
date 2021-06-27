@@ -33,7 +33,10 @@ function Home(props) {
     const [uncompletedTasks, setUncompletedTasks] = useState([]);
     const [stats, setStats] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const { name } = props.route.params;
 
+    // pull down to refresh
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
 
@@ -46,10 +49,15 @@ function Home(props) {
         });
     };
 
-    let statsAverage = props.stats
-        ? props.stats.map((stat) => stat.time).reduce((a, b) => a + b, 0) /
-          props.stats.length
+    // =====calculations for stats bar
+
+    let lifeTimeFocus = props.stats
+        ? props.stats.map((stat) => stat.time).reduce((a, b) => a + b, 0)
         : 0;
+    let lifeTimeHrs = lifeTimeFocus ? Math.floor(lifeTimeFocus / 60) : 0;
+    let lifeTimeMins = lifeTimeFocus ? lifeTimeFocus - lifeTimeHrs * 60 : 0;
+
+    let statsAverage = props.stats ? lifeTimeFocus / props.stats.length : 0;
     let percentageOfAverage = props.focusTime
         ? Math.floor((props.focusTime.time / statsAverage) * 100)
         : 0;
@@ -58,10 +66,11 @@ function Home(props) {
             ? props.focusTime.time - props.stats[props.stats.length - 2].time
             : 0;
     let moreOrLess = comparedToYesterday > 0 ? 'more' : 'less';
-    const { name } = props.route.params;
-    const [loading, setLoading] = useState(false);
     let hrs = props.focusTime ? Math.floor(props.focusTime.time / 60) : 0;
     let mins = props.focusTime ? props.focusTime.time - hrs * 60 : 0;
+
+    // ===================
+
     useEffect(() => {
         props.fetchUser();
         if (allData) {
@@ -72,7 +81,6 @@ function Home(props) {
         setLoading(true);
         setAllData(props.currentUser);
         if (allData) {
-            console.log('PROPS ====>>>', props);
             setUncompletedTasks(props.uncompletedTasks);
             setLoading(false);
         }
@@ -90,6 +98,27 @@ function Home(props) {
         firebase.auth().signOut();
         props.navigation.navigate('Login');
     };
+
+    // Contribution chart =========
+
+    const dateConverter = (dateArr) => {
+        //input date from db [28, 6, 2021]
+        let day = dateArr[0].length >= 2 ? dateArr[0] : `0${dateArr[0] - 10}`;
+        let month = dateArr[1].length >= 2 ? dateArr[1] : `0${dateArr[1]}`;
+        let year = dateArr[2];
+        console.log(`=========>>>${year}-${month}-${day}`);
+        return `${year}-${month}-${day}`;
+    };
+    const taskData = props.stats.map((stat) => {
+        let obj = {
+            date: dateConverter(stat.date),
+            count: stat.completedTasks,
+        };
+        return obj;
+    });
+    console.log('chart data ====>', taskData);
+    //==================
+
     return (
         <View style={styles.container}>
             <LinearGradient
@@ -154,7 +183,7 @@ function Home(props) {
                                     },
                                 ],
                             }}
-                            width={Dimensions.get('window').width - 10} // from react-native
+                            width={Dimensions.get('window').width - 10}
                             height={200}
                             yAxisSuffix=" min"
                             yAxisInterval={1} // optional, defaults to 1
@@ -185,6 +214,33 @@ function Home(props) {
                             }}
                         />
                     </View>
+                    <View style={styles.dailyStatsItem}>
+                        <Text style={styles.dailyStats}>LIfe Time Stats:</Text>
+                        <Text
+                            style={styles.dailyStatsText}
+                        >{` ${lifeTimeHrs}h ${lifeTimeMins}m`}</Text>
+                        <Text style={styles.dailyStatsPercentage}>
+                            Well done but keep going!
+                        </Text>
+                    </View>
+                    <ContributionGraph
+                        values={taskData}
+                        endDate={new Date()}
+                        numDays={105}
+                        width={Dimensions.get('window').width}
+                        height={220}
+                        showOutOfRangeDays={true}
+                        chartConfig={{
+                            backgroundColor: '#278EA5',
+                            backgroundGradientFrom: '#071E3D',
+                            backgroundGradientTo: '#278EA5',
+                            color: (opacity = 1) =>
+                                `rgba(255, 255, 255, ${opacity})`,
+                            style: {
+                                borderRadius: 16,
+                            },
+                        }}
+                    />
                 </ScrollView>
                 <LinearGradient
                     Background
