@@ -9,6 +9,7 @@ import {
     TouchableOpacity,
     Platform,
     Alert,
+    KeyboardAvoidingView,
 } from 'react-native';
 import Expo from 'expo';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -167,17 +168,13 @@ const Login = ({ navigation }) => {
             const result = await Google.logInAsync({
                 androidClientId:
                     '290407391510-6jal6o3b9rbi73nk9qh0nsu4dpbl7mao.apps.googleusercontent.com',
+                androidStandaloneAppClientId:
+                    '290407391510-rsmtqhl9s3a36tu42va08eomhrlsq58l.apps.googleusercontent.com',
                 scopes: ['profile', 'email'],
             });
-            const { type, accessToken, user } = result;
+            console.log('RESULT ----->>>>', result);
+            const { type, user } = result;
             if (type === 'success') {
-                // Then you can use the Google REST API
-                let userInfoResponse = await fetch(
-                    'https://www.googleapis.com/userinfo/v2/me',
-                    {
-                        headers: { Authorization: `Bearer ${accessToken}` },
-                    }
-                );
                 onSignIn(result);
                 const name = user.givenName;
                 navigation.navigate('Home', { name, uid: user.uid });
@@ -218,8 +215,8 @@ const Login = ({ navigation }) => {
             style={styles.container}
         >
             <View style={styles.topPart}>
-                <Text style={styles.bookTextStyle}>FOCUS</Text>
-                <Text style={styles.bookTextStyle}>TIMER</Text>
+                <Text style={styles.bookTextStyle}>10K</Text>
+                <Text style={styles.bookTextStyle}>HRS</Text>
             </View>
             <Animated.View style={[styles.bottomPart, { flex: bottomFlex }]}>
                 {startClicked ? (
@@ -257,6 +254,23 @@ const Login = ({ navigation }) => {
                             />
                         )}
 
+                        {Platform.OS === 'android' ? (
+                            <View style={styles.loginInWith}>
+                                <TouchableOpacity
+                                    style={styles.loginInWith}
+                                    onPress={onGoogleLogin}
+                                >
+                                    <AntDesign
+                                        name="google"
+                                        size={28}
+                                        color="#fff"
+                                    />
+                                    <Text style={styles.google}>
+                                        Sign in with Google
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                        ) : null}
                         <TouchableOpacity
                             onPress={() => navigation.navigate('Signup')}
                             style={{
@@ -268,17 +282,9 @@ const Login = ({ navigation }) => {
                                 Create a new account
                             </Text>
                         </TouchableOpacity>
-                        {Platform.OS === 'android' ? (
-                            <View style={styles.loginInWith}>
-                                <Text>Sign in with Google</Text>
-                                <AntDesign
-                                    name="google"
-                                    size={34}
-                                    color="#071E3D"
-                                    onPress={onGoogleLogin}
-                                />
-                            </View>
-                        ) : null}
+                        {/* <View style={styles.orView}>
+                            <Text style={styles.or}>/</Text>
+                        </View> */}
                     </LinearGradient>
                 ) : (
                     <Button
@@ -301,8 +307,23 @@ const styles = StyleSheet.create({
     },
     loginInWith: {
         flexDirection: 'row',
-        justifyContent: 'space-around',
-        padding: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingBottom: 10,
+        opacity: 0.7,
+    },
+    google: {
+        paddingLeft: 10,
+        color: '#fff',
+    },
+    or: {
+        opacity: 0.7,
+        color: '#fff',
+    },
+    orView: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        opacity: 0.7,
     },
     topPart: {
         flex: 2,

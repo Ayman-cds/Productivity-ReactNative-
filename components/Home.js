@@ -6,6 +6,7 @@ import {
     ScrollView,
     TouchableOpacity,
     ActivityIndicator,
+    RefreshControl,
 } from 'react-native';
 import Button from './Button';
 
@@ -31,6 +32,20 @@ function Home(props) {
     const [allData, setAllData] = useState([]);
     const [uncompletedTasks, setUncompletedTasks] = useState([]);
     const [stats, setStats] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+
+        wait(2000).then(() => setRefreshing(false));
+    }, []);
+    const wait = (timeout) => {
+        return new Promise((resolve) => {
+            props.fetchUser();
+            setTimeout(resolve, timeout);
+        });
+    };
+
     let statsAverage = props.stats
         ? props.stats.map((stat) => stat.time).reduce((a, b) => a + b, 0) /
           props.stats.length
@@ -40,10 +55,7 @@ function Home(props) {
         : 0;
     let comparedToYesterday =
         props.focusTime && props.stats.length > 2
-            ? Math.floor(
-                  props.focusTime.time -
-                      props.stats[props.stats.length - 2].time
-              )
+            ? props.focusTime.time - props.stats[props.stats.length - 2].time
             : 0;
     let moreOrLess = comparedToYesterday > 0 ? 'more' : 'less';
     const { name } = props.route.params;
@@ -101,6 +113,12 @@ function Home(props) {
                     pagingEnabled
                     horizontal={true}
                     snapToInterval={Dimensions.get('window').width - 20}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                        />
+                    }
                 >
                     <View style={styles.dailyStatsItem}>
                         <Text style={styles.dailyStats}>Daily Stats:</Text>
@@ -111,7 +129,9 @@ function Home(props) {
                             {`${percentageOfAverage}% Greater Than Average`}
                         </Text>
                         <Text style={styles.dailyStatsPercentage}>
-                            {`${comparedToYesterday} mins ${moreOrLess} than yesterday.`}
+                            {`${Math.abs(
+                                comparedToYesterday
+                            )} mins ${moreOrLess} than yesterday.`}
                         </Text>
                     </View>
                     <View style={styles.chart}>

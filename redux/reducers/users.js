@@ -5,16 +5,6 @@ import {
     UPDATE_FOCUS_TIME,
     UPDATE_STATS,
 } from '../constants';
-
-// const days = {
-//     1: 'Mon',
-//     2: 'Tue',
-//     3: 'Wed',
-//     4: 'Thur',
-//     5: 'Fri',
-//     6: 'Sat',
-//     7: 'Sun',
-// };
 const getCurrentDate = () => {
     const date = new Date();
     const day = date.getDay();
@@ -54,24 +44,17 @@ async function updateStatsDB(stats, focusTime) {
 }
 
 const updateStats = (focusTime, stats) => {
-    console.log('stats ======>>>', stats);
-    console.log('stats ======>>>', focusTime);
     const { date, time } = focusTime;
     console.log('FOCUS TIME --->>>>', focusTime);
     if (stats.length) {
         let lastStat = stats[stats.length - 1];
-        console.log('UPDATE STATS DATE--->>', lastStat);
-        console.log('UPDATE STATS DATE--->>', date);
         if (isSameDay(lastStat.date, date)) {
-            console.log('I AM HEREEEEEE IT IS THE SAME DAY');
             lastStat.time = time;
         } else {
             stats.push(focusTime);
-            console.log('I AM HEREEEEEE IT IS NOT THE SAME DAY');
         }
     } else {
         stats.push(focusTime);
-        console.log('I AM HEREEEEEE STATS.LENGTH IS FALSY');
     }
     updateStatsDB(stats, focusTime);
     return stats;
@@ -82,7 +65,6 @@ const weeksStats = (stats) => {
     stats.forEach((stats) => {
         newStats[parseInt(stats['date'][3]) - 1] = stats['time'];
     });
-    console.log('NEW STATS FROM REDUCER --->', newStats);
     return newStats;
 };
 
