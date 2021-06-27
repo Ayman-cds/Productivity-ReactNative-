@@ -107,27 +107,14 @@ function Home(props) {
         console.log(`=========>>>${year}-${month}-${day}`);
         return `${year}-${month}-${day}`;
     };
-    // const commitsData = [
-    //     { date: '2017-01-02', count: 1 },
-    //     { date: '2017-01-03', count: 2 },
-    //     { date: '2017-01-04', count: 3 },
-    //     { date: '2017-01-05', count: 14 },
-    //     { date: '2017-01-06', count: 5 },
-    //     { date: '2017-01-30', count: 2 },
-    //     { date: '2017-01-31', count: 3 },
-    //     { date: '2017-03-01', count: 2 },
-    //     { date: '2017-04-02', count: 4 },
-    //     { date: '2017-03-05', count: 2 },
-    //     { date: '2017-02-30', count: 4 },
-    // ];
-    const commitsData = props.stats.map((stat) => {
+    const taskData = props.stats.map((stat) => {
         let obj = {
             date: dateConverter(stat.date),
             count: stat.completedTasks,
         };
         return obj;
     });
-    console.log('chart data ====>', commitsData);
+    console.log('chart data ====>', taskData);
     return (
         <View style={styles.container}>
             <LinearGradient
@@ -233,8 +220,8 @@ function Home(props) {
                         </Text>
                     </View>
                     <ContributionGraph
-                        values={commitsData}
-                        endDate={new Date('2021-07-12')}
+                        values={taskData}
+                        endDate={new Date()}
                         numDays={105}
                         width={Dimensions.get('window').width - 10}
                         height={220}
