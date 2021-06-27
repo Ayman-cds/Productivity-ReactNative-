@@ -11,7 +11,6 @@ import {
     Alert,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Entypo, AntDesign } from '@expo/vector-icons';
 import { Dimensions, PixelRatio, ActivityIndicator } from 'react-native';
 import Button from './Button';
 import firebase from 'firebase';

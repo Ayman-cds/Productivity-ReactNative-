@@ -46,6 +46,8 @@ function Home(props) {
         });
     };
 
+    // =====calculations for stats bar
+
     let lifeTimeFocus = props.stats
         ? props.stats.map((stat) => stat.time).reduce((a, b) => a + b, 0)
         : 0;
@@ -65,6 +67,9 @@ function Home(props) {
     const [loading, setLoading] = useState(false);
     let hrs = props.focusTime ? Math.floor(props.focusTime.time / 60) : 0;
     let mins = props.focusTime ? props.focusTime.time - hrs * 60 : 0;
+
+    // ===================
+
     useEffect(() => {
         props.fetchUser();
         if (allData) {
