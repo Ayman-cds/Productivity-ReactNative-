@@ -129,6 +129,7 @@ const Login = ({ navigation }) => {
                             googleUser.idToken,
                             googleUser.accessToken
                         );
+                    console.log('firebase user ------> ', firebaseUser);
                     try {
                         await firebase.auth().signInWithCredential(credential);
                         newUser(googleUser);
@@ -147,6 +148,8 @@ const Login = ({ navigation }) => {
     }
     function isUserEqual(googleUser, firebaseUser) {
         if (firebaseUser) {
+            console.log('firebaseUser isUserEqual ------->>>>>', firebaseUser);
+
             var providerData = firebaseUser.providerData;
             for (var i = 0; i < providerData.length; i++) {
                 if (
@@ -172,10 +175,10 @@ const Login = ({ navigation }) => {
                     '290407391510-rsmtqhl9s3a36tu42va08eomhrlsq58l.apps.googleusercontent.com',
                 scopes: ['profile', 'email'],
             });
-            console.log('RESULT ----->>>>', result);
             const { type, user } = result;
             if (type === 'success') {
                 onSignIn(result);
+                console.log(user);
                 const name = user.givenName;
                 navigation.navigate('Home', { name, uid: user.uid });
             }
@@ -282,9 +285,6 @@ const Login = ({ navigation }) => {
                                 Create a new account
                             </Text>
                         </TouchableOpacity>
-                        {/* <View style={styles.orView}>
-                            <Text style={styles.or}>/</Text>
-                        </View> */}
                     </LinearGradient>
                 ) : (
                     <Button
