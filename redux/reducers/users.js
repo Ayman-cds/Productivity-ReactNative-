@@ -59,8 +59,10 @@ const updateStats = (focusTime, stats) => {
     updateStatsDB(stats, focusTime);
     return stats;
 };
-const updateCompletedTasksStats = (stats) => {
+const updateCompletedTasksStats = (stats, focusTime) => {
     stats[stats.length - 1]['completedTasks'] += 1;
+    updateStatsDB(stats, focusTime);
+    return stats;
 };
 
 const weeksStats = (stats) => {
@@ -104,13 +106,13 @@ export const user = (state = initialState, action) => {
         case UPDATE_COMPLETED_TASKS_STATS:
             return {
                 ...state,
-                stats: updateCompletedTasksStats(state.stats),
                 focusTime: {
                     ...state.focusTime,
                     completedTasks: state.focusTime
                         ? state.focusTime.completedTasks + 1
                         : 0 + 1,
                 },
+                stats: updateCompletedTasksStats(state.stats, state.focusTime),
             };
         default:
             return state;
