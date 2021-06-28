@@ -133,8 +133,14 @@ const Login = ({ navigation }) => {
                         const result = await firebase
                             .auth()
                             .signInWithCredential(credential);
-                        console.log(result);
-                        newUser(googleUser);
+                        console.log('result.user.uid======>>', result);
+                        navigation.navigate('Home', {
+                            name,
+                            uid: result.user.uid,
+                        });
+                        if (result.isNewUser) {
+                            newUser(googleUser);
+                        }
 
                         console.log('user is signed in ');
                     } catch (error) {
@@ -182,7 +188,7 @@ const Login = ({ navigation }) => {
                 onSignIn(result);
                 console.log(user);
                 const name = user.givenName;
-                navigation.navigate('Home', { name, uid: user.uid });
+                // navigation.navigate('Home', { name, uid: user.uid });
             }
             setLoading(false);
         } catch (error) {
