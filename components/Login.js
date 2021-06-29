@@ -85,7 +85,6 @@ const Login = ({ navigation }) => {
     function newUser(result) {
         const user = firebase.auth().currentUser;
 
-        // console.log('result===>>', user);
         ref.doc(user.uid).set({
             email: result.user.email,
             fName: result.user.givenName,
@@ -128,12 +127,10 @@ const Login = ({ navigation }) => {
                             googleUser.idToken,
                             googleUser.accessToken
                         );
-                    console.log('firebase user ------> ', firebaseUser);
                     try {
                         const result = await firebase
                             .auth()
                             .signInWithCredential(credential);
-                        console.log('result.user.uid======>>', result);
                         navigation.navigate('Home', {
                             name,
                             uid: result.user.uid,
@@ -156,8 +153,6 @@ const Login = ({ navigation }) => {
     }
     function isUserEqual(googleUser, firebaseUser) {
         if (firebaseUser) {
-            console.log('firebaseUser isUserEqual ------->>>>>', firebaseUser);
-
             var providerData = firebaseUser.providerData;
             for (var i = 0; i < providerData.length; i++) {
                 if (
@@ -186,9 +181,6 @@ const Login = ({ navigation }) => {
             const { type, user } = result;
             if (type === 'success') {
                 onSignIn(result);
-                console.log(user);
-                const name = user.givenName;
-                // navigation.navigate('Home', { name, uid: user.uid });
             }
             setLoading(false);
         } catch (error) {

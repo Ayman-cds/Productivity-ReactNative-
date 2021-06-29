@@ -106,7 +106,6 @@ function Home(props) {
         let day = dateArr[0].length >= 2 ? dateArr[0] : `0${dateArr[0] - 10}`;
         let month = dateArr[1].length >= 2 ? dateArr[1] : `0${dateArr[1]}`;
         let year = dateArr[2];
-        console.log(`=========>>>${year}-${month}-${day}`);
         return `${year}-${month}-${day}`;
     };
     const taskData = props.stats.map((stat) => {
@@ -116,7 +115,6 @@ function Home(props) {
         };
         return obj;
     });
-    console.log('chart data ====>', taskData);
     //==================
 
     return (
