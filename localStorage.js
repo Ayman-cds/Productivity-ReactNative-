@@ -14,7 +14,6 @@ export const getTasks = async () => {
     try {
         const jsonTasks = await AsyncStorage.getItem('tasks');
         return jsonTasks != null ? JSON.parse(jsonTasks) : ['nothing'];
-        // console.log(jsonTasks);
     } catch (error) {
         console.log(error);
     }

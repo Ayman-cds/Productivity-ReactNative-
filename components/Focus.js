@@ -12,6 +12,7 @@ import {
     Vibration,
     Dimensions,
     PixelRatio,
+    Alert,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
@@ -48,6 +49,7 @@ const wp = (widthPercent) => {
 const hp = (heightPercent) => {
     return PixelRatio.roundToNearestPixel((screenHeight * heightPercent) / 100);
 };
+
 function Focus(props) {
     const [task, setTask] = useState('');
     const [taskItems, setTaskItems] = useState([]);

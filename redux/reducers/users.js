@@ -60,9 +60,6 @@ const updateStats = (focusTime, stats) => {
     return stats;
 };
 const updateCompletedTasksStats = (stats, focusTime) => {
-    console.log('stats ====>>>>', stats);
-    console.log('focusTime ====>>>>', focusTime);
-
     stats.length ? (stats[stats.length - 1]['completedTasks'] += 1) : [];
     updateStatsDB(stats, focusTime);
     return stats;

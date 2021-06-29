@@ -106,7 +106,6 @@ function Home(props) {
         let day = dateArr[0].length >= 2 ? dateArr[0] : `0${dateArr[0] - 10}`;
         let month = dateArr[1].length >= 2 ? dateArr[1] : `0${dateArr[1]}`;
         let year = dateArr[2];
-        console.log(`=========>>>${year}-${month}-${day}`);
         return `${year}-${month}-${day}`;
     };
     const taskData = props.stats.map((stat) => {
@@ -116,7 +115,6 @@ function Home(props) {
         };
         return obj;
     });
-    console.log('chart data ====>', taskData);
     //==================
 
     return (
@@ -141,7 +139,9 @@ function Home(props) {
                 <ScrollView
                     pagingEnabled
                     horizontal={true}
-                    snapToInterval={Dimensions.get('window').width - 20}
+                    snapToInterval={Dimensions.get('window').width}
+                    decelerationRate={0.9}
+                    showsHorizontalScrollIndicator={false}
                     refreshControl={
                         <RefreshControl
                             refreshing={refreshing}
@@ -223,24 +223,27 @@ function Home(props) {
                             Well done but keep going!
                         </Text>
                     </View>
-                    <ContributionGraph
-                        values={taskData}
-                        endDate={new Date()}
-                        numDays={105}
-                        width={Dimensions.get('window').width}
-                        height={220}
-                        showOutOfRangeDays={true}
-                        chartConfig={{
-                            backgroundColor: '#278EA5',
-                            backgroundGradientFrom: '#071E3D',
-                            backgroundGradientTo: '#278EA5',
-                            color: (opacity = 1) =>
-                                `rgba(255, 255, 255, ${opacity})`,
-                            style: {
-                                borderRadius: 16,
-                            },
-                        }}
-                    />
+                    <View style={styles.chart}>
+                        <ContributionGraph
+                            values={taskData}
+                            endDate={new Date()}
+                            numDays={105}
+                            width={Dimensions.get('window').width}
+                            height={210}
+                            showOutOfRangeDays={true}
+                            squareSize={20}
+                            chartConfig={{
+                                backgroundColor: '#278EA5',
+                                backgroundGradientFrom: '#071E3D',
+                                backgroundGradientTo: '#278EA5',
+                                color: (opacity = 1) =>
+                                    `rgba(255, 255, 255, ${opacity})`,
+                                style: {
+                                    borderRadius: 16,
+                                },
+                            }}
+                        />
+                    </View>
                 </ScrollView>
                 <LinearGradient
                     Background
