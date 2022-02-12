@@ -14,7 +14,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { AntDesign } from "@expo/vector-icons";
 import { Dimensions, PixelRatio, ActivityIndicator } from "react-native";
 import * as Google from "expo-google-app-auth";
-import * as firebase from "firebase";
+import * as firebase from "firebase/app";
 import "firebase/firestore";
 import Button from "../components/Button";
 import { firebaseConfig } from "../config/FirebaseConfig";

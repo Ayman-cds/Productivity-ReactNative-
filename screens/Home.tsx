@@ -22,7 +22,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Dimensions } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Entypo } from "@expo/vector-icons";
-import * as firebase from "firebase";
+import * as firebase from "firebase/app";
 import { connect } from "react-redux";
 import { fetchUser } from "../redux/actions";
 import "firebase/firestore";
