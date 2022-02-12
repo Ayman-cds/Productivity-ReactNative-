@@ -14,8 +14,9 @@ import { LinearGradient } from "expo-linear-gradient";
 import { AntDesign } from "@expo/vector-icons";
 import { Dimensions, PixelRatio, ActivityIndicator } from "react-native";
 import * as Google from "expo-google-app-auth";
-import * as firebase from "firebase/app";
-import "firebase/firestore";
+import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
+import firebase from "firebase/app";
+import "firebase/auth";
 import Button from "../components/Button";
 import { firebaseConfig } from "../config/FirebaseConfig";
 const getCurrentDate = () => {
@@ -51,10 +52,10 @@ const wp = (widthPercent) => {
 const hp = (heightPercent) => {
   return PixelRatio.roundToNearestPixel((screenHeight * heightPercent) / 100);
 };
-if (firebase.apps.length === 0) {
-  firebase.initializeApp(firebaseConfig);
-}
-const ref = firebase.firestore().collection("users");
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const ref = collection(db, "users");
 
 const Login = ({ navigation }) => {
   const [startClicked, setStartClicked] = useState(false);
@@ -81,7 +82,7 @@ const Login = ({ navigation }) => {
     }
   }, [startClicked]);
   function newUser(result) {
-    const user = firebase.auth().currentUser;
+    const user = UserInfo;
 
     ref.doc(user.uid).set({
       email: result.user.email,
