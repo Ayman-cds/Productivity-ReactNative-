@@ -7,14 +7,16 @@ import {
   Easing,
   TextInput,
   TouchableOpacity,
-  Platform,
   Alert,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Dimensions, PixelRatio, ActivityIndicator } from "react-native";
 import firebase from "firebase/app";
+
 import Button from "../components/Button";
-require("firebase/auth");
+import "firebase/auth";
+import { firebaseConfig } from "../config/FirebaseConfig";
+
 const getCurrentDate = () => {
   const date = new Date();
   const day = date.getDay();

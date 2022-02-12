@@ -14,7 +14,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import { AntDesign } from "@expo/vector-icons";
 import { Dimensions, PixelRatio, ActivityIndicator } from "react-native";
 import * as Google from "expo-google-app-auth";
-import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
 import firebase from "firebase/app";
 import "firebase/auth";
 import Button from "../components/Button";
@@ -28,7 +27,6 @@ const getCurrentDate = () => {
   return `${dateNum}/${month}/${year}/${day}`.split("/");
 };
 
-require("firebase/auth");
 const COLORS = {
   WHITE: "#fff",
   TEAL: "#278EA5",
@@ -52,10 +50,10 @@ const wp = (widthPercent) => {
 const hp = (heightPercent) => {
   return PixelRatio.roundToNearestPixel((screenHeight * heightPercent) / 100);
 };
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-const ref = collection(db, "users");
+if (firebase.apps.length === 0) {
+  firebase.initializeApp(firebaseConfig);
+}
+const ref = firebase.firestore().collection("users");
 
 const Login = ({ navigation }) => {
   const [startClicked, setStartClicked] = useState(false);
