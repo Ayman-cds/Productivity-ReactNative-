@@ -50,10 +50,10 @@ const wp = (widthPercent) => {
 const hp = (heightPercent) => {
   return PixelRatio.roundToNearestPixel((screenHeight * heightPercent) / 100);
 };
-if (firebase.apps.length === 0) {
-  firebase.initializeApp(firebaseConfig);
-}
-const ref = firebase.firestore().collection("users");
+// if (firebase.apps.length === 0) {
+//   firebase.initializeApp(firebaseConfig);
+// }
+// const ref = firebase.firestore().collection("users");
 
 const Login = ({ navigation }) => {
   const [startClicked, setStartClicked] = useState(false);

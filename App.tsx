@@ -5,22 +5,33 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import rootReducer from "./redux/reducers";
 import thunk from "redux-thunk";
-import { YellowBox } from "react-native";
-import MyStack from "./navigation/MyStack";
+import { View, Text, LogBox } from "react-native";
 import { firebaseConfig } from "./config/FirebaseConfig";
-YellowBox.ignoreWarnings(["Require cycle"]);
+import NavigationStack from "./components/NavigationStack";
+import Login from "./screens/Login";
+import Signup from "./screens/Signup";
+import { createStackNavigator } from "@react-navigation/stack";
+import Home from "./screens/Home";
+import Focus from "./components/Focus";
+const Stack = createStackNavigator();
+LogBox.ignoreLogs(["Require cycle"]);
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+// const store = createStore(rootReducer, applyMiddleware(thunk));
 
-if (firebase.apps.length === 0) {
-  firebase.initializeApp(firebaseConfig);
-}
+// if (firebase.apps.length === 0) {
+//   firebase.initializeApp(firebaseConfig);
+// }
 export default function App() {
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <MyStack />
-      </NavigationContainer>
-    </Provider>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="SignUp" component={Signup} />
+        <Stack.Screen name="Home" component={Home} />
+      </Stack.Navigator>
+    </NavigationContainer>
+    // <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    //   <Text>BRUHHHHH</Text>
+    // </View>
   );
 }

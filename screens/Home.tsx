@@ -30,7 +30,6 @@ import "firebase/firestore";
 function Home(props) {
   const [taskItems, setTaskItems] = useState([]);
   const [allData, setAllData] = useState([]);
-  ate([]);
   const [stats, setStats] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
