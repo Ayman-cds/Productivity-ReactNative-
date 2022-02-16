@@ -1,10 +1,15 @@
+import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import React from "react";
+import firebase from "firebase/app";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
-
-import useCachedResources from "./hooks/useCachedResources";
+import rootReducer from "./redux/reducers";
+import thunk from "redux-thunk";
+import { YellowBox } from "react-native";
 import MyStack from "./navigation/MyStack";
+import { firebaseConfig } from "./config/FirebaseConfig";
+YellowBox.ignoreWarnings(["Require cycle"]);
+
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
 if (firebase.apps.length === 0) {
