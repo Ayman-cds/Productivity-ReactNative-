@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Dimensions, PixelRatio, ActivityIndicator } from "react-native";
-import firebase from "firebase/app";
+import * as firebase from "firebase";
 
 import Button from "../components/Button";
 import "firebase/auth";
