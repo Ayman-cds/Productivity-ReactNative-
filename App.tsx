@@ -1,10 +1,6 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import firebase from "firebase/app";
-import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
-import rootReducer from "./redux/reducers";
-import thunk from "redux-thunk";
 import { View, Text, LogBox } from "react-native";
 import { firebaseConfig } from "./config/FirebaseConfig";
 import NavigationStack from "./components/NavigationStack";
@@ -12,7 +8,6 @@ import Login from "./screens/Login";
 import Signup from "./screens/Signup";
 import { createStackNavigator } from "@react-navigation/stack";
 import Home from "./screens/Home";
-import Focus from "./components/Focus";
 const Stack = createStackNavigator();
 LogBox.ignoreLogs(["Require cycle"]);
 
